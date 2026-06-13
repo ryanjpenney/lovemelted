@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melted — Merch</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  .oswald { font-family: 'Oswald', sans-serif; }
+  .garamond { font-family: 'EB Garamond', serif; }
+  .caslon { font-family: 'Libre Caslon Text', serif; }
+  body { font-family: 'EB Garamond', serif; }
+</style>
+</head>
+<body class="bg-white">
+
+<div data-melted-header></div>
+
+<section class="text-center pt-[56px] px-6">
+  <h1 class="caslon text-[44px] md:text-[56px] text-black leading-[1.05]">Melted Merch</h1>
+  <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Caps, tanks, and accessories from the collective. Apparel ships direct across the U.S.</p>
+</section>
+
+<section class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] mt-[52px]">
+  <div data-merch-grid class="grid grid-cols-2 md:grid-cols-4 gap-x-[30px] gap-y-[48px]"></div>
+</section>
+
+<section class="text-center mt-[80px]">
+  <p class="oswald text-[13px] tracking-[0.1em] uppercase text-[#999]">Looking for the cannabis lineup?</p>
+  <a href="locations.html" class="oswald inline-block text-[13px] font-medium tracking-[0.08em] uppercase text-black mt-[12px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Shop products at a dispensary</a>
+</section>
+
+<div data-melted-footer></div>
+
+<script src="assets/melted.js"></script>
+<script>
+(function () {
+  const P = window.MELTED.PRODUCTS;
+  const merch = Object.keys(P).filter(k => P[k].kind === "merch");
+  document.querySelector("[data-merch-grid]").innerHTML = merch.map(id => {
+    const p = P[id];
+    const badge = p.badge
+      ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[10px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
+      : `<div class="h-[30px]"></div>`;
+    return `<a href="product.html?id=${id}" class="text-center group block">
+      ${badge}
+      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
+      <p class="oswald text-[16px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
+      <p class="garamond text-[20px] text-black mt-[6px]">${p.price}</p>
+    </a>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>

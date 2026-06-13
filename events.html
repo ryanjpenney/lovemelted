@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melted — Events &amp; Happenings</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  .oswald { font-family: 'Oswald', sans-serif; }
+  .garamond { font-family: 'EB Garamond', serif; }
+  .caslon { font-family: 'Libre Caslon Text', serif; }
+  body { font-family: 'EB Garamond', serif; }
+</style>
+</head>
+<body class="bg-white">
+
+<div data-melted-header></div>
+
+<section class="text-center pt-[56px] px-6">
+  <h1 class="caslon text-[44px] md:text-[56px] text-black leading-[1.05]">Events &amp; Happenings</h1>
+  <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Pop-ups, dispensary takeovers, and community nights across Arizona.</p>
+</section>
+
+<section class="max-w-[900px] mx-auto px-[28px] md:px-0 mt-[52px]" data-events></section>
+
+<section class="text-center mt-[72px] px-6">
+  <p class="garamond text-[19px] text-[#666]">Want Melted at your event or shop?</p>
+  <a href="about.html#contact" class="oswald inline-block text-[13px] font-medium tracking-[0.08em] uppercase text-black mt-[12px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Get in touch</a>
+</section>
+
+<div data-melted-footer></div>
+
+<script src="assets/melted.js"></script>
+<script>
+(function () {
+  const events = [
+    ["Sat · Jun 21", "Curaleaf Midtown Takeover", "Phoenix, AZ", "Live rosin sampling, merch drops, and the collective on-site all afternoon."],
+    ["Fri · Jul 11", "710 Block Party", "Scottsdale Pavilions", "Our annual oil day — Tigerstyle features, giveaways, and guest sets."],
+    ["Sat · Aug 9", "Desert Sessions Pop-Up", "Tucson Oracle", "Limited Mini Melt bundles and a first look at new flavors."],
+    ["Sat · Sep 13", "Harvest Kickoff", "Gilbert, AZ", "Meet the makers and tour what goes into every batch."]
+  ];
+  document.querySelector("[data-events]").innerHTML = events.map(([date, title, place, desc], i) => `
+    <div class="border-t border-[#e6e6e6] ${i === events.length - 1 ? "border-b" : ""} py-[28px] flex flex-col md:flex-row md:items-center gap-3 md:gap-8">
+      <div class="md:w-[140px] shrink-0"><p class="oswald text-[13px] font-medium tracking-[0.08em] uppercase text-black">${date}</p></div>
+      <div class="flex-1">
+        <p class="caslon text-[24px] text-black">${title}</p>
+        <p class="garamond text-[16px] text-[#777] mt-1">${place} — ${desc}</p>
+      </div>
+      <a href="about.html#contact" class="oswald text-[11px] tracking-[0.08em] uppercase border-b border-black pb-1 hover:opacity-60 shrink-0">RSVP</a>
+    </div>`).join("");
+})();
+</script>
+</body>
+</html>

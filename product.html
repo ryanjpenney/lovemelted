@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melted — Product</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  .oswald { font-family: 'Oswald', sans-serif; }
+  .garamond { font-family: 'EB Garamond', serif; }
+  .caslon { font-family: 'Libre Caslon Text', serif; }
+  body { font-family: 'EB Garamond', serif; }
+</style>
+</head>
+<body class="bg-white">
+
+<div data-melted-header></div>
+
+<main class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] pt-[40px]">
+  <nav class="oswald text-[11px] tracking-[0.08em] uppercase text-[#999] mb-[28px]">
+    <a href="index.html" class="hover:text-black">Home</a> <span class="mx-2">/</span>
+    <a href="locations.html" class="hover:text-black" data-crumb-cat>Products</a> <span class="mx-2">/</span>
+    <span class="text-black" data-crumb-name>Product</span>
+  </nav>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px]">
+    <!-- Gallery -->
+    <div>
+      <div class="bg-[#f6f6f4] aspect-square overflow-hidden">
+        <img data-gallery-main src="" alt="" class="w-full h-full object-cover">
+      </div>
+      <div data-gallery-thumbs class="grid grid-cols-4 gap-[12px] mt-[12px]"></div>
+    </div>
+
+    <!-- Info -->
+    <div class="md:pt-[6px]">
+      <p data-p-badge class="oswald text-[11px] tracking-[0.14em] uppercase text-[#8a8a8a] mb-[10px] hidden"></p>
+      <h1 data-p-name class="caslon text-[42px] md:text-[48px] leading-[1.08] text-black"></h1>
+      <p data-p-spec class="oswald text-[12px] tracking-[0.1em] uppercase text-[#999] mt-[12px]"></p>
+      <p data-p-price class="garamond text-[28px] text-black mt-[18px]"></p>
+      <p data-p-detail class="garamond text-[19px] text-[#555] leading-[1.7] mt-[20px]"></p>
+
+      <ul data-p-facts class="garamond text-[17px] text-[#444] mt-[24px] space-y-[10px]"></ul>
+
+      <!-- Buy module: shipping vs dispensary -->
+      <div class="border border-[#e3e3e3] mt-[36px]">
+        <div class="grid grid-cols-2">
+          <button data-tab="ship" class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] border-b-2 border-black bg-white">Ship to me</button>
+          <button data-tab="store" class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] border-b-2 border-transparent bg-[#fafafa] text-[#888]">Find at a dispensary</button>
+        </div>
+
+        <!-- Ship panel -->
+        <div data-panel="ship" class="p-[24px]">
+          <p class="garamond text-[17px] text-[#555] leading-[1.6]">Enter your ZIP and we’ll confirm we can ship to you. Direct shipping is available on apparel &amp; accessories.</p>
+          <form data-ship-form class="mt-[16px] flex gap-2">
+            <input data-ship-zip inputmode="numeric" maxlength="5" placeholder="ZIP code" class="oswald flex-1 border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[15px] tracking-[0.05em]">
+            <button type="submit" class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-6 hover:bg-[#333] transition-colors">Check</button>
+          </form>
+          <div data-ship-result class="mt-[16px]"></div>
+        </div>
+
+        <!-- Store panel -->
+        <div data-panel="store" class="p-[24px] hidden">
+          <p class="garamond text-[17px] text-[#555] leading-[1.6]">Enter your ZIP to find the closest Curaleaf carrying Melted.</p>
+          <form data-store-form class="mt-[16px] flex gap-2">
+            <input data-store-zip inputmode="numeric" maxlength="5" placeholder="ZIP code" class="oswald flex-1 border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[15px] tracking-[0.05em]">
+            <button type="submit" class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-6 hover:bg-[#333] transition-colors">Find</button>
+          </form>
+          <div data-store-result class="mt-[16px]"></div>
+        </div>
+      </div>
+
+      <a href="locations.html" class="oswald inline-block text-[12px] tracking-[0.08em] uppercase text-[#888] mt-[20px] border-b border-[#ccc] hover:text-black hover:border-black transition-colors">Browse all dispensaries →</a>
+    </div>
+  </div>
+
+  <!-- You may also like -->
+  <section class="mt-[100px]">
+    <h2 class="oswald text-[20px] font-medium tracking-[0.06em] uppercase text-black text-center">You may also like</h2>
+    <div data-related class="grid grid-cols-2 md:grid-cols-3 gap-x-[30px] gap-y-[36px] mt-[36px] max-w-[980px] mx-auto"></div>
+  </section>
+</main>
+
+<div data-melted-footer></div>
+
+<script src="assets/melted.js"></script>
+<script>
+(function () {
+  const M = window.MELTED;
+  const params = new URLSearchParams(location.search);
+  let id = params.get("id");
+  if (!id || !M.PRODUCTS[id]) id = "live-rosin-gummies";
+  const p = M.PRODUCTS[id];
+
+  document.title = "Melted — " + p.name;
+
+  // Breadcrumb
+  document.querySelector("[data-crumb-name]").textContent = p.name;
+  const cat = document.querySelector("[data-crumb-cat]");
+  if (p.kind === "merch") { cat.textContent = "Merch"; cat.href = "merch.html"; }
+  else { cat.textContent = "Products"; cat.href = "locations.html"; }
+
+  // Gallery
+  const main = document.querySelector("[data-gallery-main]");
+  main.src = p.gallery[0]; main.alt = p.name;
+  document.querySelector("[data-gallery-thumbs]").innerHTML = p.gallery.map((src, i) =>
+    `<button class="thumb aspect-square bg-[#f6f6f4] overflow-hidden border-2 ${i === 0 ? "border-black" : "border-transparent"}" data-i="${i}">
+       <img src="${src}" alt="${p.name} view ${i + 1}" class="w-full h-full object-cover"></button>`).join("");
+  document.querySelectorAll(".thumb").forEach(btn => btn.addEventListener("click", () => {
+    main.src = p.gallery[+btn.dataset.i];
+    document.querySelectorAll(".thumb").forEach(b => b.classList.replace("border-black", "border-transparent"));
+    btn.classList.replace("border-transparent", "border-black");
+  }));
+
+  // Info
+  const badge = document.querySelector("[data-p-badge]");
+  if (p.badge) { badge.textContent = p.badge; badge.classList.remove("hidden"); }
+  document.querySelector("[data-p-name]").textContent = p.name;
+  document.querySelector("[data-p-spec]").textContent = p.spec;
+  document.querySelector("[data-p-price]").textContent = p.price;
+  document.querySelector("[data-p-detail]").textContent = p.detail;
+  document.querySelector("[data-p-facts]").innerHTML = p.facts.map(f =>
+    `<li class="flex gap-2"><span class="text-black">—</span><span>${f}</span></li>`).join("");
+
+  // Tabs
+  const tabs = document.querySelectorAll("[data-tab]");
+  tabs.forEach(t => t.addEventListener("click", () => {
+    tabs.forEach(x => { x.classList.remove("border-black", "bg-white"); x.classList.add("border-transparent", "bg-[#fafafa]", "text-[#888]"); });
+    t.classList.add("border-black", "bg-white"); t.classList.remove("border-transparent", "bg-[#fafafa]", "text-[#888]");
+    document.querySelectorAll("[data-panel]").forEach(pan => pan.classList.toggle("hidden", pan.dataset.panel !== t.dataset.tab));
+  }));
+
+  // Prefill saved ZIP
+  const saved = M.getZip();
+  if (saved) { document.querySelector("[data-ship-zip]").value = saved; document.querySelector("[data-store-zip]").value = saved; }
+
+  // Shipping check
+  document.querySelector("[data-ship-form]").addEventListener("submit", e => {
+    e.preventDefault();
+    const z = document.querySelector("[data-ship-zip]").value.trim();
+    const out = document.querySelector("[data-ship-result]");
+    if (!M.validZip(z)) { out.innerHTML = msg("Enter a valid 5-digit ZIP code.", false); return; }
+    M.setZip(z);
+    if (p.kind === "merch") {
+      out.innerHTML = `<div class="bg-[#f3f8f3] border border-[#cfe6cf] p-4">
+        <p class="oswald text-[12px] tracking-[0.08em] uppercase text-[#2f6b39]">Ships to ${z}</p>
+        <p class="garamond text-[16px] text-[#333] mt-1">Free shipping over $50 · arrives in 3–5 business days.</p>
+        <button class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-6 py-3 mt-3 w-full hover:bg-[#333] transition-colors">Add to cart — ${p.price}</button>
+      </div>`;
+    } else {
+      const near = M.nearestStores(z, 1);
+      out.innerHTML = `<div class="bg-[#fdf6ed] border border-[#ecd9b8] p-4">
+        <p class="oswald text-[12px] tracking-[0.08em] uppercase text-[#9a6b1f]">Pickup only</p>
+        <p class="garamond text-[16px] text-[#333] mt-1">Cannabis products can’t ship direct — but ${near ? "<strong>" + near[0].name + "</strong> is " + near[0].dist.toFixed(1) + " mi away" : "we have a store near you"}.</p>
+        <button data-goto-store class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-6 py-3 mt-3 w-full hover:bg-[#333] transition-colors">Find it at a dispensary</button>
+      </div>`;
+      const g = out.querySelector("[data-goto-store]");
+      if (g) g.addEventListener("click", () => { document.querySelector('[data-tab="store"]').click(); document.querySelector("[data-store-form]").requestSubmit(); });
+    }
+  });
+
+  // Store finder
+  document.querySelector("[data-store-form]").addEventListener("submit", e => {
+    e.preventDefault();
+    const z = document.querySelector("[data-store-zip]").value.trim();
+    const out = document.querySelector("[data-store-result]");
+    if (!M.validZip(z)) { out.innerHTML = msg("Enter a valid 5-digit ZIP code.", false); return; }
+    if (!M.zipCoords(z)) { out.innerHTML = msg("We’re Arizona-only for now — try an AZ ZIP.", false); return; }
+    M.setZip(z);
+    const near = M.nearestStores(z, 3);
+    out.innerHTML = near.map((s, i) => `
+      <div class="border-t border-[#eee] py-3 flex items-start justify-between gap-3 ${i === 0 ? "border-t-0" : ""}">
+        <div>
+          <p class="garamond text-[17px] text-black">${s.name}${i === 0 ? ' <span class="oswald text-[9px] tracking-[0.08em] uppercase bg-black text-white px-1.5 py-0.5 align-middle ml-1">Closest</span>' : ""}</p>
+          <p class="garamond text-[14px] text-[#777]">${s.addr}</p>
+          <a href="tel:${s.phone.replace(/\D/g, "")}" class="garamond text-[14px] text-[#777] hover:text-black">${s.phone}</a>
+        </div>
+        <div class="text-right shrink-0">
+          <p class="oswald text-[15px] font-medium">${s.dist.toFixed(1)}<span class="text-[11px] text-[#999]"> mi</span></p>
+          <a href="https://maps.google.com/?q=${encodeURIComponent(s.addr)}" target="_blank" rel="noopener" class="oswald text-[10px] tracking-[0.06em] uppercase border-b border-black hover:opacity-60">Directions</a>
+        </div>
+      </div>`).join("");
+  });
+
+  function msg(text, ok) {
+    return `<p class="garamond text-[15px] ${ok ? "text-[#3a7d44]" : "text-[#c0392b]"}">${text}</p>`;
+  }
+
+  // Related
+  const rel = Object.keys(M.PRODUCTS).filter(k => k !== id && M.PRODUCTS[k].kind === p.kind);
+  const pool = rel.length >= 3 ? rel : Object.keys(M.PRODUCTS).filter(k => k !== id);
+  document.querySelector("[data-related]").innerHTML = pool.slice(0, 3).map(k => {
+    const q = M.PRODUCTS[k];
+    return `<a href="product.html?id=${k}" class="text-center group block">
+      <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
+      <p class="oswald text-[14px] font-medium uppercase tracking-[0.03em] mt-3 group-hover:opacity-60 transition-opacity">${q.name}</p>
+      <p class="garamond text-[17px] text-black mt-1">${q.price}</p>
+    </a>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>
