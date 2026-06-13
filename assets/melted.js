@@ -6,21 +6,33 @@
 (function () {
   "use strict";
 
-  /* ---------- Dispensary data (Curaleaf — Arizona) ---------- */
+  /* ---------- Region metadata (add a state here when you expand) ---------- */
+  const STATE_NAMES = { AZ: "Arizona", MD: "Maryland" };
+
+  /* ---------- Dispensary data (Curaleaf) ----------
+     To add a market: give each store a `state` matching a key in STATE_NAMES,
+     real lat/lng, and a ZIP that also lives in the ZIPS table below.
+     The locator, map, and region filters all scale off this one array. */
   const STORES = [
-    { name: "Curaleaf Youngtown",        addr: "11148 N 111th Ave, Youngtown, AZ 85363",        zip: "85363", lat: 33.5942, lng: -112.3023, phone: "(623) 469-1322" },
-    { name: "Curaleaf Peoria",           addr: "8157 W Cactus Rd, Peoria, AZ 85381",            zip: "85381", lat: 33.5992, lng: -112.2378, phone: "(623) 412-9100" },
-    { name: "Curaleaf Glendale",         addr: "5612 W Glendale Ave, Glendale, AZ 85301",       zip: "85301", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117" },
-    { name: "Curaleaf Phoenix Bell",     addr: "2615 W Bell Rd, Phoenix, AZ 85023",             zip: "85023", lat: 33.6401, lng: -112.1126, phone: "(602) 935-7280" },
-    { name: "Curaleaf Scottsdale",       addr: "7235 E 1st Ave, Scottsdale, AZ 85251",          zip: "85251", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340" },
-    { name: "Curaleaf Midtown",          addr: "3955 N 7th Ave, Phoenix, AZ 85013",             zip: "85013", lat: 33.4951, lng: -112.0825, phone: "(602) 633-2007" },
-    { name: "Curaleaf Phoenix Airport",  addr: "4133 E Van Buren St, Phoenix, AZ 85008",        zip: "85008", lat: 33.4520, lng: -111.9890, phone: "(602) 254-1300" },
-    { name: "Curaleaf Scottsdale Pavilions", addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818" },
-    { name: "Curaleaf Sedona",           addr: "2155 W State Route 89A, Sedona, AZ 86336",      zip: "86336", lat: 34.8580, lng: -111.8120, phone: "(928) 862-4148" },
-    { name: "Curaleaf Gilbert",          addr: "725 N Gilbert Rd, Gilbert, AZ 85234",           zip: "85234", lat: 33.3618, lng: -111.7894, phone: "(480) 999-0667" },
-    { name: "Curaleaf Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
-    { name: "Curaleaf Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
-    { name: "Curaleaf Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" }
+    // --- Arizona ---
+    { name: "Curaleaf Youngtown",        addr: "11148 N 111th Ave, Youngtown, AZ 85363",        zip: "85363", state: "AZ", lat: 33.5942, lng: -112.3023, phone: "(623) 469-1322" },
+    { name: "Curaleaf Peoria",           addr: "8157 W Cactus Rd, Peoria, AZ 85381",            zip: "85381", state: "AZ", lat: 33.5992, lng: -112.2378, phone: "(623) 412-9100" },
+    { name: "Curaleaf Glendale",         addr: "5612 W Glendale Ave, Glendale, AZ 85301",       zip: "85301", state: "AZ", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117" },
+    { name: "Curaleaf Phoenix Bell",     addr: "2615 W Bell Rd, Phoenix, AZ 85023",             zip: "85023", state: "AZ", lat: 33.6401, lng: -112.1126, phone: "(602) 935-7280" },
+    { name: "Curaleaf Scottsdale",       addr: "7235 E 1st Ave, Scottsdale, AZ 85251",          zip: "85251", state: "AZ", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340" },
+    { name: "Curaleaf Midtown",          addr: "3955 N 7th Ave, Phoenix, AZ 85013",             zip: "85013", state: "AZ", lat: 33.4951, lng: -112.0825, phone: "(602) 633-2007" },
+    { name: "Curaleaf Phoenix Airport",  addr: "4133 E Van Buren St, Phoenix, AZ 85008",        zip: "85008", state: "AZ", lat: 33.4520, lng: -111.9890, phone: "(602) 254-1300" },
+    { name: "Curaleaf Scottsdale Pavilions", addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", state: "AZ", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818" },
+    { name: "Curaleaf Sedona",           addr: "2155 W State Route 89A, Sedona, AZ 86336",      zip: "86336", state: "AZ", lat: 34.8580, lng: -111.8120, phone: "(928) 862-4148" },
+    { name: "Curaleaf Gilbert",          addr: "725 N Gilbert Rd, Gilbert, AZ 85234",           zip: "85234", state: "AZ", lat: 33.3618, lng: -111.7894, phone: "(480) 999-0667" },
+    { name: "Curaleaf Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
+    { name: "Curaleaf Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", state: "AZ", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
+    { name: "Curaleaf Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", state: "AZ", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" },
+    // --- Maryland (NEW — addresses are representative placeholders; coordinates are real) ---
+    { name: "Curaleaf Gaithersburg",     addr: "9128 Rothbury Dr, Gaithersburg, MD 20886",      zip: "20886", state: "MD", lat: 39.1788, lng: -77.2030, phone: "(301) 990-0420" },
+    { name: "Curaleaf Reisterstown",     addr: "11717 Reisterstown Rd, Reisterstown, MD 21136", zip: "21136", state: "MD", lat: 39.4690, lng: -76.8280, phone: "(410) 526-0700" },
+    { name: "Curaleaf Frederick",        addr: "5754 Buckeystown Pike, Frederick, MD 21704",    zip: "21704", state: "MD", lat: 39.3590, lng: -77.4080, phone: "(240) 651-0900" },
+    { name: "Curaleaf Columbia",         addr: "6480 Dobbin Rd, Columbia, MD 21045",            zip: "21045", state: "MD", lat: 39.2037, lng: -76.8120, phone: "(410) 992-7100" }
   ];
 
   /* ---------- ZIP centroid lookup (AZ + dispensary zips) ----------
@@ -70,7 +82,17 @@
     "85742":[32.408,-111.041],"85745":[32.236,-111.041],"85750":[32.300,-110.820],
     // Other
     "85120":[33.246,-111.578],"85128":[32.960,-111.530],"85138":[32.960,-111.680],
-    "85364":[32.690,-114.640],"86401":[35.190,-114.050],"85635":[31.560,-110.300]
+    "85364":[32.690,-114.640],"86401":[35.190,-114.050],"85635":[31.560,-110.300],
+    // Maryland (DC metro + Baltimore corridor)
+    "20886":[39.179,-77.203],"20878":[39.116,-77.270],"20877":[39.140,-77.190],
+    "20850":[39.085,-77.155],"20852":[39.050,-77.120],"20906":[39.085,-77.050],
+    "20910":[38.995,-77.035],"20770":[39.005,-76.880],"20740":[38.990,-76.930],
+    "20783":[38.995,-76.965],"20772":[38.815,-76.760],"20774":[38.880,-76.810],
+    "21136":[39.469,-76.828],"21208":[39.390,-76.720],"21215":[39.350,-76.680],
+    "21201":[39.295,-76.620],"21230":[39.270,-76.610],"21042":[39.265,-76.910],
+    "21044":[39.205,-76.880],"21045":[39.204,-76.812],"21046":[39.170,-76.840],
+    "21704":[39.359,-77.408],"21703":[39.395,-77.450],"21701":[39.430,-77.400],
+    "21702":[39.470,-77.430],"21401":[38.975,-76.500],"21740":[39.640,-77.720]
   };
 
   /* ---------- Product catalog ---------- */
@@ -196,7 +218,7 @@
   <div class="h-[72px] flex items-center justify-between px-[28px] md:px-[45px]">
     <nav class="oswald hidden md:flex items-center gap-7 text-[13px] font-medium tracking-[0.05em] uppercase text-black flex-1">
       <div class="relative group">
-        <a href="#" class="flex items-center gap-1.5 py-[26px]" data-nav-toggle>Products
+        <a href="products.html" class="flex items-center gap-1.5 py-[26px]" data-nav-toggle>Products
           <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
         </a>
         <div class="mega absolute left-0 top-full bg-white border border-[#ededed] shadow-xl w-[640px] p-7 grid grid-cols-3 gap-5 opacity-0 invisible transition-all duration-150">
@@ -250,7 +272,7 @@
   </div>
   <!-- Mobile menu -->
   <div class="md:hidden hidden border-t border-[#ededed] px-7 py-5 oswald text-[14px] uppercase tracking-[0.05em] space-y-4" data-mobile-menu>
-    <a href="locations.html" class="block">Products</a>
+    <a href="products.html" class="block">Products</a>
     <a href="merch.html" class="block">Merch</a>
     <a href="locations.html" class="block">Locations</a>
     <a href="about.html" class="block">About</a>
@@ -293,7 +315,7 @@
     <div class="md:ml-[91px] mt-10 md:mt-0">
       <h4 class="oswald text-[12px] font-medium tracking-[0.05em] uppercase text-white">Explore</h4>
       <ul class="oswald text-[16px] font-light uppercase text-white mt-[24px] space-y-[21px]">
-        ${li("locations.html","Products")}${li("locations.html","Locations")}${li("merch.html","Merch")}${li("https://www.instagram.com/meltedusa","@meltedusa")}
+        ${li("products.html","Products")}${li("locations.html","Locations")}${li("merch.html","Merch")}${li("https://www.instagram.com/meltedusa","@meltedusa")}
       </ul>
     </div>
   </div>
@@ -322,8 +344,7 @@
       const hide = () => { mega.classList.add("opacity-0","invisible"); };
       grp.addEventListener("mouseenter", show);
       grp.addEventListener("mouseleave", hide);
-      const tgl = grp.querySelector("[data-nav-toggle]");
-      tgl.addEventListener("click", e => { e.preventDefault(); mega.classList.toggle("invisible"); mega.classList.toggle("opacity-0"); });
+      // Clicking "Products" navigates to the dedicated page; hover reveals the menu.
     }
     // Mobile menu
     const mt = document.querySelector("[data-mobile-toggle]");
@@ -363,7 +384,7 @@
         e.preventDefault();
         const z = input.value.trim();
         if (!validZip(z)) { msg.textContent = "Enter a 5-digit ZIP code."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
-        if (!zipCoords(z)) { msg.textContent = "We’re Arizona-only for now — try an AZ ZIP."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
+        if (!zipCoords(z)) { msg.textContent = "No Melted store near that ZIP yet — we’re in AZ & MD."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
         setZip(z); msg.textContent = "Saved. We’ll show your closest store."; msg.className = "garamond text-[13px] mt-2 text-[#3a7d44]"; refresh();
       });
       clearBtn.addEventListener("click", () => { setZip(""); input.value = ""; msg.textContent = ""; refresh(); });
@@ -375,17 +396,60 @@
     if (nf) nf.addEventListener("submit", e => { e.preventDefault(); document.querySelector("[data-news-msg]").textContent = "Thanks — you’re on the list."; nf.reset(); });
   }
 
+  /* ---------- Interactive cursor ---------- */
+  const CURSOR_CSS = `
+@media (hover:hover) and (pointer:fine){
+  html.m-cursor-on, html.m-cursor-on a, html.m-cursor-on button, html.m-cursor-on .thumb, html.m-cursor-on [data-hover]{ cursor:none !important; }
+  html.m-cursor-on input, html.m-cursor-on textarea, html.m-cursor-on select{ cursor:auto !important; }
+}
+.m-cur{ position:fixed; left:0; top:0; z-index:99999; pointer-events:none; border-radius:9999px; mix-blend-mode:difference; will-change:transform; }
+.m-cur-dot{ width:7px; height:7px; margin:-3.5px 0 0 -3.5px; background:#fff; }
+.m-cur-ring{ width:36px; height:36px; margin:-18px 0 0 -18px; border:1.5px solid #fff;
+  transition:width .22s ease, height .22s ease, margin .22s ease, opacity .2s ease, background-color .22s ease; }
+.m-cur-ring.m-hover{ width:62px; height:62px; margin:-31px 0 0 -31px; background:rgba(255,255,255,.14); border-color:transparent; }
+.m-cur-ring.m-down{ transform-origin:center; width:28px; height:28px; margin:-14px 0 0 -14px; }
+.m-cur.m-hide{ opacity:0; }`;
+
+  function initCursor() {
+    if (!window.matchMedia) return;
+    if (!matchMedia("(hover:hover) and (pointer:fine)").matches) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (document.querySelector(".m-cur-dot")) return;
+    document.documentElement.classList.add("m-cursor-on");
+    const dot = document.createElement("div"); dot.className = "m-cur m-cur-dot m-hide";
+    const ring = document.createElement("div"); ring.className = "m-cur m-cur-ring m-hide";
+    document.body.appendChild(ring); document.body.appendChild(dot);
+    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+    addEventListener("mousemove", e => {
+      mx = e.clientX; my = e.clientY;
+      dot.style.transform = `translate(${mx}px,${my}px)`;
+      if (!shown) { shown = true; dot.classList.remove("m-hide"); ring.classList.remove("m-hide"); }
+    }, { passive: true });
+    document.addEventListener("mouseleave", () => { dot.classList.add("m-hide"); ring.classList.add("m-hide"); shown = false; });
+    addEventListener("mousedown", () => ring.classList.add("m-down"));
+    addEventListener("mouseup", () => ring.classList.remove("m-down"));
+    const sel = "a,button,input,textarea,select,label,.thumb,[data-hover],.leaflet-marker-icon,.leaflet-control a";
+    addEventListener("mouseover", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.add("m-hover"); });
+    addEventListener("mouseout", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.remove("m-hover"); });
+    (function loop() { rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
+  }
+
   /* ---------- Boot ---------- */
   function mount() {
+    if (!document.getElementById("m-cursor-style")) {
+      const st = document.createElement("style"); st.id = "m-cursor-style"; st.textContent = CURSOR_CSS;
+      document.head.appendChild(st);
+    }
     const h = document.querySelector("[data-melted-header]");
     if (h) h.innerHTML = headerHTML();
     const f = document.querySelector("[data-melted-footer]");
     if (f) f.innerHTML = footerHTML();
     wireHeader();
+    initCursor();
   }
 
   // Expose for page scripts
-  window.MELTED = { STORES, PRODUCTS, ZIPS, nearestStores, zipCoords, getZip, setZip, validZip, haversine };
+  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, nearestStores, zipCoords, getZip, setZip, validZip, haversine };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();

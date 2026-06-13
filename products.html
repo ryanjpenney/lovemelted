@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melted — Products</title>
+<meta name="description" content="Melted's cannabis lineup: solventless Live Rosin Gummies, Mini Melt infused pre-rolls, and the full-spectrum Tigerstyle cartridge. Available at Curaleaf dispensaries in Arizona and Maryland.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  .oswald { font-family: 'Oswald', sans-serif; }
+  .garamond { font-family: 'EB Garamond', serif; }
+  .caslon { font-family: 'Libre Caslon Text', serif; }
+  body { font-family: 'EB Garamond', serif; }
+</style>
+</head>
+<body class="bg-white">
+
+<div data-melted-header></div>
+
+<!-- Hero -->
+<section class="bg-[#0a0a0a] text-center py-[64px] px-6">
+  <h1 class="caslon text-[44px] md:text-[56px] text-white leading-[1.05]">The Lineup</h1>
+  <p class="garamond text-[19px] text-[#bdbdbd] mt-[14px] max-w-[600px] mx-auto">Full-spectrum, solventless, Arizona-grown. Our cannabis products are sold at Curaleaf dispensaries across Arizona and Maryland.</p>
+  <a href="locations.html" class="oswald inline-block text-[12px] font-medium tracking-[0.1em] uppercase text-white border border-white px-[26px] py-[14px] mt-[28px] hover:bg-white hover:text-black transition-colors">Find a Dispensary</a>
+</section>
+
+<!-- Products -->
+<section class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] mt-[64px]">
+  <div data-products-grid class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-x-[30px] gap-y-[56px]"></div>
+</section>
+
+<!-- Cross-link to merch -->
+<section class="text-center mt-[88px]">
+  <p class="oswald text-[13px] tracking-[0.1em] uppercase text-[#999]">Not here for the cannabis?</p>
+  <a href="merch.html" class="oswald inline-block text-[13px] font-medium tracking-[0.08em] uppercase text-black mt-[12px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Shop Melted merch</a>
+</section>
+
+<div data-melted-footer></div>
+
+<script src="assets/melted.js"></script>
+<script>
+(function () {
+  const P = window.MELTED.PRODUCTS;
+  const ids = Object.keys(P).filter(k => P[k].kind === "product");
+  document.querySelector("[data-products-grid]").innerHTML = ids.map(id => {
+    const p = P[id];
+    const badge = p.badge
+      ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[12px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
+      : `<div class="h-[30px]"></div>`;
+    return `<a href="product.html?id=${id}" class="text-center group block">
+      ${badge}
+      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
+      <p class="oswald text-[17px] font-medium leading-[1.5] mt-[16px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
+      <p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] px-[20px]">${p.tagline}</p>
+      <p class="oswald text-[11px] text-[#8a8a8a] font-light tracking-[0.12em] uppercase mt-[12px]">${p.spec}</p>
+      <p class="garamond text-[20px] text-black mt-[8px]">${p.price}</p>
+    </a>`;
+  }).join("");
+})();
+</script>
+</body>
+</html>

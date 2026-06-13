@@ -27,7 +27,7 @@
     <p class="oswald text-white font-light text-[28px] md:text-[40px] leading-[1.4] mt-[18px] max-w-[545px]">An independent creative cannabis collective with deep Arizona roots — built on reverence for the plant.</p>
     <p class="oswald text-[#bdbdbd] font-light text-[20px] md:text-[25px] mt-[26px]">Live rosin. Small batches. No shortcuts.</p>
     <div class="flex flex-wrap gap-[16px] md:gap-[22px] mt-[42px]">
-      <a href="locations.html" class="oswald bg-white text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[28px] py-[16px] inline-block hover:bg-[#e4ff32] transition-colors">Explore the Lineup</a>
+      <a href="products.html" class="oswald bg-white text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[28px] py-[16px] inline-block hover:bg-[#e4ff32] transition-colors">Explore the Lineup</a>
       <a href="locations.html" class="oswald text-white border border-white text-[12px] font-medium tracking-[0.1em] uppercase px-[28px] py-[15px] inline-block hover:bg-white hover:text-black transition-colors">Find a Dispensary</a>
     </div>
   </div>
@@ -122,7 +122,7 @@
 <!-- Locations -->
 <section id="locations" class="mt-[84px] text-center max-w-[1100px] mx-auto px-6">
   <h2 class="oswald text-[28px] font-medium tracking-[0.04em] uppercase text-black">Find Melted Near You</h2>
-  <p class="garamond text-[19px] text-[#666] mt-[12px]">Available at Curaleaf dispensaries across Arizona.</p>
+  <p class="garamond text-[19px] text-[#666] mt-[12px]">Available at Curaleaf dispensaries across Arizona — and now Maryland.</p>
   <div data-home-locations class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[20px] gap-y-[18px] mt-[40px] oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#333]"></div>
   <a href="locations.html" class="oswald inline-block bg-[#0a0a0a] text-white text-[12px] font-medium tracking-[0.1em] uppercase px-[34px] py-[16px] mt-[44px] hover:bg-[#333] transition-colors">Open the Store Locator</a>
 </section>
@@ -153,9 +153,9 @@
       ["live-rosin-gummies","mini-melt-pre-rolls","tigerstyle-cartridge"].map(id => card(id, { badge: true })).join("");
     document.querySelector("[data-home-merch]").innerHTML =
       ["rope-hat","tiger-snapback","logo-tank","tiger-bandana"].map(id => card(id, { badge: true, price: true, small: true })).join("");
-    // Locations quick grid
+    // Locations quick grid — each links straight to its store on the map
     document.querySelector("[data-home-locations]").innerHTML =
-      window.MELTED.STORES.map(s => `<a href="locations.html" class="border-t border-[#e3e3e3] pt-[14px] hover:text-black hover:border-black transition-colors">${s.name.replace("Curaleaf ","")}</a>`).join("");
+      window.MELTED.STORES.map(s => `<a href="locations.html?store=${s.zip}" class="border-t border-[#e3e3e3] pt-[14px] hover:text-black hover:border-black transition-colors">${s.name.replace("Curaleaf ","")}</a>`).join("");
   })();
 </script>
 </body>
