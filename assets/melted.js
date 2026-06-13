@@ -434,10 +434,100 @@
     (function loop() { rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
   }
 
+  /* ---------- Age gate + tiger intro ---------- */
+  const AGE_KEY = "melted_age_ok";
+  const GATE_CSS = `
+#m-gate, #m-intro{ position:fixed; inset:0; z-index:2147483600; background:#0a0a0a; display:flex; align-items:center; justify-content:center; }
+#m-gate{ text-align:center; padding:28px; }
+#m-gate .g-inner{ max-width:480px; animation:m-fade .5s ease both; }
+#m-gate .g-logo{ height:38px; margin:0 auto 38px; display:block; }
+#m-gate h2{ font-family:'Libre Caslon Text',serif; color:#fff; font-size:40px; line-height:1.12; margin:0; }
+#m-gate .g-sub{ font-family:'EB Garamond',serif; color:#bdbdbd; font-size:18px; margin:16px 0 0; }
+#m-gate .g-btns{ display:flex; gap:14px; justify-content:center; margin-top:34px; }
+#m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; padding:16px 38px; cursor:pointer; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
+#m-gate .g-yes{ background:#fff; color:#000; border:1px solid #fff; }
+#m-gate .g-yes:hover{ background:#c2f53f; border-color:#c2f53f; }
+#m-gate .g-no{ background:transparent; color:#fff; border:1px solid #5a5a5a; }
+#m-gate .g-no:hover{ border-color:#fff; }
+#m-gate .g-legal{ font-family:'EB Garamond',serif; color:#666; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+#m-gate .g-deny{ display:none; }
+#m-gate.denied .g-ask{ display:none; }
+#m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
+#m-intro{ overflow:hidden; }
+#m-intro.fade{ opacity:0; transition:opacity .5s ease; }
+#m-intro .t-glow{ position:absolute; width:60vmin; height:60vmin; border-radius:50%;
+  background:radial-gradient(circle, rgba(194,245,63,.12), rgba(10,10,10,0) 70%); animation:m-glow 2.1s ease both; }
+#m-intro .t-tiger{ width:min(46vw,380px); filter:drop-shadow(0 0 34px rgba(255,255,255,.18));
+  animation:m-tiger 2.1s cubic-bezier(.55,0,.75,1) both; }
+@keyframes m-tiger{ 0%{transform:scale(.26); opacity:0;} 16%{opacity:1;} 74%{opacity:1;} 100%{transform:scale(3); opacity:0;} }
+@keyframes m-glow{ 0%{transform:scale(.4); opacity:0;} 40%{opacity:1;} 100%{transform:scale(2.4); opacity:0;} }
+@keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+@media (prefers-reduced-motion: reduce){ #m-intro .t-tiger,#m-intro .t-glow{ animation-duration:.5s; } }`;
+
+  function lockScroll(on) { document.documentElement.style.overflow = on ? "hidden" : ""; }
+
+  function reveal() {
+    document.documentElement.removeAttribute("data-gate");
+    document.documentElement.style.background = "";
+    lockScroll(false);
+    initCursor();
+  }
+
+  function playIntro() {
+    const intro = document.createElement("div");
+    intro.id = "m-intro";
+    intro.innerHTML = '<div class="t-glow"></div><img class="t-tiger" src="assets/melted/tiger_white.png" alt="">';
+    document.documentElement.appendChild(intro);
+    let dur = 2100;
+    try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) dur = 600; } catch (e) {}
+    setTimeout(() => {
+      reveal();                       // unhide the site behind the intro
+      intro.classList.add("fade");
+      setTimeout(() => intro.remove(), 520);
+    }, dur);
+  }
+
+  function initAgeGate() {
+    let ok = false;
+    try { ok = localStorage.getItem(AGE_KEY) === "1"; } catch (e) {}
+    if (ok) { reveal(); return; }     // returning verified visitor — straight in
+
+    const gate = document.createElement("div");
+    gate.id = "m-gate";
+    gate.innerHTML = `
+      <div class="g-inner">
+        <div class="g-ask">
+          <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
+          <h2>Are you 21 years<br>or older?</h2>
+          <p class="g-sub">You must be of legal age to enter Melted.</p>
+          <div class="g-btns">
+            <button type="button" class="g-yes">Yes, I'm 21+</button>
+            <button type="button" class="g-no">No</button>
+          </div>
+          <p class="g-legal">By entering, you agree you are of legal age to view and purchase cannabis products in your state. For use only by adults 21+.</p>
+        </div>
+        <div class="g-deny">
+          <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
+          <h2>Come back<br>another time.</h2>
+          <p class="g-sub">You must be 21 or older to enter this site.</p>
+          <p class="g-legal">If you believe you reached this message in error, refresh the page and try again.</p>
+        </div>
+      </div>`;
+    document.documentElement.appendChild(gate);
+    lockScroll(true);
+    gate.querySelector(".g-yes").addEventListener("click", () => {
+      try { localStorage.setItem(AGE_KEY, "1"); } catch (e) {}
+      gate.remove();
+      playIntro();
+    });
+    gate.querySelector(".g-no").addEventListener("click", () => gate.classList.add("denied"));
+  }
+
   /* ---------- Boot ---------- */
   function mount() {
     if (!document.getElementById("m-cursor-style")) {
-      const st = document.createElement("style"); st.id = "m-cursor-style"; st.textContent = CURSOR_CSS;
+      const st = document.createElement("style"); st.id = "m-cursor-style";
+      st.textContent = CURSOR_CSS + GATE_CSS;
       document.head.appendChild(st);
     }
     const h = document.querySelector("[data-melted-header]");
@@ -445,7 +535,7 @@
     const f = document.querySelector("[data-melted-footer]");
     if (f) f.innerHTML = footerHTML();
     wireHeader();
-    initCursor();
+    initAgeGate();
   }
 
   // Expose for page scripts
