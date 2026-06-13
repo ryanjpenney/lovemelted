@@ -18,13 +18,18 @@
   body { font-family: 'EB Garamond', serif; }
 </style>
 </head>
-<body class="bg-white">
+<body class="bg-transparent">
+
+<!-- Continuous psychedelic wash (sits behind all content; pointer-events off) -->
+<div aria-hidden="true" class="fixed inset-0 -z-10 bg-white pointer-events-none"></div>
+<div aria-hidden="true" class="fixed inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern.jpg'); opacity:0.08;"></div>
 
 <div data-melted-header></div>
 
 <!-- Hero -->
 <section class="bg-[#0a0a0a] grid grid-cols-1 md:grid-cols-2 md:min-h-[660px]">
-  <div class="px-[28px] md:px-[48px] pt-[62px] pb-[48px] flex flex-col justify-center order-2 md:order-1">
+  <div class="relative z-0 overflow-hidden px-[28px] md:px-[48px] pt-[62px] pb-[48px] flex flex-col justify-center order-2 md:order-1">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern_light.png'); opacity:0.07;"></div>
     <h1 class="caslon text-[#f5f3ee] text-[54px] md:text-[70px] leading-[1.05] font-normal">Get Melted.</h1>
     <p class="oswald text-white font-light text-[28px] md:text-[40px] leading-[1.4] mt-[18px] max-w-[545px]">An independent creative cannabis collective with deep Arizona roots — built on reverence for the plant.</p>
     <p class="oswald text-[#bdbdbd] font-light text-[20px] md:text-[25px] mt-[26px]">Live rosin. Small batches. No shortcuts.</p>
@@ -49,7 +54,7 @@
 </section>
 
 <!-- Pillars -->
-<section class="bg-[#f5f5f3] mt-[84px] py-[72px]">
+<section class="bg-[#f1f0ea]/70 mt-[84px] py-[72px]">
   <div class="max-w-[1180px] mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
     <div>
       <h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Potency</h3>
@@ -77,7 +82,8 @@
 
 <!-- Lifestyle (relocated original hero photo of the guy) -->
 <section class="mt-[84px] grid grid-cols-1 md:grid-cols-2">
-  <div class="bg-[#0a0a0a] flex items-center order-2 md:order-1">
+  <div class="relative z-0 overflow-hidden bg-[#0a0a0a] flex items-center order-2 md:order-1">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern_light.png'); opacity:0.07;"></div>
     <div class="px-[40px] md:px-[64px] py-[64px]">
       <h2 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">The Culture</h2>
       <h3 class="caslon text-[40px] md:text-[46px] leading-[1.15] text-white mt-[16px]">Made by cannabis people, for cannabis people.</h3>
@@ -91,7 +97,7 @@
 </section>
 
 <!-- Quote -->
-<section class="bg-[#f5f5f3] py-[78px] relative">
+<section class="bg-[#f1f0ea]/70 py-[78px] relative">
   <div class="flex flex-col md:flex-row items-center max-w-[1275px] mx-auto px-6 md:px-0">
     <div class="md:ml-[40px] w-[260px] shrink-0 flex items-center justify-center">
       <img src="assets/melted/tiger.png" alt="Melted tiger mark" class="w-[210px]">
