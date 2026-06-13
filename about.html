@@ -6,6 +6,7 @@
 <script>try{if(localStorage.getItem('melted_age_ok')!=='1')document.documentElement.setAttribute('data-gate','');}catch(e){}</script>
 <style>html[data-gate]{background:#0a0a0a}html[data-gate] body{visibility:hidden}</style>
 <title>Melted — About</title>
+<meta name="description" content="Melted is an independent creative cannabis collective with deep Arizona roots — solventless live rosin, small batches, and a reverence for the plant. Now in Arizona and Maryland.">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +17,7 @@
   .caslon { font-family: 'Libre Caslon Text', serif; }
   body { font-family: 'EB Garamond', serif; }
   html { scroll-behavior: smooth; }
+  .eyebrow { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; letter-spacing:.22em; text-transform:uppercase; }
 </style>
 </head>
 <body class="bg-white">
@@ -23,54 +25,109 @@
 <div data-melted-header></div>
 
 <!-- Hero -->
-<section class="bg-[#0a0a0a] grid grid-cols-1 md:grid-cols-2 md:min-h-[520px]">
-  <div class="px-[28px] md:px-[64px] py-[64px] flex flex-col justify-center">
-    <h1 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">Our Story</h1>
-    <h2 class="caslon text-[44px] md:text-[58px] leading-[1.08] text-white mt-[16px]">An independent creative cannabis collective.</h2>
-    <p class="garamond text-[20px] text-[#cfcfcf] leading-[1.6] mt-[24px] max-w-[520px]">Born out of a deep reverence for the plant and hell-bent on preserving its integrity.</p>
+<section class="bg-[#0a0a0a] grid grid-cols-1 md:grid-cols-2 md:min-h-[600px]">
+  <div class="px-[28px] md:px-[64px] py-[72px] flex flex-col justify-center">
+    <p class="eyebrow text-[#8a8a8a]">Our Story · Est. Arizona</p>
+    <h1 class="caslon text-white text-[46px] md:text-[62px] leading-[1.06] mt-[18px]">An independent creative cannabis collective.</h1>
+    <p class="garamond text-[20px] text-[#cfcfcf] leading-[1.6] mt-[24px] max-w-[520px]">Born out of a deep reverence for the plant — and hell-bent on preserving its integrity.</p>
+    <div class="flex flex-wrap gap-[14px] mt-[36px]">
+      <a href="products.html" class="oswald bg-white text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[26px] py-[14px] hover:bg-[#c2f53f] transition-colors">See the Products</a>
+      <a href="#contact" class="oswald text-white border border-white text-[12px] font-medium tracking-[0.1em] uppercase px-[26px] py-[13px] hover:bg-white hover:text-black transition-colors">Get in Touch</a>
+    </div>
   </div>
-  <div class="min-h-[360px]"><img src="assets/melted/lifestyle_guy.jpg" alt="Melted" class="w-full h-full object-cover"></div>
+  <div class="min-h-[380px]"><img src="assets/melted/lifestyle_guy.jpg" alt="Melted collective" class="w-full h-full object-cover"></div>
 </section>
 
-<!-- Mission -->
-<section class="max-w-[820px] mx-auto px-6 text-center mt-[84px]">
-  <p class="caslon text-[30px] md:text-[36px] leading-[1.45] text-[#1c1c1c]">We deliver premium, distinctive products to experienced consumers — while building a brand worth showing up for every day.</p>
-  <p class="garamond text-[19px] text-[#666] leading-[1.7] mt-[28px]">Melted draws on our collective history, present-day culture, and everything still to come. Our roots run deep in Arizona and the desert that shaped us — and that heritage lives in every batch we press.</p>
+<!-- Manifesto -->
+<section class="max-w-[920px] mx-auto px-6 text-center mt-[92px]">
+  <p class="caslon text-[30px] md:text-[40px] leading-[1.4] text-[#1c1c1c]">We make premium, distinctive cannabis for people who know the difference — and we build a brand worth showing up for every day.</p>
+  <p class="garamond text-[19px] text-[#666] leading-[1.7] mt-[28px] max-w-[720px] mx-auto">Melted is for cannabis people, by cannabis people. We draw on our collective history, present-day culture, and everything still to come — always pushing what this plant can be.</p>
+</section>
+
+<!-- Story -->
+<section class="max-w-[1180px] mx-auto px-6 md:px-[45px] mt-[88px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px] items-center">
+  <img src="assets/melted/lifestyle.jpg" alt="Melted in Arizona" class="w-full">
+  <div>
+    <p class="eyebrow text-[#8a8a8a]">Deep desert roots</p>
+    <h2 class="caslon text-[36px] md:text-[44px] leading-[1.15] text-black mt-[14px]">Born in the Arizona desert.</h2>
+    <p class="garamond text-[19px] text-[#555] leading-[1.75] mt-[22px]">Our roots run deep in Arizona, and the desert that shaped us lives in everything we make. We started as a small collective of growers, makers, and believers who were tired of watching shortcuts win — and decided to do it properly instead.</p>
+    <p class="garamond text-[19px] text-[#555] leading-[1.75] mt-[16px]">Today that conviction shows up in every batch: full-spectrum, solventless, and crafted in small runs. We hope you enjoy the Melted experience as much as we do — but we're even more excited for you to join us on the journey.</p>
+  </div>
+</section>
+
+<!-- Stats band -->
+<section class="bg-[#0a0a0a] text-white mt-[92px] py-[64px]">
+  <div class="max-w-[1100px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-y-[36px] text-center">
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none">2</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">States</p></div>
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none">17</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Dispensary partners</p></div>
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none">4</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Signature products</p></div>
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none">100%</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Solventless</p></div>
+  </div>
 </section>
 
 <!-- Pillars -->
-<section class="bg-[#f5f5f3] mt-[84px] py-[72px]">
-  <div class="max-w-[1180px] mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-    <div><h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Potency</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Full-spectrum, entourage-effect experiences that honor the whole plant.</p></div>
-    <div><h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Quality</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Premium cannabis technology from harvest through extraction. No compromises.</p></div>
-    <div><h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Innovation</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Always pushing what cannabis can be, for the people who know the difference.</p></div>
+<section class="max-w-[1180px] mx-auto px-8 mt-[92px]">
+  <p class="eyebrow text-[#8a8a8a] text-center">What we stand for</p>
+  <h2 class="caslon text-[36px] md:text-[44px] leading-[1.12] text-black text-center mt-[12px]">Three things we never compromise.</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center mt-[52px]">
+    <div>
+      <h3 class="eyebrow text-black">Potency</h3>
+      <p class="garamond text-[18px] text-[#555] leading-[1.65] mt-[16px]">Full-spectrum, entourage-effect experiences that honor the whole plant — never thinned, never faked.</p>
+    </div>
+    <div>
+      <h3 class="eyebrow text-black">Quality</h3>
+      <p class="garamond text-[18px] text-[#555] leading-[1.65] mt-[16px]">Premium cannabis technology from harvest through extraction, in small batches with no shortcuts.</p>
+    </div>
+    <div>
+      <h3 class="eyebrow text-black">Innovation</h3>
+      <p class="garamond text-[18px] text-[#555] leading-[1.65] mt-[16px]">A relentless drive to push what cannabis can be, for the people who already know the difference.</p>
+    </div>
   </div>
 </section>
 
+<!-- Craft / process -->
+<section class="bg-[#f1f0ea] mt-[92px] py-[80px]">
+  <div class="max-w-[1180px] mx-auto px-6 md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px] items-center">
+    <div>
+      <p class="eyebrow text-[#8a8a8a]">The craft</p>
+      <h2 class="caslon text-[36px] md:text-[44px] leading-[1.15] text-black mt-[14px]">Solventless, by conviction.</h2>
+      <p class="garamond text-[19px] text-[#555] leading-[1.75] mt-[22px]">No distillate. No cutting agents. Our live rosin is pressed from fresh-frozen flower using nothing but ice, heat, and pressure — so what ends up in the tin tastes like the plant it came from.</p>
+      <ol class="mt-[28px] space-y-[18px]">
+        <li class="flex gap-4"><span class="caslon text-[26px] text-black leading-none w-[34px] shrink-0">01</span><span class="garamond text-[18px] text-[#444] leading-[1.5]"><strong class="text-black">Fresh-frozen flower.</strong> Harvested at peak and frozen immediately to lock in terpenes.</span></li>
+        <li class="flex gap-4"><span class="caslon text-[26px] text-black leading-none w-[34px] shrink-0">02</span><span class="garamond text-[18px] text-[#444] leading-[1.5]"><strong class="text-black">Solventless press.</strong> Ice-water and heat extract the rosin — zero chemicals.</span></li>
+        <li class="flex gap-4"><span class="caslon text-[26px] text-black leading-none w-[34px] shrink-0">03</span><span class="garamond text-[18px] text-[#444] leading-[1.5]"><strong class="text-black">Small-batch infusion.</strong> Pressed into gummies, pre-rolls, and carts in limited runs.</span></li>
+      </ol>
+    </div>
+    <img src="assets/melted/gallery/gum_2.jpg" alt="Melted live rosin" class="w-full">
+  </div>
+</section>
+
+<!-- Swirl divider -->
+<section class="px-[28px] md:px-[45px] mt-[92px]">
+  <img src="assets/melted/swirl_strip.jpg" alt="Melted pattern" class="w-full h-[120px] object-cover">
+</section>
+
 <!-- Join -->
-<section id="join" class="max-w-[1100px] mx-auto px-6 mt-[88px] grid grid-cols-1 md:grid-cols-2 gap-[48px] items-center">
-  <img src="assets/melted/lifestyle.jpg" alt="Join Melted" class="w-full">
+<section id="join" class="max-w-[1180px] mx-auto px-6 md:px-[45px] mt-[92px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px] items-center">
+  <img src="assets/melted/lifestyle_b.jpg" alt="Join Melted" class="w-full order-last md:order-first">
   <div>
-    <h2 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">Join Melted</h2>
-    <h3 class="caslon text-[40px] leading-[1.15] text-black mt-[14px]">Become part of the collective.</h3>
-    <p class="garamond text-[19px] text-[#555] leading-[1.7] mt-[20px]">Brands, retailers, artists, and partners: we’re always looking for like-minded people who love this plant as much as we do. Tell us what you’re building and let’s make something together.</p>
+    <p class="eyebrow text-[#8a8a8a]">Join Melted</p>
+    <h2 class="caslon text-[36px] md:text-[44px] leading-[1.15] text-black mt-[14px]">Become part of the collective.</h2>
+    <p class="garamond text-[19px] text-[#555] leading-[1.75] mt-[22px]">Brands, retailers, artists, and partners — we're always looking for like-minded people who love this plant as much as we do. Tell us what you're building and let's make something together.</p>
     <a href="mailto:info@studiobrands.cc?subject=Join%20Melted" class="oswald inline-block bg-black text-white text-[12px] font-medium tracking-[0.1em] uppercase px-[30px] py-[15px] mt-[28px] hover:bg-[#333] transition-colors">Apply to Partner</a>
   </div>
 </section>
 
 <!-- Contact -->
-<section id="contact" class="bg-[#0a0a0a] text-white mt-[88px] py-[72px] text-center px-6">
-  <h2 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">Contact</h2>
-  <h3 class="caslon text-[40px] leading-[1.15] mt-[14px]">Get in touch.</h3>
+<section id="contact" class="bg-[#0a0a0a] text-white mt-[92px] py-[80px] text-center px-6">
+  <p class="eyebrow text-[#8a8a8a]">Contact</p>
+  <h2 class="caslon text-[40px] md:text-[48px] leading-[1.12] mt-[14px]">Get in touch.</h2>
   <p class="garamond text-[19px] text-[#cfcfcf] mt-[18px]">Press, partnerships, and general inquiries:</p>
-  <a href="mailto:info@studiobrands.cc" class="caslon text-[26px] underline decoration-[#555] underline-offset-4 hover:decoration-white mt-[8px] inline-block">info@studiobrands.cc</a>
-  <div class="flex items-center justify-center gap-6 mt-[28px] oswald text-[12px] tracking-[0.1em] uppercase">
-    <a href="https://www.instagram.com/meltedusa" target="_blank" rel="noopener" class="border-b border-[#555] hover:border-white pb-1">Instagram</a>
-    <a href="faqs.html" class="border-b border-[#555] hover:border-white pb-1">FAQs</a>
-    <a href="locations.html" class="border-b border-[#555] hover:border-white pb-1">Find a store</a>
+  <a href="mailto:info@studiobrands.cc" class="caslon text-[26px] md:text-[30px] underline decoration-[#555] underline-offset-[6px] hover:decoration-white transition-colors mt-[10px] inline-block">info@studiobrands.cc</a>
+  <div class="flex items-center justify-center gap-7 mt-[30px] oswald text-[12px] tracking-[0.1em] uppercase">
+    <a href="https://www.instagram.com/meltedusa" target="_blank" rel="noopener" class="border-b border-[#555] hover:border-white pb-1 transition-colors">Instagram</a>
+    <a href="faqs.html" class="border-b border-[#555] hover:border-white pb-1 transition-colors">FAQs</a>
+    <a href="locations.html" class="border-b border-[#555] hover:border-white pb-1 transition-colors">Find a Store</a>
   </div>
 </section>
 
