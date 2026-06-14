@@ -6,7 +6,7 @@
 <script>try{if(localStorage.getItem('melted_age_ok')!=='1')document.documentElement.setAttribute('data-gate','');}catch(e){}</script>
 <style>html[data-gate]{background:#0a0a0a}html[data-gate] body{visibility:hidden}</style>
 <title>Melted — Store Locator</title>
-<meta name="description" content="Find Melted at Curaleaf dispensaries across Arizona and Maryland. Search by ZIP for your nearest store on our interactive map.">
+<meta name="description" content="Find Melted at Curaleaf and other partner dispensaries across Arizona and Maryland, with Ohio coming soon. Search by ZIP for your nearest store on our interactive map.">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -35,6 +35,8 @@
     box-shadow:0 0 0 5px rgba(194,245,63,.35), 0 1px 6px rgba(0,0,0,.5); }
   .m-pin span { display:block; width:14px; height:14px; border-radius:50%; background:transparent;
     border:3px solid #0a0a0a; box-shadow:0 0 0 4px rgba(10,10,10,.18); }
+  .m-soon span { display:block; width:16px; height:16px; border-radius:50%; background:#fff;
+    border:2px dashed #0a0a0a; opacity:.85; }
 
   /* Store-card highlight + entrance animation on arrival */
   @keyframes m-rise { 0%{opacity:0; transform:translateY(12px);} 100%{opacity:1; transform:translateY(0);} }
@@ -52,7 +54,7 @@
 <!-- Page hero -->
 <section class="bg-[#0a0a0a] text-center py-[56px] px-6">
   <h1 class="caslon text-[44px] md:text-[56px] text-white leading-[1.05]">Find Melted Near You</h1>
-  <p class="garamond text-[19px] text-[#bdbdbd] mt-[14px] max-w-[640px] mx-auto">Now at Curaleaf dispensaries across <span class="text-white">Arizona</span> and <span class="text-white">Maryland</span>. Search your ZIP to see your closest stores, ranked by distance.</p>
+  <p class="garamond text-[19px] text-[#bdbdbd] mt-[14px] max-w-[660px] mx-auto">Find Melted at Curaleaf and other partner dispensaries across <span class="text-white">Arizona</span> and <span class="text-white">Maryland</span> — with <span class="text-white">Ohio</span> coming soon. Search your ZIP to see your closest stores, ranked by distance.</p>
 </section>
 
 <!-- Search + region filter -->
@@ -117,13 +119,23 @@
   });
   let searchPin = null;
 
+  // Coming-soon markers (e.g., Ohio)
+  const SOON_STATES = [...new Set(M.COMING_SOON.map(c => c.state))];
+  const soonMarkers = M.COMING_SOON.map(c => {
+    const m = L.marker([c.lat, c.lng], { icon: L.divIcon({ className: "m-soon", html: "<span></span>", iconSize: [16, 16], iconAnchor: [8, 8] }) });
+    m.bindPopup(`<strong style="font-weight:600;letter-spacing:.04em;text-transform:uppercase">${c.name}, ${c.state}</strong><br><span style="font-family:'EB Garamond',serif;font-size:14px;color:#555">Coming soon</span>`);
+    return m;
+  });
+  function showSoon(on) { soonMarkers.forEach(m => { if (on) { if (!map.hasLayer(m)) m.addTo(map); } else if (map.hasLayer(m)) map.removeLayer(m); }); }
+
   function icon(sel) { return L.divIcon({ className: "m-marker" + (sel ? " sel" : ""), html: "<span></span>", iconSize: [16, 16], iconAnchor: [8, 8] }); }
 
   /* ---- Region chips ---- */
   function renderChips() {
     const chip = (key, label) =>
       `<button data-region="${key}" class="oswald text-[11px] tracking-[0.08em] uppercase px-[16px] py-[8px] border transition-colors ${region === key ? "bg-black text-white border-black" : "bg-white text-[#555] border-[#d8d8d8] hover:border-black"}">${label}</button>`;
-    chipWrap.innerHTML = chip("all", "All") + states.map(s => chip(s, M.STATE_NAMES[s] || s)).join("");
+    chipWrap.innerHTML = chip("all", "All") + states.map(s => chip(s, M.STATE_NAMES[s] || s)).join("")
+      + SOON_STATES.map(s => chip(s, (M.STATE_NAMES[s] || s) + " · Soon")).join("");
     chipWrap.querySelectorAll("[data-region]").forEach(b => b.addEventListener("click", () => {
       region = b.dataset.region; sortZip = null; input.value = ""; msg.textContent = "";
       render(); fitToVisible();
@@ -139,8 +151,27 @@
 
   /* ---- Render list + markers ---- */
   function render() {
-    const list = visibleStores();
     const ranked = !!sortZip;
+
+    // Coming-soon region (e.g., Ohio) — no live stores yet
+    if (!ranked && SOON_STATES.includes(region)) {
+      const cities = M.COMING_SOON.filter(c => c.state === region);
+      heading.textContent = M.STATE_NAMES[region] + " — Coming Soon";
+      count.textContent = "Coming soon";
+      results.innerHTML = `<div class="border border-dashed border-[#cbcbcb] p-[26px]">
+        <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#999]">Coming soon to ${M.STATE_NAMES[region]}</p>
+        <p class="garamond text-[18px] text-[#444] leading-[1.65] mt-2">We're expanding into ${M.STATE_NAMES[region]} — ${cities.map(c => c.name).join(", ")} and more on the way. Sign up and we'll tell you the moment Melted lands near you.</p>
+        <a href="mailto:info@studiobrands.cc?subject=Melted%20in%20${encodeURIComponent(M.STATE_NAMES[region])}" class="oswald inline-block bg-black text-white text-[11px] tracking-[0.08em] uppercase px-6 py-3 mt-4 hover:bg-[#333] transition-colors">Notify Me</a>
+      </div>`;
+      M.STORES.forEach(s => { if (map.hasLayer(markers[s.zip])) map.removeLayer(markers[s.zip]); });
+      showSoon(true);
+      const pts = cities.map(c => [c.lat, c.lng]);
+      if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.5));
+      renderChips();
+      return;
+    }
+
+    const list = visibleStores();
     heading.textContent = ranked ? "Stores nearest " + sortZip
       : (region === "all" ? "All Locations" : M.STATE_NAMES[region] + " Locations");
     count.textContent = list.length + " location" + (list.length === 1 ? "" : "s");
@@ -154,6 +185,7 @@
       if (showZips.has(s.zip)) { if (!map.hasLayer(m)) m.addTo(map); }
       else if (map.hasLayer(m)) map.removeLayer(m);
     });
+    showSoon(ranked || region === "all");   // surface upcoming markets in broad views
     if (ranked) selectStore(list[0].zip, { pan: false, flash: false, scroll: false });
     wireRows();
     renderChips();
@@ -225,7 +257,14 @@
     const z = input.value.trim();
     if (!M.validZip(z)) { msg.textContent = "Please enter a 5-digit ZIP code."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#c0392b]"; return; }
     const c = M.zipCoords(z);
-    if (!c) { msg.textContent = "No Melted store near that ZIP yet — we’re in Arizona & Maryland."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#c0392b]"; return; }
+    if (!c) {
+      if (/^4[3-5]\d{3}$/.test(z)) {   // Ohio ZIP range — coming soon
+        region = "OH"; sortZip = null; render();
+        msg.textContent = "Melted is coming soon to Ohio — sign up to hear first."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#9a6b1f]";
+        return;
+      }
+      msg.textContent = "No Melted store near that ZIP yet — we’re in Arizona & Maryland, with Ohio coming soon."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#c0392b]"; return;
+    }
     M.setZip(z); msg.textContent = "";
     sortZip = z; region = "all";
     render();

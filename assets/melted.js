@@ -7,7 +7,13 @@
   "use strict";
 
   /* ---------- Region metadata (add a state here when you expand) ---------- */
-  const STATE_NAMES = { AZ: "Arizona", MD: "Maryland" };
+  const STATE_NAMES = { AZ: "Arizona", MD: "Maryland", OH: "Ohio" };
+  // Markets that are announced but not yet live (shown as "Coming Soon").
+  const COMING_SOON = [
+    { name: "Columbus", state: "OH", lat: 39.9612, lng: -82.9988 },
+    { name: "Cincinnati", state: "OH", lat: 39.1031, lng: -84.5120 },
+    { name: "Cleveland", state: "OH", lat: 41.4993, lng: -81.6944 }
+  ];
 
   /* ---------- Dispensary data (Curaleaf) ----------
      To add a market: give each store a `state` matching a key in STATE_NAMES,
@@ -97,13 +103,23 @@
 
   /* ---------- Product catalog ---------- */
   const PRODUCTS = {
+    "live-resin-gummies": {
+      name: "Live Resin Gummies", price: "$28.00", kind: "product",
+      badge: "", spec: "Live Resin · 4 Flavors",
+      tagline: "Bold, fruit-forward live resin gummies.",
+      detail: "Full-flavored live resin gummies in our black-and-white tin. Ten pieces per tin, 10mg each — even, dependable, and made to taste like the real thing.",
+      facts: ["10 pieces · 10mg each", "Live resin", "Even, reliable dose", "Four fruit flavors"],
+      flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
+      gallery: ["assets/melted/gallery/live_resin.jpg"]
+    },
     "live-rosin-gummies": {
       name: "Live Rosin Gummies", price: "$28.00", kind: "product",
       badge: "Fan Favorite", spec: "Live Rosin · 4 Flavors",
-      tagline: "Solventless live rosin in four mouthwatering flavors.",
-      detail: "Pressed from fresh-frozen flower and nothing else — our live rosin gummies deliver a true full-spectrum, entourage-effect experience. No distillate, no shortcuts. Ten pieces per tin, 10mg each.",
-      facts: ["10 pieces · 10mg each", "Solventless live rosin", "Full-spectrum", "Four rotating flavors"],
-      gallery: ["assets/melted/gallery/gum_1.jpg","assets/melted/gallery/gum_2.jpg","assets/melted/gallery/gum_3.jpg","assets/melted/gallery/gum_4.jpg"]
+      tagline: "Solventless live rosin in a golden tin.",
+      detail: "Our solventless flagship, pressed from fresh-frozen flower for a true full-spectrum experience. Ten pieces per golden tin, 10mg each. No distillate, no shortcuts.",
+      facts: ["10 pieces · 10mg each", "Solventless live rosin", "Full-spectrum", "Four dessert-inspired flavors"],
+      flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
+      gallery: ["assets/melted/gallery/live_rosin.jpg"]
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
@@ -111,7 +127,7 @@
       tagline: "Five mini infused pre-rolls, ready when you are.",
       detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
       facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
-      gallery: ["assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg","assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_4.jpg"]
+      gallery: ["assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg","assets/melted/gallery/pr_3.jpg"]
     },
     "tigerstyle-cartridge": {
       name: "Tigerstyle Cartridge", price: "$40.00", kind: "product",
@@ -119,39 +135,23 @@
       tagline: "A flower-like experience, on the go.",
       detail: "Our Tigerstyle cartridge captures the character of the whole plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
       facts: ["1g full-spectrum oil", "510-thread compatible", "No added cutting agents", "Strain-specific terpenes"],
-      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg","assets/melted/gallery/ct_4.jpg"]
+      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
     },
-    "rope-hat": {
-      name: "So Melted Rope Hat", price: "$39.99", kind: "merch",
-      badge: "New", spec: "One size · Adjustable",
-      tagline: "Structured rope-front cap with the Melted tiger mark.",
-      detail: "A clean, structured cap with a rope-front detail and the embroidered Melted tiger mark. Adjustable snap closure, one size fits most.",
-      facts: ["Structured 5-panel", "Embroidered tiger mark", "Rope-front detail", "Adjustable snap"],
-      gallery: ["assets/melted/gallery/rope_1.jpg","assets/melted/gallery/rope_2.jpg","assets/melted/gallery/rope_3.jpg"]
-    },
-    "tiger-snapback": {
-      name: "Tiger Snapback", price: "$35.99", kind: "merch",
-      badge: "", spec: "One size · Snapback",
-      tagline: "Low-profile snapback with curved brim.",
-      detail: "A low-profile black snapback with a curved brim and subtle Melted script. Everyday cap, built to last.",
-      facts: ["Low-profile fit", "Curved brim", "Snapback closure", "Embroidered logo"],
-      gallery: ["assets/melted/gallery/snap_1.jpg","assets/melted/gallery/snap_2.jpg","assets/melted/gallery/snap_3.jpg"]
+    "bill-hat": {
+      name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
+      badge: "", spec: "One size · Adjustable",
+      tagline: "Structured cap with the branded Melted bill.",
+      detail: "A clean, structured cap with the Melted mark across the bill and an adjustable closure. One size fits most.",
+      facts: ["Structured fit", "Branded bill", "Embroidered Melted mark", "Adjustable closure"],
+      gallery: ["assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
     },
     "logo-tank": {
-      name: "Logo Tank", price: "$25.99", kind: "merch",
+      name: "Logo Tank", price: "$25.99", kind: "merch", soldout: true,
       badge: "", spec: "Unisex · S–XXL",
       tagline: "Soft cropped tank with the dripping Melted logo.",
       detail: "A soft, relaxed cropped tank carrying the dripping Melted logo. Pre-shrunk cotton blend, unisex sizing.",
       facts: ["Cropped fit", "Pre-shrunk cotton blend", "Screen-printed logo", "Sizes S–XXL"],
       gallery: ["assets/melted/gallery/tank_1.jpg","assets/melted/gallery/tank_2.jpg","assets/melted/gallery/tank_3.jpg","assets/melted/gallery/tank_4.jpg"]
-    },
-    "tiger-bandana": {
-      name: "Tiger Bandana", price: "$15.99", kind: "merch",
-      badge: "", spec: "22\" × 22\" · Cotton",
-      tagline: "All-over tiger-pattern cotton bandana.",
-      detail: "A 22-inch cotton bandana in our all-over tiger pattern. Wear it, tie it, fly it.",
-      facts: ["22\" × 22\"", "100% cotton", "All-over tiger print", "Hemmed edges"],
-      gallery: ["assets/melted/gallery/band_1.jpg","assets/melted/gallery/band_2.jpg"]
     }
   };
 
@@ -212,7 +212,7 @@
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
     return `
 <div class="relative bg-[#0a0a0a] h-[34px] flex items-center justify-center">
-  <p class="oswald text-white text-[11px] font-medium tracking-[0.14em] uppercase">Available at Curaleaf dispensaries across Arizona</p>
+  <p class="oswald text-white text-[11px] font-medium tracking-[0.14em] uppercase">Now at dispensaries across Arizona &amp; Maryland · Ohio coming soon</p>
 </div>
 <header class="bg-white sticky top-0 z-40 border-b border-[#ededed]">
   <div class="h-[72px] flex items-center justify-between px-[28px] md:px-[45px]">
@@ -221,13 +221,11 @@
         <a href="products.html" class="flex items-center gap-1.5 py-[26px]" data-nav-toggle>Products
           <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
         </a>
-        <div class="mega absolute left-0 top-full bg-white border border-[#ededed] shadow-xl w-[640px] p-7 grid grid-cols-3 gap-5 opacity-0 invisible transition-all duration-150">
-          ${productMenuCard("live-rosin-gummies")}
-          ${productMenuCard("mini-melt-pre-rolls")}
-          ${productMenuCard("tigerstyle-cartridge")}
-          <div class="col-span-3 border-t border-[#eee] pt-4 flex justify-between items-center">
-            <span class="garamond text-[14px] text-[#888] normal-case tracking-normal">Full-spectrum, solventless, Arizona-grown.</span>
-            ${link("locations.html", "Where to buy →")}
+        <div class="mega absolute left-0 top-full bg-white border border-[#ededed] shadow-xl w-[500px] p-7 grid grid-cols-2 gap-5 opacity-0 invisible transition-all duration-150">
+          ${Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(productMenuCard).join("")}
+          <div class="col-span-2 border-t border-[#eee] pt-4 flex justify-between items-center">
+            <span class="garamond text-[14px] text-[#888] normal-case tracking-normal">Premium, small-batch cannabis.</span>
+            ${link("products.html", "View all →")}
           </div>
         </div>
       </div>
@@ -321,14 +319,13 @@
   </div>
   <div class="caslon text-[17px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
     <p>Copyright © 2026, <span class="oswald text-[13px] font-light">Melted</span>. All rights reserved.</p>
-    <p>The Kind Relief Inc. | #000000049DChRR00713151</p>
     <p><a href="mailto:info@studiobrands.cc" class="hover:opacity-60">info@studiobrands.cc</a></p>
   </div>
   <div class="relative mt-[25px]">
     <img src="assets/melted/mark_white.png" alt="Melted mark" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
     <div class="caslon text-[17px] text-[#d6d6d6] leading-[1.5] max-w-[1080px]">
       <p>For use only by adults twenty-one years of age and older. Keep out of reach of children. Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under the influence of marijuana.</p>
-      <p class="mt-[25px]">Melted products are available only at licensed dispensaries in Arizona. Products contain marijuana and have intoxicating effects.</p>
+      <p class="mt-[25px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
     </div>
   </div>
 </footer>`;
@@ -402,36 +399,32 @@
   html.m-cursor-on, html.m-cursor-on a, html.m-cursor-on button, html.m-cursor-on .thumb, html.m-cursor-on [data-hover]{ cursor:none !important; }
   html.m-cursor-on input, html.m-cursor-on textarea, html.m-cursor-on select{ cursor:auto !important; }
 }
-.m-cur{ position:fixed; left:0; top:0; z-index:99999; pointer-events:none; border-radius:9999px; mix-blend-mode:difference; will-change:transform; }
-.m-cur-dot{ width:7px; height:7px; margin:-3.5px 0 0 -3.5px; background:#fff; }
-.m-cur-ring{ width:36px; height:36px; margin:-18px 0 0 -18px; border:1.5px solid #fff;
-  transition:width .22s ease, height .22s ease, margin .22s ease, opacity .2s ease, background-color .22s ease; }
-.m-cur-ring.m-hover{ width:62px; height:62px; margin:-31px 0 0 -31px; background:rgba(255,255,255,.14); border-color:transparent; }
-.m-cur-ring.m-down{ transform-origin:center; width:28px; height:28px; margin:-14px 0 0 -14px; }
-.m-cur.m-hide{ opacity:0; }`;
+.m-cur-tiger{ position:fixed; left:0; top:0; width:34px; height:auto; margin:-17px 0 0 -17px; z-index:99999;
+  pointer-events:none; mix-blend-mode:difference; will-change:transform;
+  transition:width .18s ease, margin .18s ease, opacity .2s ease, transform .05s linear; }
+.m-cur-tiger.m-hover{ width:50px; margin:-25px 0 0 -25px; }
+.m-cur-tiger.m-hide{ opacity:0; }`;
 
   function initCursor() {
     if (!window.matchMedia) return;
     if (!matchMedia("(hover:hover) and (pointer:fine)").matches) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (document.querySelector(".m-cur-dot")) return;
+    if (document.querySelector(".m-cur-tiger")) return;
     document.documentElement.classList.add("m-cursor-on");
-    const dot = document.createElement("div"); dot.className = "m-cur m-cur-dot m-hide";
-    const ring = document.createElement("div"); ring.className = "m-cur m-cur-ring m-hide";
-    document.body.appendChild(ring); document.body.appendChild(dot);
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
+    const cur = document.createElement("img");
+    cur.src = "assets/melted/tiger_white.png"; cur.alt = ""; cur.setAttribute("aria-hidden", "true");
+    cur.className = "m-cur-tiger m-hide";
+    document.body.appendChild(cur);
+    let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my, shown = false;
     addEventListener("mousemove", e => {
       mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px,${my}px)`;
-      if (!shown) { shown = true; dot.classList.remove("m-hide"); ring.classList.remove("m-hide"); }
+      if (!shown) { shown = true; cur.classList.remove("m-hide"); }
     }, { passive: true });
-    document.addEventListener("mouseleave", () => { dot.classList.add("m-hide"); ring.classList.add("m-hide"); shown = false; });
-    addEventListener("mousedown", () => ring.classList.add("m-down"));
-    addEventListener("mouseup", () => ring.classList.remove("m-down"));
+    document.addEventListener("mouseleave", () => { cur.classList.add("m-hide"); shown = false; });
     const sel = "a,button,input,textarea,select,label,.thumb,[data-hover],.leaflet-marker-icon,.leaflet-control a";
-    addEventListener("mouseover", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.add("m-hover"); });
-    addEventListener("mouseout", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.remove("m-hover"); });
-    (function loop() { rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
+    addEventListener("mouseover", e => { if (e.target.closest && e.target.closest(sel)) cur.classList.add("m-hover"); });
+    addEventListener("mouseout", e => { if (e.target.closest && e.target.closest(sel)) cur.classList.remove("m-hover"); });
+    (function loop() { cx += (mx - cx) * 0.22; cy += (my - cy) * 0.22; cur.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
   }
 
   /* ---------- Age gate + tiger intro ---------- */
@@ -539,7 +532,7 @@
   }
 
   // Expose for page scripts
-  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, nearestStores, zipCoords, getZip, setZip, validZip, haversine };
+  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, getZip, setZip, validZip, haversine };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
