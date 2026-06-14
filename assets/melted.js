@@ -399,10 +399,10 @@
   html.m-cursor-on, html.m-cursor-on a, html.m-cursor-on button, html.m-cursor-on .thumb, html.m-cursor-on [data-hover]{ cursor:none !important; }
   html.m-cursor-on input, html.m-cursor-on textarea, html.m-cursor-on select{ cursor:auto !important; }
 }
-.m-cur-tiger{ position:fixed; left:0; top:0; width:34px; height:auto; margin:-17px 0 0 -17px; z-index:99999;
+.m-cur-tiger{ position:fixed; left:0; top:0; width:51px; height:auto; margin:-25.5px 0 0 -25.5px; z-index:99999;
   pointer-events:none; mix-blend-mode:difference; will-change:transform;
   transition:width .18s ease, margin .18s ease, opacity .2s ease, transform .05s linear; }
-.m-cur-tiger.m-hover{ width:50px; margin:-25px 0 0 -25px; }
+.m-cur-tiger.m-hover{ width:75px; margin:-37.5px 0 0 -37.5px; }
 .m-cur-tiger.m-hide{ opacity:0; }`;
 
   function initCursor() {
