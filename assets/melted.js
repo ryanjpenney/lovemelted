@@ -425,7 +425,12 @@
   transition:width .22s ease, height .22s ease, margin .22s ease, opacity .2s ease, background-color .22s ease; }
 .m-cur-ring.m-hover{ width:62px; height:62px; margin:-31px 0 0 -31px; background:rgba(255,255,255,.14); border-color:transparent; }
 .m-cur-ring.m-down{ transform-origin:center; width:28px; height:28px; margin:-14px 0 0 -14px; }
-.m-cur.m-hide{ opacity:0; }`;
+.m-cur.m-hide{ opacity:0; }
+/* While a modal is open, hide the custom cursor and restore the native one so it's always visible */
+html.m-modal-open .m-cur{ display:none !important; }
+html.m-modal-open, html.m-modal-open *{ cursor:auto !important; }
+html.m-modal-open a, html.m-modal-open button, html.m-modal-open label, html.m-modal-open [data-method], html.m-modal-open [role="button"]{ cursor:pointer !important; }
+html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
 
   function initCursor() {
     if (!window.matchMedia) return;
@@ -706,12 +711,14 @@
     const ov = document.querySelector("[data-auth-overlay]"); if (!ov) return;
     lastFocus = document.activeElement;
     ov.classList.remove("hidden"); ov.classList.add("flex");
+    document.documentElement.classList.add("m-modal-open");
     lockScroll(true);
     const f = ov.querySelector("[data-email]"); if (f) setTimeout(() => f.focus(), 40);
   }
   function closeAuth() {
     const ov = document.querySelector("[data-auth-overlay]"); if (!ov) return;
     ov.classList.add("hidden"); ov.classList.remove("flex");
+    document.documentElement.classList.remove("m-modal-open");
     lockScroll(false);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
