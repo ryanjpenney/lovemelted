@@ -278,7 +278,10 @@
         </div>
       </div>
       <a href="locations.html" aria-label="Search"><svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-      <a href="about.html#contact" aria-label="Account"><svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></a>
+      <button type="button" data-account aria-label="Account" class="relative flex items-center">
+        <svg data-account-icon class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+        <span data-account-initial class="hidden w-[26px] h-[26px] rounded-full bg-black text-white oswald text-[12px] font-medium items-center justify-center leading-none"></span>
+      </button>
       <a href="merch.html" class="relative" aria-label="Cart">
         <svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
         <span class="absolute -bottom-1 -right-1.5 bg-white text-black text-[10px] oswald font-medium w-4 h-4 rounded-full border border-black flex items-center justify-center leading-none">0</span>
@@ -537,6 +540,303 @@
     gate.querySelector(".g-no").addEventListener("click", () => gate.classList.add("denied"));
   }
 
+  /* ============================================================
+     AUTH + ONBOARDING
+     Front-end is fully functional in "demo mode" (no apiBase set):
+     it captures email/phone + consent and persists a local session.
+     Set AUTH_CONFIG.apiBase + client IDs to connect a real backend
+     (OAuth verification + Mailchimp/Klaviyo + Twilio/Attentive).
+     Secret keys must live on the backend, never here. See INTEGRATION.md.
+     ============================================================ */
+  const AUTH_CONFIG = {
+    apiBase: "",          // e.g. "https://api.lovemelted.com" — empty = demo mode (no network calls)
+    googleClientId: "",   // Google OAuth Web client ID (public)
+    appleClientId: "",    // Apple Services ID (public)
+    endpoints: {
+      google: "/auth/google", apple: "/auth/apple",
+      phoneStart: "/auth/phone/start", phoneVerify: "/auth/phone/verify",
+      subscribeEmail: "/marketing/email/subscribe",  // -> Mailchimp/Klaviyo
+      subscribeSms: "/marketing/sms/subscribe"        // -> Twilio/Attentive
+    }
+  };
+  const USER_KEY = "melted_user";
+  function getUser() { try { return JSON.parse(localStorage.getItem(USER_KEY) || "null"); } catch (e) { return null; } }
+  function saveUser(u) { try { u ? localStorage.setItem(USER_KEY, JSON.stringify(u)) : localStorage.removeItem(USER_KEY); } catch (e) {} refreshAccountUI(); }
+
+  function api(path, body) {
+    if (!AUTH_CONFIG.apiBase) return Promise.resolve({ demo: true });   // demo mode: no-op
+    return fetch(AUTH_CONFIG.apiBase + path, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body)
+    }).then(r => r.json());
+  }
+
+  // Push contact + consent to marketing platforms (via backend).
+  function syncMarketing(u) {
+    const jobs = [];
+    if (u.email && u.emailOptIn) jobs.push(api(AUTH_CONFIG.endpoints.subscribeEmail,
+      { email: u.email, source: "site_signup", consent: true, tags: ["website-signup"] }));
+    if (u.phone && u.smsOptIn) jobs.push(api(AUTH_CONFIG.endpoints.subscribeSms,
+      { phone: u.phone, source: "site_signup", consent: true, consentText: "Promotional SMS opt-in at lovemelted.com" }));
+    return Promise.allSettled(jobs);
+  }
+
+  function completeAuth(data) {
+    const u = Object.assign({ method: "email", email: "", phone: "", name: "", emailOptIn: false, smsOptIn: false, ts: Date.now() }, data);
+    saveUser(u);
+    syncMarketing(u);
+    closeAuth();
+    flash(u.name ? `Welcome, ${u.name.split(" ")[0]}.` : "You're in. Welcome to Melted.");
+  }
+
+  function initials(u) {
+    if (u.name) return u.name.trim()[0].toUpperCase();
+    if (u.email) return u.email.trim()[0].toUpperCase();
+    if (u.phone) return "#";
+    return "M";
+  }
+
+  function refreshAccountUI() {
+    const u = getUser();
+    document.querySelectorAll("[data-account]").forEach(btn => {
+      const icon = btn.querySelector("[data-account-icon]");
+      const init = btn.querySelector("[data-account-initial]");
+      if (!icon || !init) return;
+      if (u) { icon.classList.add("hidden"); init.classList.remove("hidden"); init.classList.add("flex"); init.textContent = initials(u); }
+      else { icon.classList.remove("hidden"); init.classList.add("hidden"); init.classList.remove("flex"); init.textContent = ""; }
+    });
+  }
+
+  function flash(msg) {
+    let t = document.querySelector("[data-melted-toast]");
+    if (!t) { t = document.createElement("div"); t.setAttribute("data-melted-toast", "");
+      t.className = "fixed bottom-6 left-1/2 -translate-x-1/2 z-[100001] bg-black text-white oswald text-[13px] tracking-[0.06em] uppercase px-6 py-3 shadow-xl opacity-0 transition-opacity duration-300";
+      document.body.appendChild(t); }
+    t.textContent = msg; t.classList.remove("opacity-0");
+    clearTimeout(t._h); t._h = setTimeout(() => t.classList.add("opacity-0"), 3200);
+  }
+
+  /* ---- Modal markup ---- */
+  function authModalHTML() {
+    const consentNote = `<p class="garamond text-[12px] text-[#999] leading-[1.45] mt-4">By continuing you agree to our <a href="#" class="underline">Terms</a> &amp; <a href="#" class="underline">Privacy Policy</a>. You must be 21+.</p>`;
+    return `
+<div data-auth-overlay class="fixed inset-0 z-[100000] hidden items-center justify-center bg-black/60 px-4">
+  <div data-auth-card class="bg-white w-full max-w-[420px] max-h-[94vh] overflow-y-auto relative" role="dialog" aria-modal="true" aria-label="Sign in">
+    <button data-auth-close aria-label="Close" class="absolute top-4 right-4 text-[#999] hover:text-black text-[22px] leading-none">&times;</button>
+    <div class="px-8 pt-10 pb-9">
+      <img src="assets/melted/logo_black.png" alt="Melted" class="h-[26px] mx-auto">
+      <h2 data-auth-title class="caslon text-[26px] text-black text-center leading-[1.15] mt-6">Sign in or join Melted</h2>
+      <p data-auth-sub class="garamond text-[15px] text-[#777] text-center mt-2">Unlock drops, flash sales, and member perks.</p>
+
+      <!-- Social -->
+      <div class="mt-7 space-y-3">
+        <button type="button" data-sso="google" class="w-full flex items-center justify-center gap-3 border border-[#dcdcdc] hover:border-black transition-colors py-3 oswald text-[13px] tracking-[0.04em] uppercase">
+          <svg class="w-[18px] h-[18px]" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.6 2.4 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.2l7.8 6.1C12.2 13.4 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.6c0-1.6-.1-3.1-.4-4.6H24v9.1h12.4c-.5 2.9-2.1 5.3-4.6 7l7.1 5.5c4.2-3.9 6.2-9.6 6.2-17z"/><path fill="#FBBC05" d="M10.3 28.7c-.5-1.4-.8-2.9-.8-4.7s.3-3.3.8-4.7l-7.8-6.1C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.8l7.8-6.1z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.1-5.5c-2 1.3-4.6 2.1-7.9 2.1-6.4 0-11.8-3.9-13.7-9.4l-7.8 6.1C6.4 42.6 14.6 48 24 48z"/></svg>
+          Continue with Google
+        </button>
+        <button type="button" data-sso="apple" class="w-full flex items-center justify-center gap-3 bg-black text-white hover:bg-[#222] transition-colors py-3 oswald text-[13px] tracking-[0.04em] uppercase">
+          <svg class="w-[17px] h-[17px]" fill="currentColor" viewBox="0 0 24 24"><path d="M17.05 12.04c-.03-2.6 2.13-3.85 2.22-3.91-1.21-1.77-3.1-2.01-3.77-2.04-1.6-.16-3.13.94-3.94.94-.82 0-2.07-.92-3.41-.9-1.75.03-3.37 1.02-4.27 2.59-1.83 3.17-.47 7.85 1.31 10.42.87 1.26 1.9 2.67 3.26 2.62 1.31-.05 1.8-.85 3.39-.85 1.57 0 2.02.85 3.4.82 1.41-.02 2.3-1.28 3.16-2.55.99-1.46 1.4-2.88 1.42-2.95-.03-.01-2.72-1.04-2.75-4.13zM14.53 3.9c.72-.88 1.21-2.09 1.07-3.3-1.04.04-2.3.69-3.04 1.56-.66.77-1.25 2.01-1.09 3.19 1.16.09 2.34-.59 3.06-1.45z"/></svg>
+          Continue with Apple
+        </button>
+        <p data-sso-note class="garamond text-[13px] text-[#9a6b1f] text-center hidden"></p>
+      </div>
+
+      <div class="flex items-center gap-3 my-6"><span class="h-px bg-[#e3e3e3] flex-1"></span><span class="oswald text-[11px] tracking-[0.12em] uppercase text-[#aaa]">or</span><span class="h-px bg-[#e3e3e3] flex-1"></span></div>
+
+      <!-- Method tabs -->
+      <div class="grid grid-cols-2 mb-5">
+        <button type="button" data-method="email" class="oswald text-[12px] tracking-[0.08em] uppercase py-2 border-b-2 border-black">Email</button>
+        <button type="button" data-method="phone" class="oswald text-[12px] tracking-[0.08em] uppercase py-2 border-b-2 border-transparent text-[#999]">Phone</button>
+      </div>
+
+      <!-- Email -->
+      <form data-email-form>
+        <input data-email type="email" autocomplete="email" placeholder="you@email.com" class="w-full border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[15px] garamond">
+        <label class="flex items-start gap-3 mt-4 cursor-pointer">
+          <input data-email-optin type="checkbox" class="mt-1 w-4 h-4 accent-black shrink-0">
+          <span class="garamond text-[13px] text-[#555] leading-[1.45]">Email me Melted news, new drops, and members-only offers.</span>
+        </label>
+        <button type="submit" class="w-full bg-black text-white oswald text-[12px] font-medium tracking-[0.1em] uppercase py-3 mt-5 hover:bg-[#333] transition-colors">Continue with email</button>
+      </form>
+
+      <!-- Phone -->
+      <form data-phone-form class="hidden">
+        <div data-phone-step>
+          <input data-phone type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567" class="w-full border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[15px] garamond">
+          <label class="flex items-start gap-3 mt-4 cursor-pointer">
+            <input data-sms-optin type="checkbox" class="mt-1 w-4 h-4 accent-black shrink-0">
+            <span class="garamond text-[13px] text-[#555] leading-[1.45]">Text me flash-sale alerts &amp; promos. Msg &amp; data rates may apply, recurring msgs; reply STOP to cancel, HELP for help.</span>
+          </label>
+          <button type="submit" class="w-full bg-black text-white oswald text-[12px] font-medium tracking-[0.1em] uppercase py-3 mt-5 hover:bg-[#333] transition-colors">Text me a code</button>
+        </div>
+        <div data-otp-step class="hidden">
+          <p class="garamond text-[14px] text-[#555] text-center">Enter the 6-digit code we sent to <span data-otp-dest class="text-black"></span>.</p>
+          <input data-otp inputmode="numeric" maxlength="6" placeholder="------" class="w-full text-center tracking-[0.5em] border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[20px] oswald mt-3">
+          <p data-otp-hint class="garamond text-[12px] text-[#999] text-center mt-2"></p>
+          <button type="button" data-otp-verify class="w-full bg-black text-white oswald text-[12px] font-medium tracking-[0.1em] uppercase py-3 mt-4 hover:bg-[#333] transition-colors">Verify &amp; continue</button>
+        </div>
+      </form>
+
+      <p data-auth-msg class="garamond text-[13px] text-[#c0392b] text-center min-h-[18px] mt-3"></p>
+      ${consentNote}
+    </div>
+  </div>
+</div>`;
+  }
+
+  /* ---- Account popover (logged-in) ---- */
+  function accountMenuHTML(u) {
+    const row = (label, on, key) =>
+      `<div class="flex items-center justify-between py-2">
+        <span class="garamond text-[14px] text-[#555]">${label}</span>
+        <button type="button" data-toggle="${key}" class="oswald text-[10px] tracking-[0.08em] uppercase border px-2 py-1 ${on ? "bg-black text-white border-black" : "border-[#ccc] text-[#999]"}">${on ? "On" : "Off"}</button>
+      </div>`;
+    return `<div class="px-5 py-5">
+      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#999]">Signed in</p>
+      <p class="garamond text-[16px] text-black mt-1 break-words">${u.email || u.phone || "Melted member"}</p>
+      <div class="border-t border-[#eee] mt-3 pt-2">
+        ${row("Email newsletter", !!u.emailOptIn, "emailOptIn")}
+        ${row("SMS promos", !!u.smsOptIn, "smsOptIn")}
+      </div>
+      <button type="button" data-logout class="w-full oswald text-[11px] tracking-[0.08em] uppercase border border-black py-2.5 mt-3 hover:bg-black hover:text-white transition-colors">Log out</button>
+    </div>`;
+  }
+
+  let lastFocus = null;
+  function openAuth() {
+    const ov = document.querySelector("[data-auth-overlay]"); if (!ov) return;
+    lastFocus = document.activeElement;
+    ov.classList.remove("hidden"); ov.classList.add("flex");
+    lockScroll(true);
+    const f = ov.querySelector("[data-email]"); if (f) setTimeout(() => f.focus(), 40);
+  }
+  function closeAuth() {
+    const ov = document.querySelector("[data-auth-overlay]"); if (!ov) return;
+    ov.classList.add("hidden"); ov.classList.remove("flex");
+    lockScroll(false);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function setupAuth() {
+    if (!document.querySelector("[data-auth-overlay]")) {
+      const wrap = document.createElement("div"); wrap.innerHTML = authModalHTML();
+      document.body.appendChild(wrap.firstElementChild);
+    }
+    const ov = document.querySelector("[data-auth-overlay]");
+    const msg = ov.querySelector("[data-auth-msg]");
+    const setMsg = (t, ok) => { msg.textContent = t || ""; msg.className = "garamond text-[13px] text-center min-h-[18px] mt-3 " + (ok ? "text-[#3a7d44]" : "text-[#c0392b]"); };
+
+    // Account button: open modal (logged out) or account menu (logged in)
+    document.querySelectorAll("[data-account]").forEach(btn => {
+      if (btn._wired) return; btn._wired = true;
+      btn.addEventListener("click", e => {
+        e.preventDefault(); e.stopPropagation();
+        if (getUser()) toggleAccountMenu(btn); else openAuth();
+      });
+    });
+
+    ov.querySelector("[data-auth-close]").addEventListener("click", closeAuth);
+    ov.addEventListener("mousedown", e => { if (e.target === ov) closeAuth(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && ov.classList.contains("flex")) closeAuth(); });
+
+    // Method tabs
+    const tabs = ov.querySelectorAll("[data-method]");
+    const emailForm = ov.querySelector("[data-email-form]");
+    const phoneForm = ov.querySelector("[data-phone-form]");
+    tabs.forEach(t => t.addEventListener("click", () => {
+      tabs.forEach(x => { x.classList.remove("border-black"); x.classList.add("border-transparent", "text-[#999]"); });
+      t.classList.add("border-black"); t.classList.remove("border-transparent", "text-[#999]");
+      const m = t.dataset.method;
+      emailForm.classList.toggle("hidden", m !== "email");
+      phoneForm.classList.toggle("hidden", m !== "phone");
+      setMsg("");
+    }));
+
+    // Social
+    ov.querySelectorAll("[data-sso]").forEach(b => b.addEventListener("click", () => ssoSignIn(b.dataset.sso, ov, setMsg)));
+
+    // Email submit
+    emailForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const email = ov.querySelector("[data-email]").value.trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return setMsg("Enter a valid email address.");
+      completeAuth({ method: "email", email, emailOptIn: ov.querySelector("[data-email-optin]").checked });
+    });
+
+    // Phone -> OTP
+    const phoneStep = ov.querySelector("[data-phone-step]");
+    const otpStep = ov.querySelector("[data-otp-step]");
+    phoneForm.addEventListener("submit", e => {
+      e.preventDefault();
+      const phone = normalizePhone(ov.querySelector("[data-phone]").value);
+      if (!phone) return setMsg("Enter a valid 10-digit phone number.");
+      setMsg("");
+      api(AUTH_CONFIG.endpoints.phoneStart, { phone });
+      ov.querySelector("[data-otp-dest]").textContent = phone;
+      ov.querySelector("[data-otp-hint]").textContent = AUTH_CONFIG.apiBase ? "" : "Demo mode — enter any 6 digits.";
+      phoneStep.classList.add("hidden"); otpStep.classList.remove("hidden");
+      ov._pendingPhone = phone;
+      ov._pendingSms = ov.querySelector("[data-sms-optin]").checked;
+      setTimeout(() => ov.querySelector("[data-otp]").focus(), 40);
+    });
+    ov.querySelector("[data-otp-verify]").addEventListener("click", () => {
+      const code = ov.querySelector("[data-otp]").value.trim();
+      if (!/^\d{6}$/.test(code)) return setMsg("Enter the 6-digit code.");
+      const finish = () => completeAuth({ method: "phone", phone: ov._pendingPhone, smsOptIn: ov._pendingSms });
+      if (AUTH_CONFIG.apiBase) {
+        api(AUTH_CONFIG.endpoints.phoneVerify, { phone: ov._pendingPhone, code })
+          .then(r => r && r.ok ? finish() : setMsg("That code didn't match. Try again."));
+      } else finish();
+    });
+
+    refreshAccountUI();
+  }
+
+  function toggleAccountMenu(btn) {
+    let menu = btn.querySelector("[data-account-menu]");
+    if (menu) { menu.remove(); return; }
+    menu = document.createElement("div");
+    menu.setAttribute("data-account-menu", "");
+    menu.className = "absolute right-0 top-full mt-2 w-[260px] bg-white border border-[#e3e3e3] shadow-xl z-[100000] text-left";
+    menu.innerHTML = accountMenuHTML(getUser());
+    btn.appendChild(menu);
+    menu.addEventListener("click", e => e.stopPropagation());
+    menu.querySelectorAll("[data-toggle]").forEach(t => t.addEventListener("click", () => {
+      const u = getUser(); const k = t.dataset.toggle; u[k] = !u[k]; saveUser(u); syncMarketing(u);
+      menu.innerHTML = accountMenuHTML(u);
+      wireAccountMenu(btn, menu);
+    }));
+    menu.querySelector("[data-logout]").addEventListener("click", () => { saveUser(null); menu.remove(); flash("Logged out."); });
+    setTimeout(() => document.addEventListener("click", function h(ev) { if (!btn.contains(ev.target)) { menu.remove(); document.removeEventListener("click", h); } }), 0);
+  }
+  function wireAccountMenu(btn, menu) {
+    menu.querySelectorAll("[data-toggle]").forEach(t => t.addEventListener("click", () => {
+      const u = getUser(); const k = t.dataset.toggle; u[k] = !u[k]; saveUser(u); syncMarketing(u);
+      menu.innerHTML = accountMenuHTML(u); wireAccountMenu(btn, menu);
+    }));
+    menu.querySelector("[data-logout]").addEventListener("click", () => { saveUser(null); menu.remove(); flash("Logged out."); });
+  }
+
+  function ssoSignIn(provider, ov, setMsg) {
+    const note = ov.querySelector("[data-sso-note]");
+    const id = provider === "google" ? AUTH_CONFIG.googleClientId : AUTH_CONFIG.appleClientId;
+    if (!id || !AUTH_CONFIG.apiBase) {
+      note.textContent = (provider === "google" ? "Google" : "Apple") + " sign-in activates once OAuth is configured. For now, continue with email or phone.";
+      note.classList.remove("hidden");
+      return;
+    }
+    // Configured path: backend exchanges the provider token, returns the verified profile.
+    // (Google Identity Services / AppleID JS would be initialized here with `id`.)
+    api(AUTH_CONFIG.endpoints[provider], { /* token from provider SDK */ })
+      .then(r => { if (r && r.email) completeAuth({ method: provider, email: r.email, name: r.name || "", emailOptIn: true }); });
+  }
+
+  function normalizePhone(v) {
+    const d = (v || "").replace(/\D/g, "");
+    if (d.length === 10) return "+1" + d;
+    if (d.length === 11 && d[0] === "1") return "+" + d;
+    return "";
+  }
+
   /* ---------- Boot ---------- */
   function mount() {
     if (!document.getElementById("m-cursor-style")) {
@@ -549,11 +849,13 @@
     const f = document.querySelector("[data-melted-footer]");
     if (f) f.innerHTML = footerHTML();
     wireHeader();
+    setupAuth();
     initAgeGate();
   }
 
   // Expose for page scripts
-  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, getZip, setZip, validZip, haversine };
+  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, getZip, setZip, validZip, haversine,
+    AUTH_CONFIG, getUser, openAuth, syncMarketing };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
