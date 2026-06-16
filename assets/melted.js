@@ -34,11 +34,23 @@
     { name: "Curaleaf Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
     { name: "Curaleaf Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", state: "AZ", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
     { name: "Curaleaf Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", state: "AZ", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" },
-    // --- Maryland (NEW — addresses are representative placeholders; coordinates are real) ---
-    { name: "Curaleaf Gaithersburg",     addr: "9128 Rothbury Dr, Gaithersburg, MD 20886",      zip: "20886", state: "MD", lat: 39.1788, lng: -77.2030, phone: "(301) 990-0420" },
-    { name: "Curaleaf Reisterstown",     addr: "11717 Reisterstown Rd, Reisterstown, MD 21136", zip: "21136", state: "MD", lat: 39.4690, lng: -76.8280, phone: "(410) 526-0700" },
-    { name: "Curaleaf Frederick",        addr: "5754 Buckeystown Pike, Frederick, MD 21704",    zip: "21704", state: "MD", lat: 39.3590, lng: -77.4080, phone: "(240) 651-0900" },
-    { name: "Curaleaf Columbia",         addr: "6480 Dobbin Rd, Columbia, MD 21045",            zip: "21045", state: "MD", lat: 39.2037, lng: -76.8120, phone: "(410) 992-7100" }
+    // --- Maryland (authorized retail partners; city-level location) ---
+    { name: "Columbia Care",                  addr: "Chevy Chase, MD",  zip: "20815", state: "MD", lat: 38.9686, lng: -77.0780, phone: "" },
+    { name: "gLeaf Wellness Solutions",       addr: "Rockville, MD",    zip: "20850", state: "MD", lat: 39.0840, lng: -77.1528, phone: "" },
+    { name: "gLeaf Wellness / Columbia Care", addr: "Frederick, MD",    zip: "21701", state: "MD", lat: 39.4143, lng: -77.4105, phone: "" },
+    { name: "Nirvana Center Maryland",        addr: "Rosedale, MD",     zip: "21237", state: "MD", lat: 39.3271, lng: -76.5094, phone: "" },
+    { name: "Jenny's of Maryland",            addr: "Lanham, MD",       zip: "20706", state: "MD", lat: 38.9668, lng: -76.8638, phone: "" },
+    { name: "Summit Wellness",                addr: "Catonsville, MD",  zip: "21228", state: "MD", lat: 39.2721, lng: -76.7319, phone: "" },
+    { name: "Waave Cannabis",                 addr: "Greenbelt, MD",    zip: "20770", state: "MD", lat: 39.0046, lng: -76.8755, phone: "" },
+    { name: "Elevated Dispo",                 addr: "Salisbury, MD",    zip: "21801", state: "MD", lat: 38.3607, lng: -75.5994, phone: "" },
+    { name: "Kent Reserve",                   addr: "Millington, MD",   zip: "21651", state: "MD", lat: 39.2590, lng: -75.8438, phone: "" },
+    { name: "Chesapeake Apothecary",          addr: "White Plains, MD", zip: "20695", state: "MD", lat: 38.5893, lng: -76.9783, phone: "" },
+    { name: "Chesacanna",                     addr: "Cockeysville, MD", zip: "21030", state: "MD", lat: 39.4812, lng: -76.6433, phone: "" },
+    { name: "Coastal Cure",                   addr: "Delmar, MD",       zip: "21875", state: "MD", lat: 38.4563, lng: -75.5780, phone: "" },
+    { name: "Greenwave",                      addr: "Solomons, MD",     zip: "20688", state: "MD", lat: 38.3193, lng: -76.4563, phone: "" },
+    { name: "Bloom",                          addr: "Germantown, MD",   zip: "20874", state: "MD", lat: 39.1732, lng: -77.2716, phone: "" },
+    { name: "Hi Tides",                       addr: "Ocean City, MD",   zip: "21842", state: "MD", lat: 38.3365, lng: -75.0849, phone: "" },
+    { name: "ReLeaf Shop",                    addr: "Baltimore, MD",    zip: "21201", state: "MD", lat: 39.2904, lng: -76.6122, phone: "" }
   ];
 
   /* ---------- ZIP centroid lookup (AZ + dispensary zips) ----------
@@ -97,8 +109,13 @@
     "21136":[39.469,-76.828],"21208":[39.390,-76.720],"21215":[39.350,-76.680],
     "21201":[39.295,-76.620],"21230":[39.270,-76.610],"21042":[39.265,-76.910],
     "21044":[39.205,-76.880],"21045":[39.204,-76.812],"21046":[39.170,-76.840],
-    "21704":[39.359,-77.408],"21703":[39.395,-77.450],"21701":[39.430,-77.400],
-    "21702":[39.470,-77.430],"21401":[38.975,-76.500],"21740":[39.640,-77.720]
+    "21704":[39.359,-77.408],"21703":[39.395,-77.450],"21701":[39.414,-77.411],
+    "21702":[39.470,-77.430],"21401":[38.975,-76.500],"21740":[39.640,-77.720],
+    // Maryland retail-partner cities
+    "20815":[38.969,-77.078],"21237":[39.327,-76.509],"20706":[38.967,-76.864],
+    "21228":[39.272,-76.732],"21801":[38.361,-75.599],"21651":[39.259,-75.844],
+    "20695":[38.589,-76.978],"21030":[39.481,-76.643],"21875":[38.456,-75.578],
+    "20688":[38.319,-76.456],"20874":[39.173,-77.272],"21842":[38.337,-75.085]
   };
 
   /* ---------- Product catalog ---------- */

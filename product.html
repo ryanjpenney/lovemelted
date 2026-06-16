@@ -154,7 +154,7 @@
           </div>
           <div class="text-right shrink-0">
             <p class="oswald text-[15px] font-medium">${s.dist.toFixed(1)}<span class="text-[11px] text-[#999]"> mi</span></p>
-            <a href="https://maps.google.com/?q=${encodeURIComponent(s.addr)}" target="_blank" rel="noopener" class="oswald text-[10px] tracking-[0.06em] uppercase border-b border-black hover:opacity-60">Directions</a>
+            <a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" class="oswald text-[10px] tracking-[0.06em] uppercase border-b border-black hover:opacity-60">Directions</a>
           </div>
         </div>`).join("");
     });

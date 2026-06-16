@@ -200,9 +200,9 @@
         <div>
           <p class="oswald text-[16px] font-medium tracking-[0.02em] uppercase text-black">${s.name}${tag}${stateTag}</p>
           <p class="garamond text-[16px] text-[#666] mt-[6px]">${s.addr}</p>
-          <p class="garamond text-[15px] text-[#999] mt-[2px]"><a href="tel:${s.phone.replace(/\D/g,"")}" data-stop class="hover:text-black">${s.phone}</a></p>
+          ${s.phone ? `<p class="garamond text-[15px] text-[#999] mt-[2px]"><a href="tel:${s.phone.replace(/\D/g,"")}" data-stop class="hover:text-black">${s.phone}</a></p>` : ""}
           <div class="mt-[10px] flex gap-4">
-            <a href="https://maps.google.com/?q=${encodeURIComponent(s.addr)}" target="_blank" rel="noopener" data-stop class="oswald text-[10px] tracking-[0.08em] uppercase border-b border-black hover:opacity-60">Directions</a>
+            <a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" data-stop class="oswald text-[10px] tracking-[0.08em] uppercase border-b border-black hover:opacity-60">Directions</a>
             <button type="button" data-set="${s.zip}" data-stop class="oswald text-[10px] tracking-[0.08em] uppercase text-[#999] hover:text-black border-b border-transparent hover:border-black">Set as my store</button>
           </div>
         </div>
