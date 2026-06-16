@@ -419,7 +419,7 @@
   html.m-cursor-on, html.m-cursor-on a, html.m-cursor-on button, html.m-cursor-on .thumb, html.m-cursor-on [data-hover]{ cursor:none !important; }
   html.m-cursor-on input, html.m-cursor-on textarea, html.m-cursor-on select{ cursor:auto !important; }
 }
-.m-cur{ position:fixed; left:0; top:0; z-index:99999; pointer-events:none; border-radius:9999px; mix-blend-mode:difference; will-change:transform; }
+.m-cur{ position:fixed; left:0; top:0; z-index:2147483647; pointer-events:none; border-radius:9999px; mix-blend-mode:difference; will-change:transform; }
 .m-cur-dot{ width:7px; height:7px; margin:-3.5px 0 0 -3.5px; background:#fff; }
 .m-cur-ring{ width:36px; height:36px; margin:-18px 0 0 -18px; border:1.5px solid #fff;
   transition:width .22s ease, height .22s ease, margin .22s ease, opacity .2s ease, background-color .22s ease; }
