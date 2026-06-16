@@ -803,24 +803,62 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
     if (menu) { menu.remove(); return; }
     menu = document.createElement("div");
     menu.setAttribute("data-account-menu", "");
-    menu.className = "absolute right-0 top-full mt-2 w-[260px] bg-white border border-[#e3e3e3] shadow-xl z-[100000] text-left";
+    menu.className = "absolute right-0 top-full mt-2 w-[270px] bg-white border border-[#e3e3e3] shadow-xl z-[100000] text-left";
     menu.innerHTML = accountMenuHTML(getUser());
     btn.appendChild(menu);
     menu.addEventListener("click", e => e.stopPropagation());
-    menu.querySelectorAll("[data-toggle]").forEach(t => t.addEventListener("click", () => {
-      const u = getUser(); const k = t.dataset.toggle; u[k] = !u[k]; saveUser(u); syncMarketing(u);
-      menu.innerHTML = accountMenuHTML(u);
-      wireAccountMenu(btn, menu);
-    }));
-    menu.querySelector("[data-logout]").addEventListener("click", () => { saveUser(null); menu.remove(); flash("Logged out."); });
+    bindMenu(btn, menu);
     setTimeout(() => document.addEventListener("click", function h(ev) { if (!btn.contains(ev.target)) { menu.remove(); document.removeEventListener("click", h); } }), 0);
   }
-  function wireAccountMenu(btn, menu) {
+
+  // Mini phone-capture step shown when a member turns SMS on without a number on file.
+  function phonePromptHTML() {
+    return `<div class="px-5 py-5">
+      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#999]">Add a mobile number</p>
+      <p class="garamond text-[14px] text-[#555] leading-[1.45] mt-1">Add a number to get flash-sale alerts &amp; promos.</p>
+      <input data-acct-phone type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567" class="w-full border border-[#d4d4d4] focus:border-black outline-none px-3 py-2.5 text-[14px] garamond mt-3">
+      <p data-acct-phone-msg class="garamond text-[12px] text-[#c0392b] min-h-[15px] mt-1"></p>
+      <p class="garamond text-[11px] text-[#999] leading-[1.4]">By saving you agree to receive recurring automated promotional texts from Melted at this number. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help.</p>
+      <div class="flex gap-2 mt-3">
+        <button type="button" data-acct-phone-save class="flex-1 oswald text-[11px] tracking-[0.08em] uppercase bg-black text-white py-2.5 hover:bg-[#333] transition-colors">Save &amp; turn on</button>
+        <button type="button" data-acct-phone-cancel class="oswald text-[11px] tracking-[0.08em] uppercase border border-[#ccc] px-3 py-2.5 hover:border-black transition-colors">Cancel</button>
+      </div>
+    </div>`;
+  }
+
+  function bindMenu(btn, menu) {
     menu.querySelectorAll("[data-toggle]").forEach(t => t.addEventListener("click", () => {
-      const u = getUser(); const k = t.dataset.toggle; u[k] = !u[k]; saveUser(u); syncMarketing(u);
-      menu.innerHTML = accountMenuHTML(u); wireAccountMenu(btn, menu);
+      const u = getUser(); const k = t.dataset.toggle;
+      // Turning SMS ON without a number -> capture number + consent first, then flip on.
+      if (k === "smsOptIn" && !u.smsOptIn && !u.phone) {
+        menu.innerHTML = phonePromptHTML();
+        bindPhonePrompt(btn, menu);
+        setTimeout(() => { const i = menu.querySelector("[data-acct-phone]"); if (i) i.focus(); }, 30);
+        return;
+      }
+      u[k] = !u[k]; saveUser(u); syncMarketing(u);
+      menu.innerHTML = accountMenuHTML(u); bindMenu(btn, menu);
     }));
-    menu.querySelector("[data-logout]").addEventListener("click", () => { saveUser(null); menu.remove(); flash("Logged out."); });
+    const lo = menu.querySelector("[data-logout]");
+    if (lo) lo.addEventListener("click", () => { saveUser(null); menu.remove(); flash("Logged out."); });
+  }
+
+  function bindPhonePrompt(btn, menu) {
+    const input = menu.querySelector("[data-acct-phone]");
+    const msg = menu.querySelector("[data-acct-phone-msg]");
+    const cancel = () => { menu.innerHTML = accountMenuHTML(getUser()); bindMenu(btn, menu); };  // smsOptIn left off
+    const save = () => {
+      const phone = normalizePhone(input.value);
+      if (!phone) { msg.textContent = "Enter a valid 10-digit mobile number."; return; }
+      const u = getUser();
+      u.phone = phone; u.smsOptIn = true; u.smsConsentTs = Date.now();
+      saveUser(u); syncMarketing(u);            // syncs to SMS platform only now that consent + number exist
+      menu.innerHTML = accountMenuHTML(u); bindMenu(btn, menu);
+      flash("Texts on — you're on the flash-sale list.");
+    };
+    menu.querySelector("[data-acct-phone-cancel]").addEventListener("click", cancel);
+    menu.querySelector("[data-acct-phone-save]").addEventListener("click", save);
+    input.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); save(); } });
   }
 
   function ssoSignIn(provider, ov, setMsg) {
