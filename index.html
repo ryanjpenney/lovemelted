@@ -3,172 +3,679 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>try{if(localStorage.getItem('melted_age_ok')!=='1')document.documentElement.setAttribute('data-gate','');}catch(e){}</script>
-<style>html[data-gate]{background:#0a0a0a}html[data-gate] body{visibility:hidden}</style>
-<title>Melted — Premium Live Rosin, Pre-Rolls &amp; Vapes</title>
-<meta name="description" content="Love Melted — premium, small-batch cannabis crafted in the Arizona desert. Live resin & live rosin gummies, infused pre-rolls, and Tigerstyle cartridges. Now in Arizona and Maryland, with Ohio coming soon.">
+<script>try{if(localStorage.getItem('melted_age_ok')==='1')document.documentElement.setAttribute('data-verified','');if(sessionStorage.getItem('melted_intro_seen')==='1')document.documentElement.setAttribute('data-seen','');}catch(e){}</script>
+<title>Melted — Premium Cannabis, Crafted for Everyone</title>
+<meta name="description" content="Love Melted — premium, consistent cannabis built for every walk of life. High-quality gummies, infused pre-rolls, and Tigerstyle cartridges. Born in Arizona, now at dispensaries across Arizona and Maryland, with Ohio coming soon.">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&family=Archivo+Black&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0a0a0a', bone: '#f1f0ea', paper: '#f6f6f4', mist: '#fafafa',
+          signal: '#c0392b',
+        },
+        fontFamily: {
+          oswald: ['Oswald', 'sans-serif'],
+          garamond: ['EB Garamond', 'serif'],
+          caslon: ['Libre Caslon Text', 'serif'],
+          heavy: ['Archivo Black', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+
 <style>
-  .oswald { font-family: 'Oswald', sans-serif; }
-  .garamond { font-family: 'EB Garamond', serif; }
-  .caslon { font-family: 'Libre Caslon Text', serif; }
-  body { font-family: 'EB Garamond', serif; }
+  :root{ --swirl:url('assets/melted/swirl_strip.jpg'); }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'EB Garamond',serif; background:#000; color:#0a0a0a; overflow-x:hidden; }
+  ::selection{ background:#0a0a0a; color:#fff; }
+
+  /* ---------- Inverting custom cursor (desktop, fine pointer only) ---------- */
+  .cursor,.cursor-dot{ display:none; }
+  @media (hover:hover) and (pointer:fine){
+    html.has-cursor, html.has-cursor *{ cursor:none !important; }
+    .cursor{ display:block; position:fixed; top:0; left:0; width:34px; height:34px; border:1px solid #fff;
+      border-radius:50%; mix-blend-mode:difference; pointer-events:none; z-index:99999;
+      transform:translate3d(-50%,-50%,0); transition:width .28s cubic-bezier(.2,.7,.2,1), height .28s cubic-bezier(.2,.7,.2,1), background .28s, border-color .28s; will-change:transform; }
+    .cursor-dot{ display:block; position:fixed; top:0; left:0; width:5px; height:5px; background:#fff;
+      border-radius:50%; mix-blend-mode:difference; pointer-events:none; z-index:99999; transform:translate3d(-50%,-50%,0); will-change:transform; }
+    .cursor.hot{ width:84px; height:84px; background:#fff; border-color:#fff; }
+  }
+
+  /* ---------- The living wordmark: type filled with the panning swirl ---------- */
+  .swirl-text{
+    background-image:var(--swirl);
+    background-size:130% auto; background-position:0% 50%; background-repeat:repeat;
+    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+    animation:swirlpan 16s linear infinite;
+  }
+  @keyframes swirlpan{ to{ background-position:260% 50%; } }
+
+  /* ---------- Full-bleed swirl backdrop drift + liquid wobble ---------- */
+  .swirl-bed{ background-image:var(--swirl); background-size:140% auto; background-position:center;
+    animation:beddrift 40s ease-in-out infinite alternate; }
+  @keyframes beddrift{ 0%{ background-position:0% 40%; transform:scale(1.05); } 100%{ background-position:100% 60%; transform:scale(1.18); } }
+  html.motion .liquid{ filter:url(#liquid); }
+
+  /* ---------- Marquee ---------- */
+  .marquee{ display:flex; overflow:hidden; user-select:none; }
+  .marquee__track{ display:flex; flex:0 0 auto; min-width:100%; gap:0; animation:marq 28s linear infinite; }
+  .marquee:hover .marquee__track{ animation-play-state:paused; }
+  @keyframes marq{ to{ transform:translateX(-100%); } }
+  .marq-item{ font-family:'Oswald',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; padding:0 0; }
+  .marq-star{ color:#fff; }
+
+  /* ---------- Scroll reveals ---------- */
+  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 1s cubic-bezier(.16,.84,.3,1), transform 1s cubic-bezier(.16,.84,.3,1); }
+  .reveal.in{ opacity:1; transform:none; }
+  .line-mask{ display:block; overflow:hidden; }
+  .line-mask > span{ display:block; transform:translateY(110%); transition:transform 1.05s cubic-bezier(.16,.84,.3,1); }
+  .line-mask.in > span{ transform:none; }
+  .stagger > *{ transition-delay:var(--d,0ms); }
+
+  /* clip-reveal for imagery */
+  .clip{ clip-path:inset(0 0 100% 0); transition:clip-path 1.2s cubic-bezier(.16,.84,.3,1); }
+  .clip.in{ clip-path:inset(0 0 0 0); }
+
+  /* ---------- Buttons: flood invert ---------- */
+  .btn{ font-family:'Oswald',sans-serif; font-weight:500; text-transform:uppercase; letter-spacing:.1em;
+    font-size:12px; padding:16px 30px; display:inline-flex; align-items:center; gap:12px; position:relative;
+    border:1px solid currentColor; overflow:hidden; transition:color .35s; isolation:isolate; }
+  .btn::after{ content:""; position:absolute; inset:0; background:currentColor; transform:scaleX(0); transform-origin:left;
+    transition:transform .4s cubic-bezier(.7,0,.2,1); z-index:-1; }
+  .btn:hover::after{ transform:scaleX(1); }
+  .btn-solid{ background:#fff; color:#000; border-color:#fff; }
+  .btn-solid::after{ background:#0a0a0a; }
+  .btn-solid:hover{ color:#fff; }
+  .btn-ghost-dark{ color:#fff; }            /* on dark: invert to white fill */
+  .btn-ghost-dark:hover{ color:#000; }
+  .btn-ghost-light{ color:#0a0a0a; }        /* on light: invert to black fill */
+  .btn-ghost-light:hover{ color:#fff; }
+
+  /* link with drawing underline */
+  .ulink{ font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:.1em; position:relative; display:inline-block; }
+  .ulink::after{ content:""; position:absolute; left:0; bottom:-6px; height:2px; width:100%; background:#0a0a0a; transform:scaleX(1); transform-origin:right; transition:transform .45s cubic-bezier(.7,0,.2,1); }
+  .ulink:hover::after{ background:#0a0a0a; transform:scaleX(1); }
+  .ulink-dark::after{ background:#fff; }
+  .ulink-dark:hover::after{ background:#fff; }
+
+  /* nav draw-underline (starts hidden) */
+  .nlink{ position:relative; }
+  .nlink::after{ content:""; position:absolute; left:0; bottom:-7px; height:2px; width:100%; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .4s cubic-bezier(.7,0,.2,1); }
+  .nlink:hover::after{ transform:scaleX(1); }
+
+  /* product / merch cards */
+  .pcard{ position:relative; display:block; }
+  .pcard .frame{ position:relative; overflow:hidden; background:#f6f6f4; aspect-ratio:1/1; }
+  .pcard .frame .swirlhover{ position:absolute; inset:0; background-image:var(--swirl); background-size:200% auto; opacity:0; mix-blend-mode:multiply; transition:opacity .5s; }
+  .pcard:hover .frame .swirlhover{ opacity:.10; }
+  .pcard .frame img{ width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.16,.84,.3,1); }
+  .pcard:hover .frame img{ transform:scale(1.05); }
+  .pcard .num{ position:absolute; top:10px; left:12px; font-family:'Oswald',sans-serif; font-weight:600; font-size:12px; letter-spacing:.15em; color:#0a0a0a; mix-blend-mode:difference; z-index:2; }
+
+  .hairline{ border-color:#e3e3e3; }
+
+  /* manifesto big numerals — hollow outlined */
+  .bignum{ font-family:'Archivo Black',sans-serif; line-height:.82; color:transparent;
+    -webkit-text-stroke:1.5px rgba(255,255,255,.42); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .swirl-text,.swirl-bed{ animation:none; }
+    .swirl-bed{ transform:scale(1.1); }
+    .marquee__track{ animation:none; }
+    .reveal,.line-mask>span,.clip{ transition:none !important; }
+    .reveal{ opacity:1; transform:none; }
+    .line-mask>span{ transform:none; }
+    .clip{ clip-path:inset(0 0 0 0); }
+  }
+</style>
+
+<!-- ===== Tiger intro + age gate (first visit) ===== -->
+<style>
+  #m-intro,#m-gate{ position:fixed; inset:0; z-index:2147483600; background:#000; align-items:center; justify-content:center; }
+  #m-intro{ display:flex; overflow:hidden; }
+  #m-intro.gone{ display:none !important; }                          /* opener finished */
+  #m-intro.replay{ display:flex !important; opacity:1 !important; }  /* replay button forces it back */
+  #m-gate{ display:none; text-align:center; padding:28px; background:#0a0a0a; }
+  #m-gate.show{ display:flex; }
+  html[data-seen] #m-intro{ display:none; }                          /* already opened this session → skip the video */
+  html[data-seen]:not([data-verified]) #m-gate{ display:flex; }      /* re-entry while unverified → gate appears with no flash */
+  /* keep a normal pointer over the overlays even when the kinetic cursor is on */
+  #m-intro,#m-intro *,#m-gate,#m-gate *{ cursor:auto !important; }
+  #m-intro button,#m-gate button{ cursor:pointer !important; }
+
+  #m-intro video{ width:100%; height:100%; object-fit:cover; }
+  #m-intro.fade{ opacity:0; transition:opacity .55s ease; pointer-events:none; }
+  #m-intro .skip{ position:fixed; bottom:24px; right:26px; font-family:'Oswald',sans-serif; font-size:11px;
+    font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.72); background:transparent;
+    border:0; padding:8px 6px; opacity:0; transition:opacity .4s ease, color .2s ease; }
+  #m-intro .skip.show{ opacity:1; }
+  #m-intro .skip:hover{ color:#fff; }
+
+  #m-gate .g-inner{ max-width:480px; animation:m-fade .5s ease both; }
+  #m-gate .g-logo{ height:38px; margin:0 auto 38px; display:block; }
+  #m-gate h2{ font-family:'Libre Caslon Text',serif; color:#fff; font-size:40px; line-height:1.12; margin:0; }
+  #m-gate .g-sub{ font-family:'EB Garamond',serif; color:#bdbdbd; font-size:18px; margin:16px 0 0; }
+  #m-gate .g-btns{ display:flex; gap:14px; justify-content:center; margin-top:34px; }
+  #m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em;
+    text-transform:uppercase; padding:16px 38px; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
+  #m-gate .g-yes{ background:#fff; color:#000; border:1px solid #fff; }
+  #m-gate .g-yes:hover{ background:#1c1c1c; color:#fff; border-color:#1c1c1c; }
+  #m-gate .g-no{ background:transparent; color:#fff; border:1px solid #5a5a5a; }
+  #m-gate .g-no:hover{ border-color:#fff; }
+  #m-gate .g-legal{ font-family:'EB Garamond',serif; color:#666; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+  #m-gate .g-deny{ display:none; }
+  #m-gate.denied .g-ask{ display:none; }
+  #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
+  @keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  @media (max-width:600px){ #m-gate h2{ font-size:30px; } #m-gate .g-btns{ flex-direction:column; } }
+
+  /* Replay-intro control — sharp corners, hairline, legible over any section */
+  #m-replay{ position:fixed; left:20px; bottom:20px; z-index:50; display:inline-flex; align-items:center; gap:8px;
+    font-family:'Oswald',sans-serif; font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
+    color:#fff; background:rgba(10,10,10,.6); border:1px solid rgba(255,255,255,.38); padding:9px 13px;
+    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); cursor:pointer;
+    transition:color .2s ease, border-color .2s ease, background-color .2s ease; }
+  #m-replay:hover{ color:#fff; border-color:#fff; }
+  #m-replay svg{ width:13px; height:13px; display:block; }
+  @media (max-width:600px){ #m-replay span{ display:none; } #m-replay{ padding:10px; } }
 </style>
 </head>
-<body class="bg-transparent">
+<body class="bg-black">
 
-<!-- Continuous psychedelic wash (sits behind all content; pointer-events off) -->
-<div aria-hidden="true" class="fixed inset-0 -z-10 bg-white pointer-events-none"></div>
-<div aria-hidden="true" class="fixed inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern.jpg'); opacity:0.08;"></div>
-
-<div data-melted-header></div>
-
-<!-- Hero -->
-<section class="bg-[#0a0a0a] grid grid-cols-1 md:grid-cols-2 md:min-h-[660px]">
-  <div class="relative z-0 overflow-hidden px-[28px] md:px-[48px] pt-[62px] pb-[48px] flex flex-col justify-center order-2 md:order-1">
-    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern_light.png'); opacity:0.07;"></div>
-    <p class="oswald text-[#9a9a9a] text-[13px] font-medium tracking-[0.28em] uppercase mb-[16px]">Love Melted · Arizona</p>
-    <h1 class="-my-[18px] md:-my-[28px] -ml-[10px]"><img src="assets/melted/get-melted.gif" alt="Get Melted" class="w-[300px] md:w-[380px] select-none pointer-events-none"></h1>
-    <p class="oswald text-white font-light text-[28px] md:text-[40px] leading-[1.4] mt-[18px] max-w-[560px]">Premium cannabis, originally crafted in the Arizona desert.</p>
-    <p class="oswald text-[#bdbdbd] font-light text-[20px] md:text-[25px] mt-[26px]">Small-batch, solventless, and made for the moments that matter.</p>
-    <div class="flex flex-wrap gap-[16px] md:gap-[22px] mt-[42px]">
-      <a href="products.html" class="oswald bg-white text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[28px] py-[16px] inline-block hover:bg-[#e4ff32] transition-colors">Explore the Lineup</a>
-      <a href="locations.html" class="oswald text-white border border-white text-[12px] font-medium tracking-[0.1em] uppercase px-[28px] py-[15px] inline-block hover:bg-white hover:text-black transition-colors">Find a Dispensary</a>
+<!-- ===== First-visit tiger opener → "are you 21?" age gate ===== -->
+<div id="m-intro" aria-hidden="true">
+  <video id="m-intro-vid" muted autoplay playsinline preload="auto" poster="assets/melted/tiger_white.png">
+    <source src="assets/melted/tiger-opener.webm" type="video/webm">
+    <source src="assets/melted/tiger-opener.mp4" type="video/mp4">
+  </video>
+  <button type="button" class="skip" id="m-intro-skip">Skip Intro</button>
+</div>
+<div id="m-gate" role="dialog" aria-modal="true" aria-label="Age verification">
+  <div class="g-inner">
+    <div class="g-ask">
+      <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
+      <h2>Are you 21 years<br>or older?</h2>
+      <p class="g-sub">You must be of legal age to enter Melted.</p>
+      <div class="g-btns">
+        <button type="button" class="g-yes">Yes, I'm 21+</button>
+        <button type="button" class="g-no">No</button>
+      </div>
+      <p class="g-legal">By entering, you agree you are of legal age to view and purchase cannabis products in your state. For use only by adults 21+.</p>
+    </div>
+    <div class="g-deny">
+      <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
+      <h2>Come back<br>another time.</h2>
+      <p class="g-sub">You must be 21 or older to enter this site.</p>
+      <p class="g-legal">If you believe you reached this message in error, refresh the page and try again.</p>
     </div>
   </div>
-  <div class="order-1 md:order-2 min-h-[420px]">
-    <img src="assets/melted/hero_group.jpg" alt="Melted — models in Melted apparel against a blue sky" class="w-full h-full object-cover object-center">
-  </div>
-</section>
-
-<!-- The Lineup -->
-<section id="lineup" class="pt-[64px] text-center">
-  <h2 class="oswald text-[31px] font-medium tracking-[0.04em] uppercase text-black">The Lineup</h2>
-  <a href="locations.html" class="oswald inline-block text-[14px] font-medium tracking-[0.05em] uppercase text-black mt-[18px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Find a Dispensary</a>
-</section>
-
-<section class="max-w-[1275px] mx-auto px-4 md:px-0 mt-[52px]">
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-x-[24px] md:gap-x-[30px] gap-y-[48px]" data-home-products></div>
-</section>
-
-<!-- Pillars -->
-<section class="bg-[#f1f0ea]/70 mt-[84px] py-[72px]">
-  <div class="max-w-[1180px] mx-auto px-8 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-    <div>
-      <h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Potency</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Full-spectrum experiences that honor the whole plant — never thinned, never faked.</p>
-    </div>
-    <div>
-      <h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Quality</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Premium craft from harvest to extraction, in small batches with no shortcuts.</p>
-    </div>
-    <div>
-      <h3 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-black">Innovation</h3>
-      <p class="garamond text-[18px] text-[#555] leading-[1.6] mt-[16px]">Always pushing what cannabis can be — for people who expect more.</p>
-    </div>
-  </div>
-</section>
-
-<!-- Merch -->
-<section id="merch" class="mt-[84px] text-center">
-  <h2 class="oswald text-[28px] font-medium tracking-[0.04em] uppercase text-black">Melted Merch</h2>
-  <div class="mt-[14px]"><a href="merch.html" class="oswald inline-block text-[13px] font-light tracking-[0.08em] uppercase text-black border-b border-black pb-[8px] hover:opacity-60 transition-opacity">Shop the Collection</a></div>
-  <div class="max-w-[1275px] mx-auto px-4 md:px-0 mt-[44px]">
-    <div class="grid grid-cols-2 gap-x-[30px] gap-y-[40px] max-w-[640px] mx-auto" data-home-merch></div>
-  </div>
-</section>
-
-<!-- Lifestyle (relocated original hero photo of the guy) -->
-<section class="mt-[84px] grid grid-cols-1 md:grid-cols-2">
-  <div class="relative z-0 overflow-hidden bg-[#0a0a0a] flex items-center order-2 md:order-1">
-    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-center bg-cover pointer-events-none" style="background-image:url('assets/melted/bg_pattern_light.png'); opacity:0.07;"></div>
-    <div class="px-[40px] md:px-[64px] py-[64px]">
-      <h2 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">The Culture</h2>
-      <h3 class="caslon text-[40px] md:text-[46px] leading-[1.15] text-white mt-[16px]">Made by cannabis people, for cannabis people.</h3>
-      <p class="garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[22px] max-w-[460px]">From the desert to the dispensary, Melted shows up for the community that raised it. This is craft cannabis with a point of view.</p>
-      <a href="about.html" class="oswald inline-block text-[12px] font-medium tracking-[0.1em] uppercase text-white border border-white px-[26px] py-[14px] mt-[32px] hover:bg-white hover:text-black transition-colors">Our Story</a>
-    </div>
-  </div>
-  <div class="order-1 md:order-2 min-h-[420px]">
-    <img src="assets/melted/lifestyle_guy.jpg" alt="Melted lifestyle" class="w-full h-full object-cover">
-  </div>
-</section>
-
-<!-- Quote -->
-<section class="bg-[#f1f0ea]/70 py-[78px] relative">
-  <div class="flex flex-col md:flex-row items-center max-w-[1275px] mx-auto px-6 md:px-0">
-    <div class="md:ml-[40px] w-[260px] shrink-0 flex items-center justify-center">
-      <img src="assets/melted/tiger.png" alt="Melted tiger mark" class="w-[210px]">
-    </div>
-    <div class="md:ml-[80px] md:mr-[60px] text-center md:text-left mt-6 md:mt-0">
-      <p class="garamond text-[28px] md:text-[33px] leading-[1.5] text-[#1c1c1c]">&quot;We hope you enjoy the Melted experience as much as we do — but we&rsquo;re even more excited for you to join us on this journey.&quot;</p>
-      <p class="garamond text-[20px] text-[#777] mt-[18px]">— The Melted Collective, Arizona</p>
-    </div>
-  </div>
-</section>
-
-<!-- Our Story -->
-<section class="max-w-[1275px] mx-auto px-6 md:px-0 mt-[84px]">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[60px] items-center">
-    <img src="assets/melted/lifestyle.jpg" alt="Melted lifestyle" class="w-full">
-    <div class="md:pr-[40px]">
-      <h2 class="oswald text-[15px] font-medium tracking-[0.22em] uppercase text-[#8a8a8a]">Our Story</h2>
-      <h3 class="caslon text-[40px] md:text-[44px] leading-[1.2] text-black mt-[16px]">Deep Arizona roots. A reverence for the plant.</h3>
-      <p class="garamond text-[19px] text-[#555] leading-[1.7] mt-[24px]">Melted was born out of the desert — an independent collective hell-bent on preserving the integrity of cannabis while pushing what it can be. We make distinctive, premium products for experienced consumers, and we show up every day for the culture that raised us.</p>
-      <a href="about.html" class="oswald inline-block text-[13px] font-medium tracking-[0.1em] uppercase text-black mt-[32px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">About Us</a>
-    </div>
-  </div>
-</section>
-
-<!-- Swirl strip -->
-<section class="px-[28px] md:px-[45px] mt-[84px]">
-  <img src="assets/melted/swirl_strip.jpg" alt="Melted pattern" class="w-full h-[120px] object-cover">
-</section>
-
-<!-- Locations -->
-<section id="locations" class="mt-[84px] text-center max-w-[1100px] mx-auto px-6">
-  <h2 class="oswald text-[28px] font-medium tracking-[0.04em] uppercase text-black">Find Melted Near You</h2>
-  <p class="garamond text-[19px] text-[#666] mt-[12px]">Available at Curaleaf and other partner dispensaries across Arizona and Maryland — Ohio coming soon.</p>
-  <div data-home-locations class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[20px] gap-y-[18px] mt-[40px] oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#333]"></div>
-  <a href="locations.html" class="oswald inline-block bg-[#0a0a0a] text-white text-[12px] font-medium tracking-[0.1em] uppercase px-[34px] py-[16px] mt-[44px] hover:bg-[#333] transition-colors">Open the Store Locator</a>
-</section>
-
-<div data-melted-footer></div>
-
-<script src="assets/melted.js"></script>
+</div>
+<!-- Replay the tiger opener at any time -->
+<button id="m-replay" type="button" aria-label="Replay intro">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>
+  <span>Replay Intro</span>
+</button>
 <script>
-  // Render product + merch cards (links to dedicated product pages)
-  (function () {
-    const P = window.MELTED.PRODUCTS;
-    function card(id, opts) {
-      const p = P[id];
-      const label = p.soldout ? "Sold Out" : p.badge;
-      const badge = label
-        ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[12px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${label}</span></div>`
-        : `<div class="h-[30px]"></div>`;
-      return `<a href="product.html?id=${id}" class="text-center group block">
-        ${opts.badge ? badge : ""}
-        <div class="relative overflow-hidden bg-[#f6f6f4] aspect-square">
-          <img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}">
-        </div>
-        <p class="oswald text-[${opts.small ? 16 : 17}px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
-        ${opts.price
-          ? `<p class="garamond text-[20px] mt-[6px] ${p.soldout ? "text-[#999]" : "text-black"}">${p.soldout ? "Sold Out" : p.price}</p>`
-          : `<p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] px-[20px]">${p.tagline}</p>
-             <p class="oswald text-[11px] text-[#8a8a8a] font-light tracking-[0.12em] uppercase mt-[12px]">${p.spec}</p>`}
-      </a>`;
-    }
-    document.querySelector("[data-home-products]").innerHTML =
-      ["live-resin-gummies","live-rosin-gummies","mini-melt-pre-rolls","tigerstyle-cartridge"].map(id => card(id, { badge: true })).join("");
-    document.querySelector("[data-home-merch]").innerHTML =
-      ["bill-hat","logo-tank"].map(id => card(id, { badge: true, price: true, small: true })).join("");
-    // Locations quick grid — each links straight to its store on the map
-    document.querySelector("[data-home-locations]").innerHTML =
-      window.MELTED.STORES.map(s => `<a href="locations.html?store=${s.zip}" class="border-t border-[#e3e3e3] pt-[14px] hover:text-black hover:border-black transition-colors">${s.name.replace("Curaleaf ","")}</a>`).join("");
-  })();
+(function(){
+  "use strict";
+  var html   = document.documentElement;
+  var intro  = document.getElementById('m-intro');
+  var gate   = document.getElementById('m-gate');
+  var vid    = document.getElementById('m-intro-vid');
+  var skip   = document.getElementById('m-intro-skip');
+  var replay = document.getElementById('m-replay');
+  if(!intro || !gate) return;
+
+  function verified(){ try{ return localStorage.getItem('melted_age_ok') === '1'; }catch(e){ return false; } }
+  function lock(on){ html.style.overflow = on ? 'hidden' : ''; }
+
+  function showGate(){
+    lock(true);
+    gate.classList.remove('denied');
+    gate.classList.add('show');
+    var yes = gate.querySelector('.g-yes');
+    if(yes){ try{ yes.focus(); }catch(e){} }
+  }
+  function enter(){                                 // "Yes, I'm 21+" → into the site
+    try{ localStorage.setItem('melted_age_ok','1'); }catch(e){}
+    html.setAttribute('data-verified','');
+    gate.classList.remove('show');
+    lock(false);
+    window.scrollTo(0,0);
+  }
+  function hideIntro(){
+    intro.classList.remove('replay');
+    intro.classList.add('fade');
+    setTimeout(function(){ intro.classList.add('gone'); intro.classList.remove('fade'); }, 600);
+  }
+  function afterOpener(){
+    hideIntro();
+    if(verified()) lock(false);                     // already 21+ → straight into the site
+    else showGate();                                // first-time visitor → age check
+  }
+
+  // ---- opener playback (used on first load this session AND by the replay button) ----
+  var playing = false, currentEnd = null;
+  function playOpener(){
+    if(playing) return; playing = true;
+    try{ sessionStorage.setItem('melted_intro_seen','1'); }catch(e){}   // don't auto-replay on reload this session
+    intro.classList.remove('gone','fade');
+    intro.classList.add('replay');
+    if(skip) skip.classList.remove('show');
+    if(vid){ try{ vid.currentTime = 0; }catch(e){} }
+    lock(true);
+
+    var done = false;
+    var failsafe = setTimeout(end, 11000);          // never hang on a stalled video
+    function end(){ if(done) return; done = true; playing = false; currentEnd = null; clearTimeout(failsafe); afterOpener(); }
+    currentEnd = end;
+
+    setTimeout(function(){ if(skip && playing) skip.classList.add('show'); }, 1200);
+
+    if(vid){
+      vid.muted = true;
+      var p = vid.play();
+      if(p && p.catch) p.catch(function(){ clearTimeout(failsafe); failsafe = setTimeout(end, 2600); });
+    } else { end(); }
+
+    try{
+      if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches){
+        clearTimeout(failsafe); failsafe = setTimeout(end, 700);
+      }
+    }catch(e){}
+  }
+
+  if(vid){
+    vid.addEventListener('ended', function(){ if(currentEnd) currentEnd(); });
+    vid.addEventListener('error', function(){ if(currentEnd) currentEnd(); });
+  }
+  if(skip)   skip.addEventListener('click', function(){ if(currentEnd) currentEnd(); });
+  gate.querySelector('.g-yes').addEventListener('click', enter);
+  gate.querySelector('.g-no').addEventListener('click', function(){ gate.classList.add('denied'); });
+  if(replay) replay.addEventListener('click', playOpener);
+
+  // ---- boot ----
+  var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
+  if(seen){
+    intro.classList.add('gone');                    // opener already played this session
+    if(!verified()) showGate();                     // still gate an unverified visitor
+  } else {
+    playOpener();                                   // fresh session → play the tiger opener first
+  }
+})();
+</script>
+
+<!-- SVG liquid displacement filter for the hero swirl -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="liquid">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.012" numOctaves="2" seed="7" result="noise">
+      <animate attributeName="baseFrequency" dur="22s" values="0.006 0.012;0.010 0.008;0.006 0.012" repeatCount="indefinite"/>
+    </feTurbulence>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="17" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- Inverting cursor -->
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<!-- ============================== NAV ============================== -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 transition-colors duration-500">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] h-[72px] flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-[14px]" aria-label="Melted home">
+      <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
+    </a>
+    <nav class="hidden md:flex items-center gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase">
+      <a href="products.html" data-nav class="nlink text-white">Products</a>
+      <a href="#lineup" data-nav class="nlink text-white">Lineup</a>
+      <a href="about.html" data-nav class="nlink text-white">Story</a>
+      <a href="#merch" data-nav class="nlink text-white">Merch</a>
+      <a href="locations.html" data-nav class="nlink text-white">Locations</a>
+    </nav>
+    <a href="locations.html" data-nav-cta class="hidden sm:inline-flex btn btn-ghost-dark">Find a Dispensary</a>
+    <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-label="Menu">Menu</button>
+  </div>
+  <!-- mobile menu -->
+  <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
+    <div class="px-[28px] py-[22px] flex flex-col gap-[18px] font-oswald text-[14px] tracking-[0.16em] uppercase text-white">
+      <a href="products.html">Products</a>
+      <a href="#lineup">Lineup</a>
+      <a href="about.html">Story</a>
+      <a href="#merch">Merch</a>
+      <a href="locations.html">Locations</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================== HERO ============================== -->
+<section class="relative min-h-[100svh] bg-black overflow-hidden flex flex-col justify-center">
+  <!-- swirl backdrop -->
+  <div aria-hidden="true" class="absolute inset-0 -z-10 overflow-hidden">
+    <div class="swirl-bed liquid absolute inset-[-12%] opacity-90"></div>
+    <div class="absolute inset-0 bg-black/45"></div>
+    <div class="absolute inset-0" style="background:radial-gradient(125% 95% at 50% 40%, rgba(0,0,0,.15) 28%, rgba(0,0,0,.82) 100%)"></div>
+  </div>
+
+  <div class="max-w-[1275px] mx-auto w-full px-[28px] md:px-[45px] pt-[110px] pb-[120px]">
+    <p class="reveal font-oswald text-white text-[12px] md:text-[13px] font-medium tracking-[0.32em] uppercase mb-[26px]">Love Melted · Premium Cannabis</p>
+
+    <h1 class="leading-[0.86]">
+      <span class="sr-only">Melted</span>
+      <span aria-hidden="true" class="swirl-text font-heavy block text-[clamp(72px,19vw,300px)] tracking-[-0.02em] lowercase">melted</span>
+    </h1>
+
+    <div class="mt-[28px] md:mt-[34px] max-w-[760px]">
+      <h2 class="font-caslon text-white text-[clamp(26px,4.4vw,52px)] leading-[1.08]">
+        <span class="line-mask"><span>Premium cannabis,</span></span>
+        <span class="line-mask"><span>crafted for everyone.</span></span>
+      </h2>
+      <p class="reveal font-oswald font-light text-[#cfcfcf] text-[clamp(16px,1.6vw,21px)] tracking-[0.02em] mt-[24px]">Consistent quality, made for the moments that matter.</p>
+    </div>
+
+    <div class="reveal flex flex-wrap gap-[16px] md:gap-[18px] mt-[44px]">
+      <a href="products.html" class="btn btn-solid">Explore the Lineup
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
+      </a>
+      <a href="locations.html" class="btn btn-ghost-dark">Find a Dispensary</a>
+    </div>
+  </div>
+
+  <!-- scroll cue -->
+  <div aria-hidden="true" class="absolute bottom-[26px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-[10px]">
+    <span class="font-oswald text-white/60 text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+    <span class="block w-[1px] h-[42px] bg-white/30 overflow-hidden relative"><span class="absolute inset-0 bg-white animate-[scrollline_2s_ease-in-out_infinite]"></span></span>
+  </div>
+</section>
+<style>@keyframes scrollline{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}</style>
+
+<!-- ============================== MARQUEE ============================== -->
+<div class="marquee bg-ink text-white border-y border-white/10 py-[18px]" aria-hidden="true">
+  <div class="marquee__track text-[26px] md:text-[34px]">
+    <span class="marq-item px-[28px]">High Quality</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Consistent</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Innovative</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Authentic</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">For Everyone</span><span class="marq-star px-[6px]">✦</span>
+  </div>
+  <div class="marquee__track text-[26px] md:text-[34px]">
+    <span class="marq-item px-[28px]">High Quality</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Consistent</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Innovative</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">Authentic</span><span class="marq-star px-[6px]">✦</span>
+    <span class="marq-item px-[28px]">For Everyone</span><span class="marq-star px-[6px]">✦</span>
+  </div>
+</div>
+
+<!-- ============================== THE LINEUP ============================== -->
+<section id="lineup" class="bg-white pt-[96px] md:pt-[120px] pb-[40px]">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-[20px] mb-[56px]">
+      <div>
+        <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase mb-[16px]">01 — The Lineup</p>
+        <h2 class="font-caslon text-[clamp(40px,6vw,74px)] leading-[1.02] text-ink line-mask"><span>Premium quality,<br>every single batch.</span></h2>
+      </div>
+      <a href="locations.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Find a Dispensary</a>
+    </div>
+
+    <div data-products class="grid grid-cols-2 lg:grid-cols-4 gap-x-[24px] md:gap-x-[30px] gap-y-[52px]"></div>
+  </div>
+</section>
+
+<!-- ============================== MANIFESTO ============================== -->
+<section class="relative bg-ink text-white py-[110px] md:py-[150px] overflow-hidden">
+  <div aria-hidden="true" class="swirl-bed absolute inset-[-10%] -z-0 opacity-[0.10]"></div>
+  <div class="relative max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <p class="reveal font-oswald text-white text-[12px] font-medium tracking-[0.28em] uppercase mb-[14px]">02 — What we never compromise</p>
+    <h2 class="font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mb-[72px] line-mask"><span>Three things we<br>never compromise.</span></h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-y-[56px] md:gap-x-[60px] stagger">
+      <div class="reveal border-t border-white/15 pt-[26px]" style="--d:0ms">
+        <span class="bignum block text-[88px] md:text-[120px]">01</span>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Quality</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Premium craft from start to finish — done the right way, with no shortcuts.</p>
+      </div>
+      <div class="reveal border-t border-white/15 pt-[26px]" style="--d:120ms">
+        <span class="bignum block text-[88px] md:text-[120px]">02</span>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Consistency</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">The same dependable experience in every batch, every single time.</p>
+      </div>
+      <div class="reveal border-t border-white/15 pt-[26px]" style="--d:240ms">
+        <span class="bignum block text-[88px] md:text-[120px]">03</span>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Innovation</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Always evolving, always improving — for everyone who expects more.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== CULTURE ============================== -->
+<section class="relative grid grid-cols-1 md:grid-cols-2 bg-ink text-white">
+  <div class="relative overflow-hidden order-2 md:order-1 flex items-center">
+    <img src="assets/melted/tiger_white.png" alt="" aria-hidden="true" class="pointer-events-none select-none absolute -right-[60px] -bottom-[40px] w-[320px] opacity-[0.06]">
+    <div class="relative px-[28px] md:px-[64px] py-[80px] md:py-[120px]">
+      <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase">03 — Who it's for</p>
+      <h2 class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.12] mt-[18px] max-w-[480px] line-mask"><span>Made for every<br>walk of life.</span></h2>
+      <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">Grandparents and graduates, veterans and newcomers — Melted is for every kind of person who appreciates cannabis done right. More than a high: a sense of calm, a little healing, a way to feel connected.</p>
+      <a href="about.html" class="reveal btn btn-ghost-dark mt-[34px]">Our Story</a>
+    </div>
+  </div>
+  <div class="order-1 md:order-2 min-h-[420px] md:min-h-[640px] overflow-hidden">
+    <img src="assets/melted/lifestyle_guy.jpg" alt="A Melted community member" class="clip w-full h-full object-cover">
+  </div>
+</section>
+
+<!-- ============================== QUOTE ============================== -->
+<section class="relative bg-bone py-[90px] md:py-[120px] overflow-hidden">
+  <div class="max-w-[1100px] mx-auto px-[28px] md:px-[45px] flex flex-col md:flex-row items-center gap-[40px] md:gap-[70px]">
+    <img src="assets/melted/tiger.png" alt="Melted folk-tiger mark" class="reveal w-[180px] md:w-[220px] shrink-0">
+    <div class="text-center md:text-left">
+      <p class="font-caslon text-[clamp(26px,3.4vw,40px)] leading-[1.28] text-ink reveal">“We hope you enjoy the Melted experience as much as we do — but we’re even more excited for you to join us on this journey.”</p>
+      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#777] mt-[26px]">— The Melted Collective · Arizona</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== OUR STORY ============================== -->
+<section class="bg-white py-[96px] md:py-[120px]">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[70px] items-center">
+    <div class="overflow-hidden order-2 md:order-1">
+      <img src="assets/melted/lifestyle.jpg" alt="Melted lifestyle" class="clip w-full">
+    </div>
+    <div class="order-1 md:order-2">
+      <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase">04 — Our Story</p>
+      <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink mt-[16px] line-mask"><span>Born in the Arizona<br>desert. Built to<br>travel far.</span></h2>
+      <p class="reveal font-garamond text-[19px] text-[#555] leading-[1.7] mt-[24px] max-w-[520px]">Melted started as a small Arizona collective with one rule — do it the right way, every time. That's still the standard as we grow into new states with like-minded partners. We make premium, consistent cannabis for everyone who appreciates the difference.</p>
+      <a href="about.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] mt-[32px] inline-block">About Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== MERCH ============================== -->
+<section id="merch" class="bg-paper py-[96px] md:py-[120px]">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-[16px] mb-[52px]">
+      <div>
+        <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase mb-[14px]">05 — Melted Merch</p>
+        <h2 class="font-caslon text-[clamp(34px,4.6vw,56px)] leading-[1.04] text-ink line-mask"><span>Wear the drip.</span></h2>
+      </div>
+      <a href="merch.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
+    </div>
+    <div data-merch class="grid grid-cols-2 gap-x-[24px] md:gap-x-[30px] gap-y-[40px] max-w-[680px]"></div>
+  </div>
+</section>
+
+<!-- ============================== SWIRL DIVIDER ============================== -->
+<div class="bg-black px-[28px] md:px-[45px] py-[0]">
+  <div class="swirl-bed liquid h-[120px] md:h-[150px] w-full" aria-hidden="true" role="presentation"></div>
+</div>
+
+<!-- ============================== LOCATIONS ============================== -->
+<section class="bg-ink text-white py-[100px] md:py-[130px]">
+  <div class="max-w-[1100px] mx-auto px-[28px] md:px-[45px] text-center">
+    <p class="reveal font-oswald text-white text-[12px] font-medium tracking-[0.28em] uppercase mb-[16px]">06 — Find Melted Near You</p>
+    <h2 class="reveal font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mx-auto">Available at Curaleaf and partner dispensaries.</h2>
+    <p class="reveal font-garamond text-[19px] text-[#bdbdbd] leading-[1.7] mt-[18px] max-w-[640px] mx-auto">Across Arizona and Maryland — with Ohio coming soon.</p>
+
+    <div data-locations class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[20px] gap-y-[0] mt-[52px] text-left"></div>
+
+    <a href="locations.html" class="btn btn-solid mt-[52px]">Open the Store Locator
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ============================== FOOTER ============================== -->
+<footer class="bg-black text-white pt-[80px]">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-[48px] pb-[64px] border-b border-white/10">
+      <div>
+        <img src="assets/melted/logo_white.png" alt="Melted" class="h-[26px] w-auto">
+        <p class="font-garamond text-[18px] text-[#bdbdbd] leading-[1.7] mt-[22px] max-w-[360px]">Premium, consistent cannabis — crafted for every walk of life. Born in Arizona, built to travel far.</p>
+      </div>
+      <div>
+        <h4 class="font-oswald text-[12px] tracking-[0.22em] uppercase text-[#8a8a8a]">Explore</h4>
+        <ul class="mt-[20px] space-y-[14px] font-oswald text-[13px] tracking-[0.08em] uppercase">
+          <li><a href="products.html" class="ulink ulink-dark">Products</a></li>
+          <li><a href="locations.html" class="ulink ulink-dark">Locations</a></li>
+          <li><a href="about.html" class="ulink ulink-dark">Our Story</a></li>
+          <li><a href="merch.html" class="ulink ulink-dark">Merch</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-oswald text-[12px] tracking-[0.22em] uppercase text-[#8a8a8a]">Stay Melted</h4>
+        <p class="font-garamond text-[17px] text-[#bdbdbd] leading-[1.6] mt-[20px]">Drops, dispensaries, and what's next from Melted.</p>
+        <form class="mt-[20px] flex border-b border-white/30" onsubmit="this.querySelector('[data-news]').textContent='Thanks — you’re on the list.';return false;">
+          <input type="email" required placeholder="Email address" aria-label="Email address" class="bg-transparent flex-1 py-[10px] font-garamond text-[16px] text-white placeholder:text-white/40 focus:outline-none">
+          <button class="font-oswald text-[12px] tracking-[0.12em] uppercase text-white pl-[14px]">Join</button>
+        </form>
+        <p data-news class="font-oswald text-[11px] tracking-[0.08em] uppercase text-white mt-[10px] h-[14px]"></p>
+      </div>
+    </div>
+    <div class="py-[28px] flex flex-col md:flex-row gap-[10px] md:items-center md:justify-between">
+      <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">© 2026 Love Melted · Arizona</p>
+      <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">For adults 21+ · Keep out of reach of children</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce) document.documentElement.classList.add('motion');
+
+  /* ---------- Data (mirrors window.MELTED catalog; ids match product.html) ---------- */
+  var PRODUCTS=[
+    {id:'live-resin-gummies', name:'Live Resin Gummies',        price:'$28.00', spec:'Live Resin · 4 Flavors',     tag:'Bold, fruit-forward live resin gummies.',        badge:'',            img:'assets/melted/gallery/live_resin.jpg'},
+    {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin in a golden tin.',  badge:'Fan Favorite',img:'assets/melted/gallery/live_rosin.jpg'},
+    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_1.jpg'},
+    {id:'tigerstyle-cartridge',name:'Tigerstyle Cartridge',     price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'}
+  ];
+  var MERCH=[
+    {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/rope_1.jpg'},
+    {id:'logo-tank', name:'Logo Tank',                  price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'}
+  ];
+  var LOCATIONS=['Youngtown','Peoria','Glendale','Phoenix','Scottsdale','Midtown','Sedona','Gilbert','Queen Creek','Tucson','Baltimore, MD','Rockville, MD','Ocean City, MD','Frederick, MD','Salisbury, MD','Germantown, MD'];
+
+  function el(html){ var t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstChild; }
+
+  /* ---------- Render products ---------- */
+  var pgrid=document.querySelector('[data-products]');
+  PRODUCTS.forEach(function(p,i){
+    var badge = p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
+    pgrid.appendChild(el(
+      '<a href="product.html?id='+p.id+'" class="pcard reveal group" data-mag>'
+      + '<span class="num">'+String(i+1).padStart(2,'0')+'</span>'
+      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'"><div class="swirlhover"></div></div>'
+      + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
+      + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
+      + '<p class="font-garamond text-[17px] text-[#666] leading-[1.5] mt-[6px]">'+p.tag+'</p>'
+      + '<p class="font-oswald text-[11px] text-[#8a8a8a] font-light tracking-[0.12em] uppercase mt-[10px]">'+p.spec+'</p>'
+      + '</a>'
+    ));
+  });
+
+  /* ---------- Render merch ---------- */
+  var mgrid=document.querySelector('[data-merch]');
+  MERCH.forEach(function(p){
+    var badge = p.soldout ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">Sold Out</span>' : '';
+    mgrid.appendChild(el(
+      '<a href="product.html?id='+p.id+'" class="pcard reveal group">'
+      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
+      + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
+      + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
+      + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#999]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
+      + '</a>'
+    ));
+  });
+
+  /* ---------- Render locations ---------- */
+  var lgrid=document.querySelector('[data-locations]');
+  LOCATIONS.forEach(function(name){
+    lgrid.appendChild(el(
+      '<a href="locations.html" class="border-t border-white/15 py-[16px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white hover:border-white transition-colors block">'+name+'</a>'
+    ));
+  });
+
+  /* ---------- Inverting cursor (desktop only) ---------- */
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.documentElement.classList.add('has-cursor');
+    var cur=document.querySelector('.cursor'), dot=document.querySelector('.cursor-dot');
+    var x=innerWidth/2,y=innerHeight/2,cx=x,cy=y;
+    addEventListener('mousemove',function(e){ x=e.clientX;y=e.clientY; dot.style.transform='translate3d('+x+'px,'+y+'px,0) translate(-50%,-50%)'; });
+    (function loop(){ cx+=(x-cx)*0.18; cy+=(y-cy)*0.18; cur.style.transform='translate3d('+cx+'px,'+cy+'px,0) translate(-50%,-50%)'; requestAnimationFrame(loop); })();
+    var hot='a,button,input,[data-mag]';
+    addEventListener('mouseover',function(e){ if(e.target.closest&&e.target.closest(hot)) cur.classList.add('hot'); });
+    addEventListener('mouseout',function(e){ if(e.target.closest&&e.target.closest(hot)) cur.classList.remove('hot'); });
+  }
+
+  /* ---------- Scroll reveals ---------- */
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  },{threshold:0.16, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal,.line-mask,.clip').forEach(function(n){ io.observe(n); });
+
+  /* ---------- Nav: invert background on scroll past hero ---------- */
+  var nav=document.getElementById('nav');
+  var logo=document.querySelector('[data-logo]');
+  var navLinks=document.querySelectorAll('[data-nav]');
+  var cta=document.querySelector('[data-nav-cta]');
+  function onScroll(){
+    var solid = window.scrollY > (innerHeight*0.75);
+    nav.classList.toggle('bg-white', solid);
+    nav.classList.toggle('shadow-[0_1px_0_rgba(0,0,0,0.08)]', solid);
+    if(logo) logo.src = solid ? 'assets/melted/logo_black.png' : 'assets/melted/logo_white.png';
+    navLinks.forEach(function(a){ a.classList.toggle('text-white',!solid); a.classList.toggle('text-ink',solid); });
+    if(cta){ cta.classList.toggle('btn-ghost-dark',!solid); cta.classList.toggle('btn-ghost-light',solid); }
+  }
+  onScroll(); addEventListener('scroll',onScroll,{passive:true});
+
+  /* ---------- Mobile menu ---------- */
+  var burger=document.querySelector('[data-burger]'), mob=document.querySelector('[data-mobile]');
+  if(burger) burger.addEventListener('click',function(){ mob.classList.toggle('hidden'); });
+  mob && mob.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ mob.classList.add('hidden'); }); });
+
+  /* ---------- Magnetic product cards (subtle) ---------- */
+  if(!reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.querySelectorAll('[data-mag]').forEach(function(card){
+      card.addEventListener('mousemove',function(e){
+        var r=card.getBoundingClientRect();
+        var mx=(e.clientX-r.left)/r.width-0.5, my=(e.clientY-r.top)/r.height-0.5;
+        card.style.transform='translate('+(mx*8).toFixed(2)+'px,'+(my*8).toFixed(2)+'px)';
+        card.style.transition='transform .1s linear';
+      });
+      card.addEventListener('mouseleave',function(){ card.style.transform=''; card.style.transition='transform .5s cubic-bezier(.16,.84,.3,1)'; });
+    });
+  }
+})();
 </script>
 </body>
 </html>

@@ -132,9 +132,9 @@
     "live-rosin-gummies": {
       name: "Live Rosin Gummies", price: "$28.00", kind: "product",
       badge: "Fan Favorite", spec: "Live Rosin · 4 Flavors",
-      tagline: "Solventless live rosin in a golden tin.",
-      detail: "Our solventless flagship, pressed from fresh-frozen flower for a true full-spectrum experience. Ten pieces per golden tin, 10mg each. No distillate, no shortcuts.",
-      facts: ["10 pieces · 10mg each", "Solventless live rosin", "Full-spectrum", "Four dessert-inspired flavors"],
+      tagline: "Rich, full-flavored live rosin in a golden tin.",
+      detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per golden tin, 10mg each. No distillate, no shortcuts.",
+      facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
       flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
       gallery: ["assets/melted/gallery/live_rosin.jpg"]
     },
@@ -148,10 +148,10 @@
     },
     "tigerstyle-cartridge": {
       name: "Tigerstyle Cartridge", price: "$40.00", kind: "product",
-      badge: "", spec: "Full Spectrum · 510 Thread",
-      tagline: "A flower-like experience, on the go.",
-      detail: "Our Tigerstyle cartridge captures the character of the whole plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
-      facts: ["1g full-spectrum oil", "510-thread compatible", "No added cutting agents", "Strain-specific terpenes"],
+      badge: "", spec: "510 Thread · 1g",
+      tagline: "A rich, flower-like experience, on the go.",
+      detail: "Our Tigerstyle cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
+      facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific terpenes"],
       gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
     },
     "bill-hat": {
@@ -241,7 +241,7 @@
         <div class="mega absolute left-0 top-full bg-white border border-[#ededed] shadow-xl w-[500px] p-7 grid grid-cols-2 gap-5 opacity-0 invisible transition-all duration-150">
           ${Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(productMenuCard).join("")}
           <div class="col-span-2 border-t border-[#eee] pt-4 flex justify-between items-center">
-            <span class="garamond text-[14px] text-[#888] normal-case tracking-normal">Premium, small-batch cannabis.</span>
+            <span class="garamond text-[14px] text-[#888] normal-case tracking-normal">Premium cannabis for everyone.</span>
             ${link("products.html", "View all →")}
           </div>
         </div>
@@ -318,7 +318,7 @@
         <input type="email" required placeholder="Your email" class="caslon bg-transparent text-[20px] text-white placeholder-[#9b9b9b] outline-none flex-1">
         <button class="caslon text-[16px] tracking-[0.18em] text-white hover:opacity-60">SUBSCRIBE</button>
       </form>
-      <p data-news-msg class="garamond text-[14px] text-[#9fce9f] mt-2 min-h-[18px]"></p>
+      <p data-news-msg class="garamond text-[14px] text-[#d6d6d6] mt-2 min-h-[18px]"></p>
       <div class="flex items-center gap-4 mt-[40px]">
         <a href="https://www.instagram.com/meltedusa" target="_blank" rel="noopener" aria-label="Instagram" class="hover:opacity-60"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.39A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.8.72 1.47 1.39 2.13a5.9 5.9 0 0 0 2.13 1.39c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.39 5.9 5.9 0 0 0 1.39-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.39-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg></a>
         <a href="https://www.linkedin.com/company/meltedusa" target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:opacity-60"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg></a>
@@ -402,7 +402,7 @@
         const z = input.value.trim();
         if (!validZip(z)) { msg.textContent = "Enter a 5-digit ZIP code."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
         if (!zipCoords(z)) { msg.textContent = "No Melted store near that ZIP yet — we’re in AZ & MD."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
-        setZip(z); msg.textContent = "Saved. We’ll show your closest store."; msg.className = "garamond text-[13px] mt-2 text-[#3a7d44]"; refresh();
+        setZip(z); msg.textContent = "Saved. We’ll show your closest store."; msg.className = "garamond text-[13px] mt-2 text-black"; refresh();
       });
       clearBtn.addEventListener("click", () => { setZip(""); input.value = ""; msg.textContent = ""; refresh(); });
     }
@@ -468,7 +468,7 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
 #m-gate .g-btns{ display:flex; gap:14px; justify-content:center; margin-top:34px; }
 #m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; padding:16px 38px; cursor:pointer; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
 #m-gate .g-yes{ background:#fff; color:#000; border:1px solid #fff; }
-#m-gate .g-yes:hover{ background:#c2f53f; border-color:#c2f53f; }
+#m-gate .g-yes:hover{ background:#1c1c1c; color:#fff; border-color:#1c1c1c; }
 #m-gate .g-no{ background:transparent; color:#fff; border:1px solid #5a5a5a; }
 #m-gate .g-no:hover{ border-color:#fff; }
 #m-gate .g-legal{ font-family:'EB Garamond',serif; color:#666; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
@@ -478,7 +478,7 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
 #m-intro{ overflow:hidden; }
 #m-intro.fade{ opacity:0; transition:opacity .5s ease; }
 #m-intro .t-glow{ position:absolute; width:60vmin; height:60vmin; border-radius:50%;
-  background:radial-gradient(circle, rgba(194,245,63,.12), rgba(10,10,10,0) 70%); animation:m-glow 2.1s ease both; }
+  background:radial-gradient(circle, rgba(255,255,255,.10), rgba(10,10,10,0) 70%); animation:m-glow 2.1s ease both; }
 #m-intro .t-tiger{ width:min(46vw,380px); filter:drop-shadow(0 0 34px rgba(255,255,255,.18));
   animation:m-tiger 2.1s cubic-bezier(.55,0,.75,1) both; }
 @keyframes m-tiger{ 0%{transform:scale(.26); opacity:0;} 16%{opacity:1;} 74%{opacity:1;} 100%{transform:scale(3); opacity:0;} }
@@ -730,7 +730,7 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
     }
     const ov = document.querySelector("[data-auth-overlay]");
     const msg = ov.querySelector("[data-auth-msg]");
-    const setMsg = (t, ok) => { msg.textContent = t || ""; msg.className = "garamond text-[13px] text-center min-h-[18px] mt-3 " + (ok ? "text-[#3a7d44]" : "text-[#c0392b]"); };
+    const setMsg = (t, ok) => { msg.textContent = t || ""; msg.className = "garamond text-[13px] text-center min-h-[18px] mt-3 " + (ok ? "text-black" : "text-[#c0392b]"); };
 
     // Account button: open modal (logged out) or account menu (logged in)
     document.querySelectorAll("[data-account]").forEach(btn => {
