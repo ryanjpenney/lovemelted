@@ -140,24 +140,17 @@
 <!-- ===== Tiger intro + age gate (first visit) ===== -->
 <style>
   #m-intro,#m-gate{ position:fixed; inset:0; z-index:2147483600; background:#000; align-items:center; justify-content:center; }
-  #m-intro{ display:flex; overflow:hidden; }
-  #m-intro.gone{ display:none !important; }                          /* opener finished */
-  #m-intro.replay{ display:flex !important; opacity:1 !important; }  /* replay button forces it back */
+  #m-intro{ display:none; overflow:hidden; }                         /* hidden until the visitor passes the age gate */
+  #m-intro.playing{ display:flex; }                                  /* opener is playing */
   #m-gate{ display:none; text-align:center; padding:28px; background:#0a0a0a; }
   #m-gate.show{ display:flex; }
-  html[data-seen] #m-intro{ display:none; }                          /* already opened this session → skip the video */
-  html[data-seen]:not([data-verified]) #m-gate{ display:flex; }      /* re-entry while unverified → gate appears with no flash */
+  html:not([data-verified]) #m-gate{ display:flex; }                 /* unverified → gate appears first, with no flash */
   /* keep a normal pointer over the overlays even when the kinetic cursor is on */
   #m-intro,#m-intro *,#m-gate,#m-gate *{ cursor:auto !important; }
   #m-intro button,#m-gate button{ cursor:pointer !important; }
 
   #m-intro video{ width:100%; height:100%; object-fit:cover; }
   #m-intro.fade{ opacity:0; transition:opacity .55s ease; pointer-events:none; }
-  #m-intro .skip{ position:fixed; bottom:24px; right:26px; font-family:'Oswald',sans-serif; font-size:11px;
-    font-weight:500; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.72); background:transparent;
-    border:0; padding:8px 6px; opacity:0; transition:opacity .4s ease, color .2s ease; }
-  #m-intro .skip.show{ opacity:1; }
-  #m-intro .skip:hover{ color:#fff; }
 
   #m-gate .g-inner{ max-width:480px; animation:m-fade .5s ease both; }
   #m-gate .g-logo{ height:38px; margin:0 auto 38px; display:block; }
@@ -176,27 +169,16 @@
   #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
   @keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
   @media (max-width:600px){ #m-gate h2{ font-size:30px; } #m-gate .g-btns{ flex-direction:column; } }
-
-  /* Replay-intro control — sharp corners, hairline, legible over any section */
-  #m-replay{ position:fixed; left:20px; bottom:20px; z-index:50; display:inline-flex; align-items:center; gap:8px;
-    font-family:'Oswald',sans-serif; font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase;
-    color:#fff; background:rgba(10,10,10,.6); border:1px solid rgba(255,255,255,.38); padding:9px 13px;
-    -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); cursor:pointer;
-    transition:color .2s ease, border-color .2s ease, background-color .2s ease; }
-  #m-replay:hover{ color:#fff; border-color:#fff; }
-  #m-replay svg{ width:13px; height:13px; display:block; }
-  @media (max-width:600px){ #m-replay span{ display:none; } #m-replay{ padding:10px; } }
 </style>
 </head>
 <body class="bg-black">
 
 <!-- ===== First-visit tiger opener → "are you 21?" age gate ===== -->
 <div id="m-intro" aria-hidden="true">
-  <video id="m-intro-vid" muted autoplay playsinline preload="auto" poster="assets/melted/tiger_white.png">
-    <source src="assets/melted/tiger-opener.webm" type="video/webm">
-    <source src="assets/melted/tiger-opener.mp4" type="video/mp4">
+  <video id="m-intro-vid" muted autoplay playsinline preload="auto">
+    <source src="assets/melted/website-opener-2026.webm" type="video/webm">
+    <source src="assets/melted/website-opener-2026.mp4" type="video/mp4">
   </video>
-  <button type="button" class="skip" id="m-intro-skip">Skip Intro</button>
 </div>
 <div id="m-gate" role="dialog" aria-modal="true" aria-label="Age verification">
   <div class="g-inner">
@@ -218,11 +200,6 @@
     </div>
   </div>
 </div>
-<!-- Replay the tiger opener at any time -->
-<button id="m-replay" type="button" aria-label="Replay intro">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v4h4"/></svg>
-  <span>Replay Intro</span>
-</button>
 <script>
 (function(){
   "use strict";
@@ -230,8 +207,6 @@
   var intro  = document.getElementById('m-intro');
   var gate   = document.getElementById('m-gate');
   var vid    = document.getElementById('m-intro-vid');
-  var skip   = document.getElementById('m-intro-skip');
-  var replay = document.getElementById('m-replay');
   if(!intro || !gate) return;
 
   function verified(){ try{ return localStorage.getItem('melted_age_ok') === '1'; }catch(e){ return false; } }
@@ -244,41 +219,30 @@
     var yes = gate.querySelector('.g-yes');
     if(yes){ try{ yes.focus(); }catch(e){} }
   }
-  function enter(){                                 // "Yes, I'm 21+" → into the site
-    try{ localStorage.setItem('melted_age_ok','1'); }catch(e){}
-    html.setAttribute('data-verified','');
-    gate.classList.remove('show');
+  function hideIntro(){                             // fade the opener out, then unmount it
+    intro.classList.add('fade');
+    setTimeout(function(){ intro.classList.remove('playing','fade'); }, 600);
+  }
+  function enterSite(){                             // opener finished (or skipped) → into the site
+    hideIntro();
     lock(false);
     window.scrollTo(0,0);
   }
-  function hideIntro(){
-    intro.classList.remove('replay');
-    intro.classList.add('fade');
-    setTimeout(function(){ intro.classList.add('gone'); intro.classList.remove('fade'); }, 600);
-  }
-  function afterOpener(){
-    hideIntro();
-    if(verified()) lock(false);                     // already 21+ → straight into the site
-    else showGate();                                // first-time visitor → age check
-  }
 
-  // ---- opener playback (used on first load this session AND by the replay button) ----
+  // ---- opener playback (plays once per session, AFTER the age gate) ----
   var playing = false, currentEnd = null;
   function playOpener(){
     if(playing) return; playing = true;
     try{ sessionStorage.setItem('melted_intro_seen','1'); }catch(e){}   // don't auto-replay on reload this session
-    intro.classList.remove('gone','fade');
-    intro.classList.add('replay');
-    if(skip) skip.classList.remove('show');
+    intro.classList.remove('fade');
+    intro.classList.add('playing');
     if(vid){ try{ vid.currentTime = 0; }catch(e){} }
     lock(true);
 
     var done = false;
-    var failsafe = setTimeout(end, 11000);          // never hang on a stalled video
-    function end(){ if(done) return; done = true; playing = false; currentEnd = null; clearTimeout(failsafe); afterOpener(); }
+    var failsafe = setTimeout(end, 12000);          // never hang on a stalled video
+    function end(){ if(done) return; done = true; playing = false; currentEnd = null; clearTimeout(failsafe); enterSite(); }
     currentEnd = end;
-
-    setTimeout(function(){ if(skip && playing) skip.classList.add('show'); }, 1200);
 
     if(vid){
       vid.muted = true;
@@ -293,22 +257,27 @@
     }catch(e){}
   }
 
+  function accept(){                                // "Yes, I'm 21+" → remember, dismiss gate, THEN play opener
+    try{ localStorage.setItem('melted_age_ok','1'); }catch(e){}
+    html.setAttribute('data-verified','');
+    gate.classList.remove('show');
+    playOpener();
+  }
+
   if(vid){
     vid.addEventListener('ended', function(){ if(currentEnd) currentEnd(); });
     vid.addEventListener('error', function(){ if(currentEnd) currentEnd(); });
   }
-  if(skip)   skip.addEventListener('click', function(){ if(currentEnd) currentEnd(); });
-  gate.querySelector('.g-yes').addEventListener('click', enter);
+  gate.querySelector('.g-yes').addEventListener('click', accept);
   gate.querySelector('.g-no').addEventListener('click', function(){ gate.classList.add('denied'); });
-  if(replay) replay.addEventListener('click', playOpener);
 
-  // ---- boot ----
+  // ---- boot: 21+ gate FIRST, opener video SECOND ----
   var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
-  if(seen){
-    intro.classList.add('gone');                    // opener already played this session
-    if(!verified()) showGate();                     // still gate an unverified visitor
+  if(verified()){
+    if(seen){ lock(false); }                        // returning + already watched this session → straight in
+    else { playOpener(); }                          // returning this session → replay the opener once
   } else {
-    playOpener();                                   // fresh session → play the tiger opener first
+    showGate();                                     // new visitor → show the age gate before anything else
   }
 })();
 </script>
