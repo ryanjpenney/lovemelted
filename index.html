@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>try{if(localStorage.getItem('melted_age_ok')==='1')document.documentElement.setAttribute('data-verified','');if(sessionStorage.getItem('melted_intro_seen')==='1')document.documentElement.setAttribute('data-seen','');}catch(e){}</script>
 <title>Melted — Premium Cannabis, Crafted for Everyone</title>
-<meta name="description" content="Love Melted — premium, consistent cannabis built for every walk of life. High-quality gummies, infused pre-rolls, and Tigerstyle cartridges. Born in Arizona, now at dispensaries across Arizona and Maryland, with Ohio coming soon.">
+<meta name="description" content="Love Melted — premium, consistent cannabis made to meet your moment. High-quality gummies, infused pre-rolls, and Tigerstyle cartridges. Born in Arizona, now at dispensaries across Arizona and Maryland, with Ohio coming soon.">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,23 +53,19 @@
     background-image:var(--swirl);
     background-size:130% auto; background-position:0% 50%; background-repeat:repeat;
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
-    animation:swirlpan 16s linear infinite;
+    animation:meltedwave 3.6s ease forwards;   /* swirl waves ~3s, then settles to a plain white wordmark */
   }
-  @keyframes swirlpan{ to{ background-position:260% 50%; } }
+  @keyframes meltedwave{
+    0%   { background-position:0% 50%;   color:transparent; -webkit-text-fill-color:transparent; }
+    83%  { background-position:200% 50%; color:transparent; -webkit-text-fill-color:transparent; }
+    100% { background-position:200% 50%; color:#fff;        -webkit-text-fill-color:#fff; }
+  }
 
   /* ---------- Full-bleed swirl backdrop drift + liquid wobble ---------- */
   .swirl-bed{ background-image:var(--swirl); background-size:140% auto; background-position:center;
     animation:beddrift 40s ease-in-out infinite alternate; }
   @keyframes beddrift{ 0%{ background-position:0% 40%; transform:scale(1.05); } 100%{ background-position:100% 60%; transform:scale(1.18); } }
   html.motion .liquid{ filter:url(#liquid); }
-
-  /* ---------- Marquee ---------- */
-  .marquee{ display:flex; overflow:hidden; user-select:none; }
-  .marquee__track{ display:flex; flex:0 0 auto; min-width:100%; gap:0; animation:marq 28s linear infinite; }
-  .marquee:hover .marquee__track{ animation-play-state:paused; }
-  @keyframes marq{ to{ transform:translateX(-100%); } }
-  .marq-item{ font-family:'Oswald',sans-serif; font-weight:600; text-transform:uppercase; letter-spacing:.04em; white-space:nowrap; padding:0 0; }
-  .marq-star{ color:#fff; }
 
   /* ---------- Scroll reveals ---------- */
   .reveal{ opacity:0; transform:translateY(34px); transition:opacity 1s cubic-bezier(.16,.84,.3,1), transform 1s cubic-bezier(.16,.84,.3,1); }
@@ -127,9 +123,8 @@
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .swirl-text,.swirl-bed{ animation:none; }
-    .swirl-bed{ transform:scale(1.1); }
-    .marquee__track{ animation:none; }
+    .swirl-text{ animation:none; color:#fff; -webkit-text-fill-color:#fff; }
+    .swirl-bed{ animation:none; transform:scale(1.1); }
     .reveal,.line-mask>span,.clip{ transition:none !important; }
     .reveal{ opacity:1; transform:none; }
     .line-mask>span{ transform:none; }
@@ -227,6 +222,8 @@
     hideIntro();
     lock(false);
     window.scrollTo(0,0);
+    var wm = document.querySelector('.swirl-text'); // restart the 3s wordmark wave as the hero is revealed
+    if(wm){ wm.style.animation='none'; void wm.offsetWidth; wm.style.animation=''; }
   }
 
   // ---- opener playback (plays once per session, AFTER the age gate) ----
@@ -334,8 +331,6 @@
   </div>
 
   <div class="max-w-[1275px] mx-auto w-full px-[28px] md:px-[45px] pt-[110px] pb-[120px]">
-    <p class="reveal font-oswald text-white text-[12px] md:text-[13px] font-medium tracking-[0.32em] uppercase mb-[26px]">Love Melted · Premium Cannabis</p>
-
     <h1 class="leading-[0.86]">
       <span class="sr-only">Melted</span>
       <span aria-hidden="true" class="swirl-text font-heavy block text-[clamp(72px,19vw,300px)] tracking-[-0.02em] lowercase">melted</span>
@@ -365,31 +360,12 @@
 </section>
 <style>@keyframes scrollline{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}</style>
 
-<!-- ============================== MARQUEE ============================== -->
-<div class="marquee bg-ink text-white border-y border-white/10 py-[18px]" aria-hidden="true">
-  <div class="marquee__track text-[26px] md:text-[34px]">
-    <span class="marq-item px-[28px]">High Quality</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Consistent</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Innovative</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Authentic</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">For Everyone</span><span class="marq-star px-[6px]">✦</span>
-  </div>
-  <div class="marquee__track text-[26px] md:text-[34px]">
-    <span class="marq-item px-[28px]">High Quality</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Consistent</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Innovative</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">Authentic</span><span class="marq-star px-[6px]">✦</span>
-    <span class="marq-item px-[28px]">For Everyone</span><span class="marq-star px-[6px]">✦</span>
-  </div>
-</div>
-
 <!-- ============================== THE LINEUP ============================== -->
 <section id="lineup" class="bg-white pt-[96px] md:pt-[120px] pb-[40px]">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-[20px] mb-[56px]">
       <div>
-        <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase mb-[16px]">01 — The Lineup</p>
-        <h2 class="font-caslon text-[clamp(40px,6vw,74px)] leading-[1.02] text-ink line-mask"><span>Premium quality,<br>every single batch.</span></h2>
+        <h2 class="font-caslon text-[clamp(40px,6vw,74px)] leading-[1.02] text-ink line-mask"><span>Curated cannabis for<br>everyday elevation.</span></h2>
       </div>
       <a href="locations.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Find a Dispensary</a>
     </div>
@@ -402,24 +378,20 @@
 <section class="relative bg-ink text-white py-[110px] md:py-[150px] overflow-hidden">
   <div aria-hidden="true" class="swirl-bed absolute inset-[-10%] -z-0 opacity-[0.10]"></div>
   <div class="relative max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
-    <p class="reveal font-oswald text-white text-[12px] font-medium tracking-[0.28em] uppercase mb-[14px]">02 — What we never compromise</p>
     <h2 class="font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mb-[72px] line-mask"><span>Three things we<br>never compromise.</span></h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-y-[56px] md:gap-x-[60px] stagger">
       <div class="reveal border-t border-white/15 pt-[26px]" style="--d:0ms">
-        <span class="bignum block text-[88px] md:text-[120px]">01</span>
-        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Quality</h3>
-        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Premium craft from start to finish — done the right way, with no shortcuts.</p>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase">Quality</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Premium craft from start to finish, with high-quality cannabis products made with care and without shortcuts.</p>
       </div>
       <div class="reveal border-t border-white/15 pt-[26px]" style="--d:120ms">
-        <span class="bignum block text-[88px] md:text-[120px]">02</span>
-        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Consistency</h3>
-        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">The same dependable experience in every batch, every single time.</p>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase">Consistency</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">A dependable Melted experience across every product, every batch, and every moment.</p>
       </div>
       <div class="reveal border-t border-white/15 pt-[26px]" style="--d:240ms">
-        <span class="bignum block text-[88px] md:text-[120px]">03</span>
-        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase mt-[10px]">Innovation</h3>
-        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Always evolving, always improving — for everyone who expects more.</p>
+        <h3 class="font-oswald text-[15px] font-medium tracking-[0.22em] uppercase">Innovation</h3>
+        <p class="font-garamond text-[19px] text-[#b8b8b8] leading-[1.65] mt-[16px] max-w-[340px]">Always evolving with new products and experiences designed to elevate the everyday.</p>
       </div>
     </div>
   </div>
@@ -430,9 +402,8 @@
   <div class="relative overflow-hidden order-2 md:order-1 flex items-center">
     <img src="assets/melted/tiger_white.png" alt="" aria-hidden="true" class="pointer-events-none select-none absolute -right-[60px] -bottom-[40px] w-[320px] opacity-[0.06]">
     <div class="relative px-[28px] md:px-[64px] py-[80px] md:py-[120px]">
-      <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase">03 — Who it's for</p>
-      <h2 class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.12] mt-[18px] max-w-[480px] line-mask"><span>Made for every<br>walk of life.</span></h2>
-      <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">Grandparents and graduates, veterans and newcomers — Melted is for every kind of person who appreciates cannabis done right. More than a high: a sense of calm, a little healing, a way to feel connected.</p>
+      <h2 class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.12] max-w-[480px] line-mask"><span>Made to meet<br>your moment.</span></h2>
+      <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">For those who know what they like, and those still finding their fit. Melted offers high-quality cannabis products made to bring more ease, enjoyment, and intention to everyday moments.</p>
       <a href="about.html" class="reveal btn btn-ghost-dark mt-[34px]">Our Story</a>
     </div>
   </div>
@@ -459,8 +430,7 @@
       <img src="assets/melted/lifestyle.jpg" alt="Melted lifestyle" class="clip w-full">
     </div>
     <div class="order-1 md:order-2">
-      <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase">04 — Our Story</p>
-      <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink mt-[16px] line-mask"><span>Born in the Arizona<br>desert. Built to<br>travel far.</span></h2>
+      <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink line-mask"><span>Born in the Arizona<br>desert. Built to<br>travel far.</span></h2>
       <p class="reveal font-garamond text-[19px] text-[#555] leading-[1.7] mt-[24px] max-w-[520px]">Melted started as a small Arizona collective with one rule — do it the right way, every time. That's still the standard as we grow into new states with like-minded partners. We make premium, consistent cannabis for everyone who appreciates the difference.</p>
       <a href="about.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] mt-[32px] inline-block">About Us</a>
     </div>
@@ -472,7 +442,6 @@
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-[16px] mb-[52px]">
       <div>
-        <p class="reveal font-oswald text-[#8a8a8a] text-[12px] font-medium tracking-[0.28em] uppercase mb-[14px]">05 — Melted Merch</p>
         <h2 class="font-caslon text-[clamp(34px,4.6vw,56px)] leading-[1.04] text-ink line-mask"><span>Wear the drip.</span></h2>
       </div>
       <a href="merch.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
@@ -489,7 +458,6 @@
 <!-- ============================== LOCATIONS ============================== -->
 <section class="bg-ink text-white py-[100px] md:py-[130px]">
   <div class="max-w-[1100px] mx-auto px-[28px] md:px-[45px] text-center">
-    <p class="reveal font-oswald text-white text-[12px] font-medium tracking-[0.28em] uppercase mb-[16px]">06 — Find Melted Near You</p>
     <h2 class="reveal font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mx-auto">Available at Curaleaf and partner dispensaries.</h2>
     <p class="reveal font-garamond text-[19px] text-[#bdbdbd] leading-[1.7] mt-[18px] max-w-[640px] mx-auto">Across Arizona and Maryland — with Ohio coming soon.</p>
 
@@ -507,7 +475,7 @@
     <div class="grid grid-cols-1 md:grid-cols-[1.4fr_1fr_1fr] gap-[48px] pb-[64px] border-b border-white/10">
       <div>
         <img src="assets/melted/logo_white.png" alt="Melted" class="h-[26px] w-auto">
-        <p class="font-garamond text-[18px] text-[#bdbdbd] leading-[1.7] mt-[22px] max-w-[360px]">Premium, consistent cannabis — crafted for every walk of life. Born in Arizona, built to travel far.</p>
+        <p class="font-garamond text-[18px] text-[#bdbdbd] leading-[1.7] mt-[22px] max-w-[360px]">Premium, consistent cannabis — made to meet your moment. Born in Arizona, built to travel far.</p>
       </div>
       <div>
         <h4 class="font-oswald text-[12px] tracking-[0.22em] uppercase text-[#8a8a8a]">Explore</h4>
@@ -545,7 +513,7 @@
   var PRODUCTS=[
     {id:'live-resin-gummies', name:'Live Resin Gummies',        price:'$28.00', spec:'Live Resin · 4 Flavors',     tag:'Bold, fruit-forward live resin gummies.',        badge:'',            img:'assets/melted/gallery/live_resin.jpg'},
     {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin in a golden tin.',  badge:'Fan Favorite',img:'assets/melted/gallery/live_rosin.jpg'},
-    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_1.jpg'},
+    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Five .5g Infused Pre-Rolls', tag:'Five .5g infused pre-rolls in the tiger tin.',    badge:'',            img:'assets/melted/gallery/mini_melt_tin.jpg'},
     {id:'tigerstyle-cartridge',name:'Tigerstyle Cartridge',     price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'}
   ];
   var MERCH=[
@@ -562,7 +530,6 @@
     var badge = p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
     pgrid.appendChild(el(
       '<a href="product.html?id='+p.id+'" class="pcard reveal group" data-mag>'
-      + '<span class="num">'+String(i+1).padStart(2,'0')+'</span>'
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
