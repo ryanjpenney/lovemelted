@@ -32,6 +32,7 @@
 
 <style>
   :root{ --swirl:url('assets/melted/swirl_strip.jpg'); }
+  html{ scroll-padding-top:72px; }   /* fixed header stays clear of anchor targets (#lineup, #merch) */
   html{ scroll-behavior:smooth; }
   body{ font-family:'EB Garamond',serif; background:#000; color:#0a0a0a; overflow-x:hidden; }
   ::selection{ background:#0a0a0a; color:#fff; }
@@ -302,7 +303,7 @@
     <nav class="hidden md:flex items-center gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase">
       <a href="products.html" data-nav class="nlink text-white">Products</a>
       <a href="#lineup" data-nav class="nlink text-white">Lineup</a>
-      <a href="about.html" data-nav class="nlink text-white">Story</a>
+      <a href="about.html" data-nav class="nlink text-white">About Us</a>
       <a href="#merch" data-nav class="nlink text-white">Merch</a>
       <a href="locations.html" data-nav class="nlink text-white">Locations</a>
     </nav>
@@ -314,7 +315,7 @@
     <div class="px-[28px] py-[22px] flex flex-col gap-[18px] font-oswald text-[14px] tracking-[0.16em] uppercase text-white">
       <a href="products.html">Products</a>
       <a href="#lineup">Lineup</a>
-      <a href="about.html">Story</a>
+      <a href="about.html">About Us</a>
       <a href="#merch">Merch</a>
       <a href="locations.html">Locations</a>
     </div>
@@ -341,7 +342,7 @@
         <span class="line-mask"><span>Premium cannabis,</span></span>
         <span class="line-mask"><span>crafted for everyone.</span></span>
       </h2>
-      <p class="reveal font-oswald font-light text-[#cfcfcf] text-[clamp(16px,1.6vw,21px)] tracking-[0.02em] mt-[24px]">Consistent quality, made for the moments that matter.</p>
+      <p class="reveal font-oswald font-light text-[#cfcfcf] text-[clamp(16px,1.6vw,21px)] tracking-[0.02em] mt-[24px]">Crafted with care. Made to elevate the everyday.</p>
     </div>
 
     <div class="reveal flex flex-wrap gap-[16px] md:gap-[18px] mt-[44px]">
@@ -408,7 +409,8 @@
     </div>
   </div>
   <div class="order-1 md:order-2 min-h-[420px] md:min-h-[640px] overflow-hidden">
-    <img src="assets/melted/lifestyle_guy.jpg" alt="A Melted community member" class="clip w-full h-full object-cover">
+    <!-- IMAGE BRIEF (placeholder): inclusive lifestyle — senior Black woman, authentic everyday moment holding a Melted product (Common Citizen tone). Swap for final photography. -->
+    <img src="https://placehold.co/1000x1200/3a3a3a/ffffff?text=PHOTO+BRIEF%5CnSenior+Black+woman%5Cnholding+Melted" alt="Photo brief: a senior Black woman holding a Melted product in an authentic everyday moment" class="clip w-full h-full object-cover">
   </div>
 </section>
 
@@ -417,8 +419,8 @@
   <div class="max-w-[1100px] mx-auto px-[28px] md:px-[45px] flex flex-col md:flex-row items-center gap-[40px] md:gap-[70px]">
     <img src="assets/melted/tiger.png" alt="Melted folk-tiger mark" class="reveal w-[180px] md:w-[220px] shrink-0">
     <div class="text-center md:text-left">
-      <p class="font-caslon text-[clamp(26px,3.4vw,40px)] leading-[1.28] text-ink reveal">“We hope you enjoy the Melted experience as much as we do — but we’re even more excited for you to join us on this journey.”</p>
-      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#777] mt-[26px]">— The Melted Collective · Arizona</p>
+      <p class="font-caslon text-[clamp(26px,3.4vw,40px)] leading-[1.28] text-ink reveal">“From the beginning, our goal was simple: build a brand people trust, products they love, and an experience they want to come back to.”</p>
+      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#777] mt-[26px]">— Melted Team</p>
     </div>
   </div>
 </section>
@@ -427,11 +429,12 @@
 <section class="bg-white py-[96px] md:py-[120px]">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[70px] items-center">
     <div class="overflow-hidden order-2 md:order-1">
-      <img src="assets/melted/lifestyle.jpg" alt="Melted lifestyle" class="clip w-full">
+      <!-- IMAGE BRIEF (placeholder): inclusive group — broad ages (incl. seniors) and ethnicities (incl. Black men & women) holding Melted products (Common Citizen tone). Swap for final photography. -->
+      <img src="https://placehold.co/1600x1000/d8d8d8/1c1c1c?text=PHOTO+BRIEF%5CnDiverse+group+-+all+ages%5Cnholding+Melted" alt="Photo brief: a diverse group across ages and ethnicities, including Black men and women, holding Melted products" class="clip w-full">
     </div>
     <div class="order-1 md:order-2">
-      <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink line-mask"><span>Born in the Arizona<br>desert. Built to<br>travel far.</span></h2>
-      <p class="reveal font-garamond text-[19px] text-[#555] leading-[1.7] mt-[24px] max-w-[520px]">Melted started as a small Arizona collective with one rule — do it the right way, every time. That's still the standard as we grow into new states with like-minded partners. We make premium, consistent cannabis for everyone who appreciates the difference.</p>
+      <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink line-mask"><span>Rooted in the desert.<br>Crafted for humankind.</span></h2>
+      <p class="reveal font-garamond text-[19px] text-[#555] leading-[1.7] mt-[24px] max-w-[520px]">Melted is an Arizona-born cannabis brand built on quality, consistency, and care. What started as a local collective has grown into a lifestyle brand for those who appreciate premium products, authentic experiences, and cannabis crafted the right way.</p>
       <a href="about.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] mt-[32px] inline-block">About Us</a>
     </div>
   </div>
@@ -442,11 +445,11 @@
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
     <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-[16px] mb-[52px]">
       <div>
-        <h2 class="font-caslon text-[clamp(34px,4.6vw,56px)] leading-[1.04] text-ink line-mask"><span>Wear the drip.</span></h2>
+        <h2 class="font-caslon text-[clamp(34px,4.6vw,56px)] leading-[1.04] text-ink line-mask"><span>Melted Essentials.</span></h2>
       </div>
       <a href="merch.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
     </div>
-    <div data-merch class="grid grid-cols-2 gap-x-[24px] md:gap-x-[30px] gap-y-[40px] max-w-[680px]"></div>
+    <div data-merch class="grid grid-cols-2 sm:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px]"></div>
   </div>
 </section>
 
@@ -458,8 +461,8 @@
 <!-- ============================== LOCATIONS ============================== -->
 <section class="bg-ink text-white py-[100px] md:py-[130px]">
   <div class="max-w-[1100px] mx-auto px-[28px] md:px-[45px] text-center">
-    <h2 class="reveal font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mx-auto">Available at Curaleaf and partner dispensaries.</h2>
-    <p class="reveal font-garamond text-[19px] text-[#bdbdbd] leading-[1.7] mt-[18px] max-w-[640px] mx-auto">Across Arizona and Maryland — with Ohio coming soon.</p>
+    <h2 class="reveal font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mx-auto">Find Melted near you.</h2>
+    <p class="reveal font-garamond text-[19px] text-[#bdbdbd] leading-[1.7] mt-[18px] max-w-[640px] mx-auto">Available across Arizona and Maryland, with Ohio coming soon.</p>
 
     <div data-locations class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[20px] gap-y-[0] mt-[52px] text-left"></div>
 
@@ -518,9 +521,13 @@
   ];
   var MERCH=[
     {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/rope_1.jpg'},
-    {id:'logo-tank', name:'Logo Tank',                  price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'}
+    {id:'logo-tank', name:'Logo Tank',                  price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'},
+    {id:'coming-soon-tee',    name:'Melted Logo Tee', price:'$29.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
+    {id:'coming-soon-hoodie', name:'Melted Hoodie',   price:'$64.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
+    {id:'coming-soon-beanie', name:'Melted Beanie',   price:'$24.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
+    {id:'coming-soon-tote',   name:'Melted Tote Bag', price:'$19.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'}
   ];
-  var LOCATIONS=['Youngtown','Peoria','Glendale','Phoenix','Scottsdale','Midtown','Sedona','Gilbert','Queen Creek','Tucson','Baltimore, MD','Rockville, MD','Ocean City, MD','Frederick, MD','Salisbury, MD','Germantown, MD'];
+  var LOCATIONS=['Gilbert, AZ','Glendale, AZ','Midtown, AZ','Peoria, AZ','Phoenix, AZ','Queen Creek, AZ','Scottsdale, AZ','Sedona, AZ','Tucson, AZ','Youngtown, AZ','Baltimore, MD','Frederick, MD','Germantown, MD','Ocean City, MD','Rockville, MD','Salisbury, MD'];
 
   function el(html){ var t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstChild; }
 
