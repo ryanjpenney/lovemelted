@@ -33,6 +33,9 @@
 <style>
   :root{ --swirl:url('assets/melted/swirl_strip.jpg'); }
   html{ scroll-padding-top:72px; }   /* fixed header stays clear of anchor targets (#lineup, #merch) */
+  /* Header ZIP input follows the nav's current text colour (white over hero, ink when scrolled) */
+  .hzip-in{ color:currentColor; }
+  .hzip-in::placeholder{ color:currentColor; opacity:.55; }
   html{ scroll-behavior:smooth; }
   body{ font-family:'EB Garamond',serif; background:#000; color:#0a0a0a; overflow-x:hidden; }
   ::selection{ background:#0a0a0a; color:#fff; }
@@ -158,8 +161,8 @@
 <!-- ===== First-visit tiger opener → "are you 21?" age gate ===== -->
 <div id="m-intro" aria-hidden="true">
   <video id="m-intro-vid" muted autoplay playsinline preload="auto">
-    <source src="assets/melted/website-opener-2026.webm" type="video/webm">
-    <source src="assets/melted/website-opener-2026.mp4" type="video/mp4">
+    <source src="assets/melted/tiger-intro-2026.webm" type="video/webm">
+    <source src="assets/melted/tiger-intro-2026.mp4" type="video/mp4">
   </video>
 </div>
 <div id="m-gate" role="dialog" aria-modal="true" aria-label="Age verification">
@@ -279,22 +282,31 @@
 
 <!-- ============================== NAV ============================== -->
 <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-colors duration-500">
-  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] h-[72px] flex items-center justify-between">
-    <a href="index.html" class="flex items-center gap-[14px]" aria-label="Melted home">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-[1fr_auto_1fr] items-center h-[72px] gap-[16px]">
+    <a href="index.html" class="flex items-center justify-self-start" aria-label="Melted home">
       <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
     </a>
-    <nav class="hidden md:flex items-center gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase">
+    <nav class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
       <a href="products.html" data-nav class="nlink text-white">Products</a>
       <a href="about.html" data-nav class="nlink text-white">About Us</a>
       <a href="merch.html" data-nav class="nlink text-white">Merch</a>
       <a href="locations.html" data-nav class="nlink text-white">Locations</a>
     </nav>
-    <a href="locations.html" data-nav-cta class="hidden sm:inline-flex btn btn-ghost-dark">Find a Dispensary</a>
-    <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-label="Menu">Menu</button>
+    <div class="flex items-center gap-[12px] justify-self-end">
+      <form data-hzip-form data-nav-zip class="hidden sm:flex items-center gap-[7px] border border-current h-[34px] px-[11px] text-white transition-colors">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="hzip-in font-oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent">
+      </form>
+      <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-label="Menu">Menu</button>
+    </div>
   </div>
   <!-- mobile menu -->
   <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
     <div class="px-[28px] py-[22px] flex flex-col gap-[18px] font-oswald text-[14px] tracking-[0.16em] uppercase text-white">
+      <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-white/40 h-[40px] px-[12px] max-w-[220px] text-white mb-[2px]">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[15px] h-[15px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP CODE" aria-label="ZIP code" class="hzip-in font-oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent">
+      </form>
       <a href="products.html">Products</a>
       <a href="about.html">About Us</a>
       <a href="merch.html">Merch</a>
@@ -496,8 +508,8 @@
   /* ---------- Data (mirrors window.MELTED catalog; ids match product.html) ---------- */
   var PRODUCTS=[
     {id:'live-resin-gummies', name:'Live Resin Gummies',        price:'$28.00', spec:'Live Resin · 4 Flavors',     tag:'Bold, fruit-forward live resin gummies.',        badge:'',            img:'assets/melted/gallery/live_resin.jpg'},
-    {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin in a golden tin.',  badge:'Fan Favorite',img:'assets/melted/gallery/live_rosin.jpg'},
-    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_1.jpg'},
+    {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin gummies.',          badge:'Fan Favorite',img:'assets/melted/gallery/live-rosin-gummy.jpg'},
+    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_3.jpg'},
     {id:'tigerstyle-cartridge',name:'Tigerstyle Cartridge',     price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'}
   ];
   var MERCH=[
@@ -569,14 +581,14 @@
   var nav=document.getElementById('nav');
   var logo=document.querySelector('[data-logo]');
   var navLinks=document.querySelectorAll('[data-nav]');
-  var cta=document.querySelector('[data-nav-cta]');
+  var zipForm=document.querySelector('[data-nav-zip]');
   function onScroll(){
     var solid = window.scrollY > (innerHeight*0.75);
     nav.classList.toggle('bg-white', solid);
     nav.classList.toggle('shadow-[0_1px_0_rgba(0,0,0,0.08)]', solid);
     if(logo) logo.src = solid ? 'assets/melted/logo_black.png' : 'assets/melted/logo_white.png';
     navLinks.forEach(function(a){ a.classList.toggle('text-white',!solid); a.classList.toggle('text-ink',solid); });
-    if(cta){ cta.classList.toggle('btn-ghost-dark',!solid); cta.classList.toggle('btn-ghost-light',solid); }
+    if(zipForm){ zipForm.classList.toggle('text-white',!solid); zipForm.classList.toggle('text-ink',solid); }
   }
   onScroll(); addEventListener('scroll',onScroll,{passive:true});
 
@@ -584,6 +596,29 @@
   var burger=document.querySelector('[data-burger]'), mob=document.querySelector('[data-mobile]');
   if(burger) burger.addEventListener('click',function(){ mob.classList.toggle('hidden'); });
   mob && mob.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ mob.classList.add('hidden'); }); });
+
+  /* ---------- Header ZIP input (persists to melted_zip; syncs with the store locator on other pages) ---------- */
+  (function(){
+    var ZK='melted_zip';
+    function zGet(){ try{ return localStorage.getItem(ZK)||''; }catch(e){ return ''; } }
+    function zValid(z){ return /^\d{5}$/.test(z); }
+    var inputs=document.querySelectorAll('[data-hzip]');
+    if(!inputs.length) return;
+    var saved=zGet(); if(saved) inputs.forEach(function(i){ i.value=saved; });
+    document.querySelectorAll('[data-hzip-form]').forEach(function(f){
+      f.addEventListener('submit',function(e){
+        e.preventDefault();
+        var z=(f.querySelector('[data-hzip]').value||'').trim();
+        if(!zValid(z)) return;
+        try{ localStorage.setItem(ZK,z); }catch(_){}
+        document.dispatchEvent(new CustomEvent('melted:zip',{detail:z}));
+      });
+    });
+    document.addEventListener('melted:zip',function(e){
+      var z=e.detail||'';
+      inputs.forEach(function(i){ if(i.value!==z) i.value=z; });
+    });
+  })();
 
   /* ---------- Magnetic product cards (subtle) ---------- */
   if(!reduce && window.matchMedia('(hover:hover) and (pointer:fine)').matches){

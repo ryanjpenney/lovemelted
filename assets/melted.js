@@ -132,11 +132,11 @@
     "live-rosin-gummies": {
       name: "Live Rosin Gummies", price: "$28.00", kind: "product",
       badge: "Fan Favorite", spec: "Live Rosin · 4 Flavors",
-      tagline: "Rich, full-flavored live rosin in a golden tin.",
-      detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per golden tin, 10mg each. No distillate, no shortcuts.",
+      tagline: "Rich, full-flavored live rosin gummies.",
+      detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per tin, 10mg each. No distillate, no shortcuts.",
       facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
       flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
-      gallery: ["assets/melted/gallery/live_rosin.jpg"]
+      gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"]
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
@@ -144,7 +144,7 @@
       tagline: "Five mini infused pre-rolls, ready when you are.",
       detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
       facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
-      gallery: ["assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg","assets/melted/gallery/pr_3.jpg"]
+      gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
     },
     "tigerstyle-cartridge": {
       name: "Tigerstyle Cartridge", price: "$40.00", kind: "product",
@@ -227,26 +227,38 @@
   /* ---------- Markup: header ---------- */
   function headerHTML() {
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
+    const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
-  <div class="max-w-[1275px] mx-auto h-[72px] flex items-center justify-between px-[28px] md:px-[45px]">
-    <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0">
+  <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
+    <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
     </a>
-    <nav class="oswald hidden md:flex items-center gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black">
+    <nav class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
       ${link("products.html", "Products")}
       ${link("about.html", "About Us")}
       ${link("merch.html", "Merch")}
       ${link("locations.html", "Locations")}
     </nav>
-    <a href="locations.html" class="oswald hidden sm:inline-flex items-center border border-black text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[22px] py-[12px] hover:bg-black hover:text-white transition-colors">Find a Dispensary</a>
-    <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-label="Menu">Menu</button>
+    <div class="flex items-center gap-[12px] justify-self-end">
+      <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[34px] px-[11px]">
+        ${pin}
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#999]">
+      </form>
+      <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-label="Menu">Menu</button>
+    </div>
   </div>
-  <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px] text-black" data-mobile-menu>
-    <a href="products.html" class="block">Products</a>
-    <a href="about.html" class="block">About Us</a>
-    <a href="merch.html" class="block">Merch</a>
-    <a href="locations.html" class="block">Locations</a>
+  <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
+    <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] px-[12px] mb-[20px] max-w-[220px]">
+      ${pin}
+      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#999]">
+    </form>
+    <div class="oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px]">
+      <a href="products.html" class="block">Products</a>
+      <a href="about.html" class="block">About Us</a>
+      <a href="merch.html" class="block">Merch</a>
+      <a href="locations.html" class="block">Locations</a>
+    </div>
   </div>
 </header>`;
   }
@@ -280,7 +292,7 @@
     <div class="md:ml-[125px] mt-10 md:mt-0">
       <h4 class="oswald text-[12px] font-medium tracking-[0.05em] uppercase text-white">Company</h4>
       <ul class="oswald text-[16px] font-light uppercase text-white mt-[24px] space-y-[21px]">
-        ${li("about.html","About Us")}${li("about.html#join","Join Melted")}${li("events.html","Events &amp; Happenings")}${li("faqs.html","FAQs")}${li("about.html#contact","Contact")}
+        ${li("about.html","About Us")}${li("about.html#join","Join Melted")}${li("events.html","Events &amp; Happenings")}${li("faqs.html","FAQs")}
       </ul>
     </div>
     <div class="md:ml-[91px] mt-10 md:mt-0">
@@ -292,7 +304,6 @@
   </div>
   <div class="caslon text-[17px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
     <p>Copyright © 2026, <span class="oswald text-[13px] font-light">Melted</span>. All rights reserved.</p>
-    <p><a href="mailto:info@studiobrands.cc" class="hover:opacity-60">info@studiobrands.cc</a></p>
   </div>
   <div class="relative mt-[25px]">
     <img src="assets/melted/mark_white.png" alt="Melted mark" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
@@ -321,45 +332,21 @@
     const mm = document.querySelector("[data-mobile-menu]");
     if (mt && mm) mt.addEventListener("click", () => mm.classList.toggle("hidden"));
 
-    // ZIP selector
-    const root = document.querySelector("[data-zip-root]");
-    if (root) {
-      const panel = root.querySelector(".zip-panel");
-      const openBtn = root.querySelector("[data-zip-open]");
-      const form = root.querySelector("[data-zip-form]");
-      const input = root.querySelector("[data-zip-input]");
-      const msg = root.querySelector("[data-zip-msg]");
-      const result = root.querySelector("[data-zip-result]");
-      const clearBtn = root.querySelector("[data-zip-clear]");
-      const openP = () => { panel.classList.remove("opacity-0","invisible"); input.value = getZip(); refresh(); input.focus(); };
-      const closeP = () => panel.classList.add("opacity-0","invisible");
-      openBtn.addEventListener("click", e => { e.stopPropagation(); panel.classList.contains("invisible") ? openP() : closeP(); });
-      document.addEventListener("click", e => { if (!root.contains(e.target)) closeP(); });
-      function refresh() {
-        const z = getZip();
-        clearBtn.classList.toggle("hidden", !z);
-        if (z && validZip(z)) {
-          const near = nearestStores(z, 1);
-          if (near) {
-            result.innerHTML = `<div class="border-t border-[#eee] mt-2 pt-2">
-              <p class="oswald text-[10px] tracking-[0.08em] uppercase text-[#999]">Nearest dispensary</p>
-              <p class="garamond text-[15px] text-black mt-0.5">${near[0].name}</p>
-              <p class="garamond text-[13px] text-[#777]">${near[0].dist.toFixed(1)} mi · ${near[0].addr}</p>
-              <a href="locations.html" class="oswald text-[11px] tracking-[0.06em] uppercase border-b border-black inline-block mt-2">All locations</a>
-            </div>`;
-          } else { result.innerHTML = ""; }
-        } else { result.innerHTML = ""; }
-      }
-      form.addEventListener("submit", e => {
+    // Header ZIP input(s) ↔ store locator — synced via setZip() + the "melted:zip" event
+    const zipInputs = document.querySelectorAll("[data-hzip]");
+    if (zipInputs.length) {
+      const saved = getZip();
+      if (saved) zipInputs.forEach(inp => { inp.value = saved; });
+      document.querySelectorAll("[data-hzip-form]").forEach(f => f.addEventListener("submit", e => {
         e.preventDefault();
-        const z = input.value.trim();
-        if (!validZip(z)) { msg.textContent = "Enter a 5-digit ZIP code."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
-        if (!zipCoords(z)) { msg.textContent = "No Melted store near that ZIP yet — we’re in AZ & MD."; msg.className = "garamond text-[13px] mt-2 text-[#c0392b]"; return; }
-        setZip(z); msg.textContent = "Saved. We’ll show your closest store."; msg.className = "garamond text-[13px] mt-2 text-black"; refresh();
+        const z = (f.querySelector("[data-hzip]").value || "").trim();
+        if (validZip(z)) setZip(z);          // persists to localStorage + dispatches "melted:zip"
+      }));
+      document.addEventListener("melted:zip", e => {
+        const z = e.detail || "";
+        zipInputs.forEach(inp => { if (inp.value !== z) inp.value = z; });
       });
-      clearBtn.addEventListener("click", () => { setZip(""); input.value = ""; msg.textContent = ""; refresh(); });
     }
-    document.querySelectorAll("[data-zip-label]").forEach(updateZipLabel);
 
     // Newsletter (footer)
     const nf = document.querySelector("[data-news-form]");

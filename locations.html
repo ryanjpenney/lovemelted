@@ -160,8 +160,7 @@
       count.textContent = "Coming soon";
       results.innerHTML = `<div class="border border-dashed border-[#cbcbcb] p-[26px]">
         <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#999]">Coming soon to ${M.STATE_NAMES[region]}</p>
-        <p class="garamond text-[18px] text-[#444] leading-[1.65] mt-2">We're expanding into ${M.STATE_NAMES[region]} — ${cities.map(c => c.name).join(", ")} and more on the way. Sign up and we'll tell you the moment Melted lands near you.</p>
-        <a href="mailto:info@studiobrands.cc?subject=Melted%20in%20${encodeURIComponent(M.STATE_NAMES[region])}" class="oswald inline-block bg-black text-white text-[11px] tracking-[0.08em] uppercase px-6 py-3 mt-4 hover:bg-[#333] transition-colors">Notify Me</a>
+        <p class="garamond text-[18px] text-[#444] leading-[1.65] mt-2">We're expanding into ${M.STATE_NAMES[region]} — ${cities.map(c => c.name).join(", ")} and more on the way. Check back soon.</p>
       </div>`;
       M.STORES.forEach(s => { if (map.hasLayer(markers[s.zip])) map.removeLayer(markers[s.zip]); });
       showSoon(true);
@@ -273,6 +272,14 @@
     searchPin = L.marker(c, { icon: L.divIcon({ className: "m-pin", html: "<span></span>", iconSize: [14, 14], iconAnchor: [7, 7] }) }).addTo(map);
     const near = M.nearestStores(z, 3).map(s => [s.lat, s.lng]);
     map.fitBounds(L.latLngBounds([c, ...near]).pad(0.25));
+  });
+
+  /* ---- Two-way sync with the global header ZIP input ---- */
+  document.addEventListener("melted:zip", e => {
+    const z = e.detail || "";
+    if (!z || z === input.value || !M.validZip(z)) return;   // ignore our own updates / invalid
+    input.value = z;
+    document.querySelector("[data-loc-form]").requestSubmit();  // runs the same search the form does
   });
 
   /* ---- Init ---- */
