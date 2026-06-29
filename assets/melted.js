@@ -366,48 +366,7 @@
     if (nf) nf.addEventListener("submit", e => { e.preventDefault(); document.querySelector("[data-news-msg]").textContent = "Thanks — you’re on the list."; nf.reset(); });
   }
 
-  /* ---------- Interactive cursor ---------- */
-  const CURSOR_CSS = `
-@media (hover:hover) and (pointer:fine){
-  html.m-cursor-on, html.m-cursor-on a, html.m-cursor-on button, html.m-cursor-on .thumb, html.m-cursor-on [data-hover]{ cursor:none !important; }
-  html.m-cursor-on input, html.m-cursor-on textarea, html.m-cursor-on select{ cursor:auto !important; }
-}
-.m-cur{ position:fixed; left:0; top:0; z-index:2147483647; pointer-events:none; border-radius:9999px; mix-blend-mode:difference; will-change:transform; }
-.m-cur-dot{ width:7px; height:7px; margin:-3.5px 0 0 -3.5px; background:#fff; }
-.m-cur-ring{ width:36px; height:36px; margin:-18px 0 0 -18px; border:1.5px solid #fff;
-  transition:width .22s ease, height .22s ease, margin .22s ease, opacity .2s ease, background-color .22s ease; }
-.m-cur-ring.m-hover{ width:62px; height:62px; margin:-31px 0 0 -31px; background:rgba(255,255,255,.14); border-color:transparent; }
-.m-cur-ring.m-down{ transform-origin:center; width:28px; height:28px; margin:-14px 0 0 -14px; }
-.m-cur.m-hide{ opacity:0; }
-/* While a modal is open, hide the custom cursor and restore the native one so it's always visible */
-html.m-modal-open .m-cur{ display:none !important; }
-html.m-modal-open, html.m-modal-open *{ cursor:auto !important; }
-html.m-modal-open a, html.m-modal-open button, html.m-modal-open label, html.m-modal-open [data-method], html.m-modal-open [role="button"]{ cursor:pointer !important; }
-html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
-
-  function initCursor() {
-    if (!window.matchMedia) return;
-    if (!matchMedia("(hover:hover) and (pointer:fine)").matches) return;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (document.querySelector(".m-cur-dot")) return;
-    document.documentElement.classList.add("m-cursor-on");
-    const dot = document.createElement("div"); dot.className = "m-cur m-cur-dot m-hide";
-    const ring = document.createElement("div"); ring.className = "m-cur m-cur-ring m-hide";
-    document.body.appendChild(ring); document.body.appendChild(dot);
-    let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, shown = false;
-    addEventListener("mousemove", e => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px,${my}px)`;
-      if (!shown) { shown = true; dot.classList.remove("m-hide"); ring.classList.remove("m-hide"); }
-    }, { passive: true });
-    document.addEventListener("mouseleave", () => { dot.classList.add("m-hide"); ring.classList.add("m-hide"); shown = false; });
-    addEventListener("mousedown", () => ring.classList.add("m-down"));
-    addEventListener("mouseup", () => ring.classList.remove("m-down"));
-    const sel = "a,button,input,textarea,select,label,.thumb,[data-hover],.leaflet-marker-icon,.leaflet-control a";
-    addEventListener("mouseover", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.add("m-hover"); });
-    addEventListener("mouseout", e => { if (e.target.closest && e.target.closest(sel)) ring.classList.remove("m-hover"); });
-    (function loop() { rx += (mx - rx) * 0.18; ry += (my - ry) * 0.18; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
-  }
+  /* custom interactive cursor removed — using the native cursor */
 
   /* ---------- Age gate + tiger intro ---------- */
   const AGE_KEY = "melted_age_ok";
@@ -445,7 +404,6 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
     document.documentElement.removeAttribute("data-gate");
     document.documentElement.style.background = "";
     lockScroll(false);
-    initCursor();
   }
 
   function playIntro() {
@@ -839,7 +797,7 @@ html.m-modal-open input, html.m-modal-open textarea{ cursor:text !important; }`;
   function mount() {
     if (!document.getElementById("m-cursor-style")) {
       const st = document.createElement("style"); st.id = "m-cursor-style";
-      st.textContent = CURSOR_CSS + GATE_CSS;
+      st.textContent = GATE_CSS;
       document.head.appendChild(st);
     }
     const h = document.querySelector("[data-melted-header]");
