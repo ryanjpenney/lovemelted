@@ -228,72 +228,25 @@
   function headerHTML() {
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
     return `
-<div class="relative bg-[#0a0a0a] h-[34px] flex items-center justify-center">
-  <p class="oswald text-white text-[11px] font-medium tracking-[0.14em] uppercase">Now at dispensaries across Arizona &amp; Maryland · Ohio coming soon</p>
-</div>
-<header class="bg-white sticky top-0 z-40 border-b border-[#ededed]">
-  <div class="h-[72px] flex items-center justify-between px-[28px] md:px-[45px]">
-    <nav class="oswald hidden md:flex items-center gap-7 text-[13px] font-medium tracking-[0.05em] uppercase text-black flex-1">
-      <div class="relative group">
-        <a href="products.html" class="flex items-center gap-1.5 py-[26px]" data-nav-toggle>Products
-          <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </a>
-        <div class="mega absolute left-0 top-full bg-white border border-[#ededed] shadow-xl w-[500px] p-7 grid grid-cols-2 gap-5 opacity-0 invisible transition-all duration-150">
-          ${Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(productMenuCard).join("")}
-          <div class="col-span-2 border-t border-[#eee] pt-4 flex justify-between items-center">
-            <span class="garamond text-[14px] text-[#888] normal-case tracking-normal">Premium cannabis for everyone.</span>
-            ${link("products.html", "View all →")}
-          </div>
-        </div>
-      </div>
+<header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
+  <div class="max-w-[1275px] mx-auto h-[72px] flex items-center justify-between px-[28px] md:px-[45px]">
+    <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0">
+      <img src="assets/melted/logo_black.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
+    </a>
+    <nav class="oswald hidden md:flex items-center gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black">
+      ${link("products.html", "Products")}
+      ${link("about.html", "About Us")}
       ${link("merch.html", "Merch")}
       ${link("locations.html", "Locations")}
-      ${link("about.html", "About")}
     </nav>
-    <button class="md:hidden oswald text-[13px] uppercase tracking-[0.05em]" data-mobile-toggle aria-label="Menu">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-    <a href="index.html" class="absolute left-1/2 -translate-x-1/2"><img src="assets/melted/logo_black.png" alt="melted" class="h-[32px]"></a>
-    <div class="flex items-center justify-end gap-4 md:gap-5 flex-1 text-black">
-      <!-- ZIP selector -->
-      <div class="relative" data-zip-root>
-        <button class="flex items-center gap-2 border border-[#dcdcdc] hover:border-black transition-colors rounded-full pl-3 pr-3 py-[7px]" data-zip-label data-zip-open aria-haspopup="true">
-          <svg class="w-[15px] h-[15px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-          <span class="text-left leading-none">
-            <span class="oswald block text-[12px] font-medium tracking-[0.04em] uppercase" data-zip-text>Set ZIP</span>
-            <span class="oswald block text-[9px] font-light tracking-[0.06em] uppercase text-[#999]" data-zip-store>Your store</span>
-          </span>
-          <svg class="w-3 h-3 text-[#999]" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
-        </button>
-        <div class="zip-panel absolute right-0 top-full mt-2 w-[300px] bg-white border border-[#e3e3e3] shadow-xl p-5 opacity-0 invisible transition-all z-50">
-          <p class="oswald text-[12px] font-medium tracking-[0.08em] uppercase text-black">Your location</p>
-          <p class="garamond text-[14px] text-[#777] mt-1 leading-snug">Save your ZIP to see the nearest dispensary and personalize availability across the site.</p>
-          <form data-zip-form class="mt-3 flex gap-2">
-            <input data-zip-input inputmode="numeric" maxlength="5" placeholder="e.g. 85008" class="oswald flex-1 border border-[#d4d4d4] focus:border-black outline-none px-3 py-2 text-[14px] tracking-[0.05em]">
-            <button type="submit" class="oswald bg-black text-white text-[11px] font-medium tracking-[0.08em] uppercase px-4">Save</button>
-          </form>
-          <p data-zip-msg class="garamond text-[13px] mt-2 min-h-[18px]"></p>
-          <div data-zip-result class="mt-1"></div>
-          <button type="button" data-zip-clear class="oswald text-[10px] tracking-[0.08em] uppercase text-[#aaa] hover:text-black mt-2 hidden">Clear location</button>
-        </div>
-      </div>
-      <a href="locations.html" aria-label="Search"><svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
-      <button type="button" data-account aria-label="Account" class="relative flex items-center">
-        <svg data-account-icon class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-        <span data-account-initial class="hidden w-[26px] h-[26px] rounded-full bg-black text-white oswald text-[12px] font-medium items-center justify-center leading-none"></span>
-      </button>
-      <a href="merch.html" class="relative" aria-label="Cart">
-        <svg class="w-[21px] h-[21px]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg>
-        <span class="absolute -bottom-1 -right-1.5 bg-white text-black text-[10px] oswald font-medium w-4 h-4 rounded-full border border-black flex items-center justify-center leading-none">0</span>
-      </a>
-    </div>
+    <a href="locations.html" class="oswald hidden sm:inline-flex items-center border border-black text-black text-[12px] font-medium tracking-[0.1em] uppercase px-[22px] py-[12px] hover:bg-black hover:text-white transition-colors">Find a Dispensary</a>
+    <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-label="Menu">Menu</button>
   </div>
-  <!-- Mobile menu -->
-  <div class="md:hidden hidden border-t border-[#ededed] px-7 py-5 oswald text-[14px] uppercase tracking-[0.05em] space-y-4" data-mobile-menu>
+  <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px] text-black" data-mobile-menu>
     <a href="products.html" class="block">Products</a>
+    <a href="about.html" class="block">About Us</a>
     <a href="merch.html" class="block">Merch</a>
     <a href="locations.html" class="block">Locations</a>
-    <a href="about.html" class="block">About</a>
   </div>
 </header>`;
   }

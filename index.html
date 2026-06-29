@@ -71,7 +71,7 @@
   /* ---------- Scroll reveals ---------- */
   .reveal{ opacity:0; transform:translateY(34px); transition:opacity 1s cubic-bezier(.16,.84,.3,1), transform 1s cubic-bezier(.16,.84,.3,1); }
   .reveal.in{ opacity:1; transform:none; }
-  .line-mask{ display:block; overflow:hidden; }
+  .line-mask{ display:block; overflow:hidden; padding-bottom:0.14em; margin-bottom:-0.14em; }   /* room for descenders (y, p, g) so the mask doesn't clip them */
   .line-mask > span{ display:block; transform:translateY(110%); transition:transform 1.05s cubic-bezier(.16,.84,.3,1); }
   .line-mask.in > span{ transform:none; }
   .stagger > *{ transition-delay:var(--d,0ms); }
@@ -302,9 +302,8 @@
     </a>
     <nav class="hidden md:flex items-center gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase">
       <a href="products.html" data-nav class="nlink text-white">Products</a>
-      <a href="#lineup" data-nav class="nlink text-white">Lineup</a>
       <a href="about.html" data-nav class="nlink text-white">About Us</a>
-      <a href="#merch" data-nav class="nlink text-white">Merch</a>
+      <a href="merch.html" data-nav class="nlink text-white">Merch</a>
       <a href="locations.html" data-nav class="nlink text-white">Locations</a>
     </nav>
     <a href="locations.html" data-nav-cta class="hidden sm:inline-flex btn btn-ghost-dark">Find a Dispensary</a>
@@ -314,9 +313,8 @@
   <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
     <div class="px-[28px] py-[22px] flex flex-col gap-[18px] font-oswald text-[14px] tracking-[0.16em] uppercase text-white">
       <a href="products.html">Products</a>
-      <a href="#lineup">Lineup</a>
       <a href="about.html">About Us</a>
-      <a href="#merch">Merch</a>
+      <a href="merch.html">Merch</a>
       <a href="locations.html">Locations</a>
     </div>
   </div>
@@ -464,7 +462,7 @@
     <h2 class="reveal font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mx-auto">Find Melted near you.</h2>
     <p class="reveal font-garamond text-[19px] text-[#bdbdbd] leading-[1.7] mt-[18px] max-w-[640px] mx-auto">Available across Arizona and Maryland, with Ohio coming soon.</p>
 
-    <div data-locations class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-[20px] gap-y-[0] mt-[52px] text-left"></div>
+    <div data-locations class="grid grid-cols-1 sm:grid-cols-3 gap-x-[40px] gap-y-[36px] mt-[52px] text-left"></div>
 
     <a href="locations.html" class="btn btn-solid mt-[52px]">Open the Store Locator
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
@@ -516,7 +514,7 @@
   var PRODUCTS=[
     {id:'live-resin-gummies', name:'Live Resin Gummies',        price:'$28.00', spec:'Live Resin · 4 Flavors',     tag:'Bold, fruit-forward live resin gummies.',        badge:'',            img:'assets/melted/gallery/live_resin.jpg'},
     {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin in a golden tin.',  badge:'Fan Favorite',img:'assets/melted/gallery/live_rosin.jpg'},
-    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Five .5g Infused Pre-Rolls', tag:'Five .5g infused pre-rolls in the tiger tin.',    badge:'',            img:'assets/melted/gallery/mini_melt_tin.jpg'},
+    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_1.jpg'},
     {id:'tigerstyle-cartridge',name:'Tigerstyle Cartridge',     price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'}
   ];
   var MERCH=[
@@ -527,7 +525,11 @@
     {id:'coming-soon-beanie', name:'Melted Beanie',   price:'$24.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
     {id:'coming-soon-tote',   name:'Melted Tote Bag', price:'$19.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'}
   ];
-  var LOCATIONS=['Gilbert, AZ','Glendale, AZ','Midtown, AZ','Peoria, AZ','Phoenix, AZ','Queen Creek, AZ','Scottsdale, AZ','Sedona, AZ','Tucson, AZ','Youngtown, AZ','Baltimore, MD','Frederick, MD','Germantown, MD','Ocean City, MD','Rockville, MD','Salisbury, MD'];
+  var LOCATIONS=[
+    {state:'Arizona', cities:['Gilbert','Glendale','Midtown','Peoria','Phoenix','Queen Creek','Scottsdale','Sedona','Tucson','Youngtown']},
+    {state:'Maryland',cities:['Baltimore','Frederick','Germantown','Ocean City','Rockville','Salisbury']},
+    {state:'Ohio',    cities:[]}
+  ];
 
   function el(html){ var t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstChild; }
 
@@ -562,9 +564,15 @@
 
   /* ---------- Render locations ---------- */
   var lgrid=document.querySelector('[data-locations]');
-  LOCATIONS.forEach(function(name){
+  LOCATIONS.forEach(function(group){
+    var items = group.cities.length
+      ? group.cities.map(function(c){ return '<li><a href="locations.html" class="block py-[7px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c+'</a></li>'; }).join('')
+      : '<li class="py-[7px] font-garamond text-[16px] italic text-[#8a8a8a]">Coming soon</li>';
     lgrid.appendChild(el(
-      '<a href="locations.html" class="border-t border-white/15 py-[16px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white hover:border-white transition-colors block">'+name+'</a>'
+      '<div class="border-t border-white/20 pt-[20px]">'
+      + '<h3 class="font-oswald text-[13px] font-medium tracking-[0.22em] uppercase text-white mb-[10px]">'+group.state+'</h3>'
+      + '<ul>'+items+'</ul>'
+      + '</div>'
     ));
   });
 
