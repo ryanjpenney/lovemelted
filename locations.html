@@ -257,12 +257,23 @@
     if (!M.validZip(z)) { msg.textContent = "Please enter a 5-digit ZIP code."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#c0392b]"; return; }
     const c = M.zipCoords(z);
     if (!c) {
-      if (/^4[3-5]\d{3}$/.test(z)) {   // Ohio ZIP range — coming soon
+      const st = M.zipStateAbbr(z);
+      if (st === "OH") {                       // Ohio — coming soon
         region = "OH"; sortZip = null; render();
-        msg.textContent = "Melted is coming soon to Ohio — sign up to hear first."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#9a6b1f]";
+        msg.textContent = "Melted is coming soon to Ohio — hang tight, it won't be long!"; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#9a6b1f]";
         return;
       }
-      msg.textContent = "No Melted store near that ZIP yet — we’re in Arizona & Maryland, with Ohio coming soon."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#c0392b]"; return;
+      if (st === "AZ" || st === "MD") {         // in a state we serve, just not near a known ZIP
+        region = st; sortZip = null; render(); fitToVisible();
+        msg.textContent = "We're in " + (M.STATE_NAMES[st] || st) + " — here are all our stores in the state."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#444]";
+        return;
+      }
+      const name = M.zipStateName(z);
+      msg.textContent = name
+        ? "We're not in " + name + " yet — but hopefully soon! For now you'll find Melted across Arizona and Maryland, with Ohio coming next."
+        : "We couldn't place that ZIP. Melted is in Arizona and Maryland, with Ohio coming soon.";
+      msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-[#9a6b1f]";
+      return;
     }
     M.setZip(z); msg.textContent = "";
     sortZip = z; region = "all";

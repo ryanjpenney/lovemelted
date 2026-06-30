@@ -218,6 +218,42 @@
     document.dispatchEvent(new CustomEvent("melted:zip", { detail: z }));
   }
   function validZip(z) { return /^\d{5}$/.test(z); }
+
+  /* ---------- ZIP → US state (by 3-digit prefix) — powers "we're not in <state> yet" messaging ---------- */
+  const ZIP_RANGES = [[5,5,"NY"],[6,9,"PR"],[10,27,"MA"],[28,29,"RI"],[30,38,"NH"],[39,49,"ME"],[50,59,"VT"],[60,69,"CT"],[70,89,"NJ"],[100,149,"NY"],[150,196,"PA"],[197,199,"DE"],[200,205,"DC"],[206,219,"MD"],[220,246,"VA"],[247,268,"WV"],[270,289,"NC"],[290,299,"SC"],[300,319,"GA"],[320,349,"FL"],[350,369,"AL"],[370,385,"TN"],[386,397,"MS"],[398,399,"GA"],[400,427,"KY"],[430,459,"OH"],[460,479,"IN"],[480,499,"MI"],[500,528,"IA"],[530,549,"WI"],[550,567,"MN"],[570,577,"SD"],[580,588,"ND"],[590,599,"MT"],[600,629,"IL"],[630,658,"MO"],[660,679,"KS"],[680,693,"NE"],[700,714,"LA"],[716,729,"AR"],[730,749,"OK"],[750,799,"TX"],[800,816,"CO"],[820,831,"WY"],[832,838,"ID"],[840,847,"UT"],[850,865,"AZ"],[870,884,"NM"],[889,898,"NV"],[900,961,"CA"],[967,968,"HI"],[970,979,"OR"],[980,994,"WA"],[995,999,"AK"]];
+  const US_STATES = {AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"Washington, D.C.",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming",PR:"Puerto Rico"};
+  function zipStateAbbr(z){ if(!validZip(z)) return ""; const p=parseInt(z.slice(0,3),10); for(let i=0;i<ZIP_RANGES.length;i++){ if(p>=ZIP_RANGES[i][0]&&p<=ZIP_RANGES[i][1]) return ZIP_RANGES[i][2]; } return ""; }
+  function zipStateName(z){ return US_STATES[zipStateAbbr(z)] || ""; }
+
+  /* ---------- Header ZIP feedback: friendly message + a small popover under the input ---------- */
+  function hzipMessage(z){
+    if(!validZip(z)) return { text:"Please enter a 5-digit ZIP code.", err:true, served:false };
+    const ab = zipStateAbbr(z), nm = zipStateName(z);
+    if(ab==="AZ"||ab==="MD"){
+      const near = nearestStores(z,1);
+      return { text:(near&&near[0]) ? ("Nearest store: "+near[0].name+" — "+near[0].dist.toFixed(1)+" mi away.") : ("You're in our area — Melted is in "+nm+"."), err:false, served:true };
+    }
+    if(ab==="OH") return { text:"Melted is coming soon to Ohio — hang tight, it won't be long!", err:false, served:false };
+    if(nm) return { text:"We're not in "+nm+" yet — but hopefully soon!", err:false, served:false };
+    return { text:"We couldn't place that ZIP. Melted is in Arizona & Maryland, with Ohio coming soon.", err:true, served:false };
+  }
+  function hzipPop(form, text, isErr){
+    if(!form) return;
+    if(!form.style.position) form.style.position = "relative";
+    let pop = form.querySelector(".hzip-pop");
+    if(!pop){
+      pop = document.createElement("div");
+      pop.className = "hzip-pop";
+      pop.setAttribute("role","status");
+      pop.style.cssText = "position:absolute;top:calc(100% + 10px);right:0;width:270px;max-width:78vw;background:#fff;color:#1c1c1c;border:1px solid #e3e3e3;border-left:3px solid #0a0a0a;box-shadow:0 12px 30px rgba(0,0,0,.16);padding:12px 14px;font-family:'EB Garamond',serif;font-size:14px;line-height:1.45;text-align:left;z-index:90;";
+      form.appendChild(pop);
+    }
+    pop.style.borderLeftColor = isErr ? "#c0392b" : "#0a0a0a";
+    pop.textContent = text;
+    pop.style.display = "block";
+    clearTimeout(pop._t);
+    pop._t = setTimeout(function(){ pop.style.display = "none"; }, 7000);
+  }
   function updateZipLabel(el) {
     const z = getZip();
     if (z) {
@@ -348,7 +384,9 @@
       document.querySelectorAll("[data-hzip-form]").forEach(f => f.addEventListener("submit", e => {
         e.preventDefault();
         const z = (f.querySelector("[data-hzip]").value || "").trim();
-        if (validZip(z)) setZip(z);          // persists to localStorage + dispatches "melted:zip"
+        const m = hzipMessage(z);
+        if (m.served) setZip(z);             // only save a ZIP we actually serve (this also syncs the locator)
+        hzipPop(f, m.text, m.err);
       }));
       document.addEventListener("melted:zip", e => {
         const z = e.detail || "";
@@ -806,7 +844,7 @@
 
   // Expose for page scripts
   window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, getZip, setZip, validZip, haversine,
-    AUTH_CONFIG, getUser, openAuth, syncMarketing };
+    zipStateAbbr, zipStateName, AUTH_CONFIG, getUser, openAuth, syncMarketing };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
   else mount();
