@@ -258,13 +258,12 @@
   gate.querySelector('.g-yes').addEventListener('click', accept);
   gate.querySelector('.g-no').addEventListener('click', function(){ gate.classList.add('denied'); });
 
-  // ---- boot: 21+ gate FIRST, opener video SECOND ----
+  // ---- boot: 21+ gate ALWAYS first, opener video second (every fresh session) ----
   var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
-  if(verified()){
-    if(seen){ lock(false); }                        // returning + already watched this session → straight in
-    else { playOpener(); }                          // returning this session → replay the opener once
+  if(seen){
+    lock(false);                                    // already passed the gate + watched the opener this session → into the site
   } else {
-    showGate();                                     // new visitor → show the age gate before anything else
+    showGate();                                     // fresh session → 21+ gate first; "Yes, I'm 21+" then plays the opener
   }
 })();
 </script>
@@ -513,12 +512,12 @@
     {id:'tigerstyle-cartridge',name:'Tigerstyle Cartridge',     price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'}
   ];
   var MERCH=[
-    {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/rope_1.jpg'},
+    {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/hat_front.jpg'},
     {id:'logo-tank', name:'Logo Tank',                  price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'},
+    {id:'bandana',   name:'Tiger Bandana',              price:'$18.00', soldout:true, img:'assets/melted/gallery/band_1.jpg'},
     {id:'coming-soon-tee',    name:'Melted Logo Tee', price:'$29.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
     {id:'coming-soon-hoodie', name:'Melted Hoodie',   price:'$64.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
-    {id:'coming-soon-beanie', name:'Melted Beanie',   price:'$24.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'},
-    {id:'coming-soon-tote',   name:'Melted Tote Bag', price:'$19.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'}
+    {id:'coming-soon-beanie', name:'Melted Beanie',   price:'$24.99', soldout:true, img:'https://placehold.co/900x900/f6f6f4/777777?text=Coming+Soon'}
   ];
   var LOCATIONS=[
     {state:'Arizona', cities:['Gilbert','Glendale','Midtown','Peoria','Phoenix','Queen Creek','Scottsdale','Sedona','Tucson','Youngtown']},

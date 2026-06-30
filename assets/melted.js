@@ -160,7 +160,7 @@
       tagline: "Structured cap with the branded Melted bill.",
       detail: "A clean, structured cap with the Melted mark across the bill and an adjustable closure. One size fits most.",
       facts: ["Structured fit", "Branded bill", "Embroidered Melted mark", "Adjustable closure"],
-      gallery: ["assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
+      gallery: ["assets/melted/gallery/hat_front.jpg","assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
     },
     "logo-tank": {
       name: "Logo Tank", price: "$25.99", kind: "merch", soldout: true,
@@ -169,6 +169,14 @@
       detail: "A soft, relaxed cropped tank carrying the dripping Melted logo. Pre-shrunk cotton blend, unisex sizing.",
       facts: ["Cropped fit", "Pre-shrunk cotton blend", "Screen-printed logo", "Sizes S–XXL"],
       gallery: ["assets/melted/gallery/tank_1.jpg","assets/melted/gallery/tank_2.jpg","assets/melted/gallery/tank_3.jpg","assets/melted/gallery/tank_4.jpg"]
+    },
+    "bandana": {
+      name: "Tiger Bandana", price: "$18.00", kind: "merch", soldout: true,
+      badge: "", spec: "One size · 22\" square",
+      tagline: "Black-and-white tiger bandana.",
+      detail: "A soft cotton bandana in signature Melted black-and-white — the folk-tiger and dripping mark on repeat. Wear it, tie it, fly it.",
+      facts: ["100% cotton", "22\" x 22\"", "Screen-printed B&W print", "Tiger & monogram repeat"],
+      gallery: ["assets/melted/gallery/band_1.jpg"]
     }
   };
 
