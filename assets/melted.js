@@ -346,14 +346,14 @@
       </ul>
     </div>
   </div>
-  <div class="caslon text-[17px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
-    <p>Copyright © 2026, <span class="oswald text-[13px] font-light">Melted</span>. All rights reserved.</p>
+  <div class="caslon text-[12px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
+    <p>Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
   </div>
   <div class="relative mt-[25px]">
     <img src="assets/melted/mark_white.png" alt="Melted mark" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
-    <div class="caslon text-[17px] text-[#d6d6d6] leading-[1.5] max-w-[1080px]">
+    <div class="caslon text-[11px] text-[#d6d6d6] leading-[1.5] max-w-[1080px]">
       <p>For use only by adults twenty-one years of age and older. Keep out of reach of children. Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under the influence of marijuana.</p>
-      <p class="mt-[25px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
+      <p class="mt-[8px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
     </div>
   </div>
 </footer>`;
