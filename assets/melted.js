@@ -147,12 +147,28 @@
       gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
     },
     "tigerstyle-cartridge": {
-      name: "Tigerstyle Cartridge", price: "$40.00", kind: "product",
+      name: "Tiger Style Cartridge", price: "$40.00", kind: "product",
       badge: "", spec: "510 Thread · 1g",
       tagline: "A rich, flower-like experience, on the go.",
-      detail: "Our Tigerstyle cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
+      detail: "Our Tiger Style cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
       facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific terpenes"],
       gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
+    },
+    "tiger-style-pre-roll": {
+      name: "Tiger Style Pre-Roll", price: "", kind: "product",
+      badge: "New", spec: "Infused · 1.5g",
+      tagline: "An infused pre-roll of uncommon proportion.",
+      detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
+      facts: ["1.5g top-tier flower", "Infused with premium concentrate", "Tobacco-free organic hemp wrap", "Glass tube in the tiger canister"],
+      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"]
+    },
+    "tiger-style-thca-diamonds": {
+      name: "Tiger Style THCa Diamonds", price: "", kind: "product",
+      badge: "New", spec: "Concentrate · 1g",
+      tagline: "Crystalline THCa, refined to its purest form.",
+      detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
+      facts: ["1g crystalline THCa", "Exceptional purity and potency", "Grown slowly from premium extract", "Glass jar in the tiger keepsake box"],
+      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"]
     },
     "bill-hat": {
       name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
@@ -356,7 +372,10 @@
       <p class="mt-[8px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
     </div>
   </div>
-</footer>`;
+</footer>
+<div class="bg-black">
+  <img src="assets/melted/tiger_style_banner.jpg" alt="Tiger Style" class="block w-full h-auto select-none" loading="lazy">
+</div>`;
   }
 
   /* ---------- Wiring ---------- */
