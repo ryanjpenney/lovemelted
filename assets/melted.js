@@ -15,25 +15,25 @@
     { name: "Cleveland", state: "OH", lat: 41.4993, lng: -81.6944 }
   ];
 
-  /* ---------- Dispensary data (Curaleaf) ----------
+  /* ---------- Dispensary / retail-partner data ----------
      To add a market: give each store a `state` matching a key in STATE_NAMES,
      real lat/lng, and a ZIP that also lives in the ZIPS table below.
      The locator, map, and region filters all scale off this one array. */
   const STORES = [
     // --- Arizona ---
-    { name: "Curaleaf Youngtown",        addr: "11148 N 111th Ave, Youngtown, AZ 85363",        zip: "85363", state: "AZ", lat: 33.5942, lng: -112.3023, phone: "(623) 469-1322" },
-    { name: "Curaleaf Peoria",           addr: "8157 W Cactus Rd, Peoria, AZ 85381",            zip: "85381", state: "AZ", lat: 33.5992, lng: -112.2378, phone: "(623) 412-9100" },
-    { name: "Curaleaf Glendale",         addr: "5612 W Glendale Ave, Glendale, AZ 85301",       zip: "85301", state: "AZ", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117" },
-    { name: "Curaleaf Phoenix Bell",     addr: "2615 W Bell Rd, Phoenix, AZ 85023",             zip: "85023", state: "AZ", lat: 33.6401, lng: -112.1126, phone: "(602) 935-7280" },
-    { name: "Curaleaf Scottsdale",       addr: "7235 E 1st Ave, Scottsdale, AZ 85251",          zip: "85251", state: "AZ", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340" },
-    { name: "Curaleaf Midtown",          addr: "3955 N 7th Ave, Phoenix, AZ 85013",             zip: "85013", state: "AZ", lat: 33.4951, lng: -112.0825, phone: "(602) 633-2007" },
-    { name: "Curaleaf Phoenix Airport",  addr: "4133 E Van Buren St, Phoenix, AZ 85008",        zip: "85008", state: "AZ", lat: 33.4520, lng: -111.9890, phone: "(602) 254-1300" },
-    { name: "Curaleaf Scottsdale Pavilions", addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", state: "AZ", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818" },
-    { name: "Curaleaf Sedona",           addr: "2155 W State Route 89A, Sedona, AZ 86336",      zip: "86336", state: "AZ", lat: 34.8580, lng: -111.8120, phone: "(928) 862-4148" },
-    { name: "Curaleaf Gilbert",          addr: "725 N Gilbert Rd, Gilbert, AZ 85234",           zip: "85234", state: "AZ", lat: 33.3618, lng: -111.7894, phone: "(480) 999-0667" },
-    { name: "Curaleaf Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
-    { name: "Curaleaf Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", state: "AZ", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
-    { name: "Curaleaf Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", state: "AZ", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" },
+    { name: "Youngtown",        addr: "11148 N 111th Ave, Youngtown, AZ 85363",        zip: "85363", state: "AZ", lat: 33.5942, lng: -112.3023, phone: "(623) 469-1322" },
+    { name: "Peoria",           addr: "8157 W Cactus Rd, Peoria, AZ 85381",            zip: "85381", state: "AZ", lat: 33.5992, lng: -112.2378, phone: "(623) 412-9100" },
+    { name: "Glendale",         addr: "5612 W Glendale Ave, Glendale, AZ 85301",       zip: "85301", state: "AZ", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117" },
+    { name: "Phoenix Bell",     addr: "2615 W Bell Rd, Phoenix, AZ 85023",             zip: "85023", state: "AZ", lat: 33.6401, lng: -112.1126, phone: "(602) 935-7280" },
+    { name: "Scottsdale",       addr: "7235 E 1st Ave, Scottsdale, AZ 85251",          zip: "85251", state: "AZ", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340" },
+    { name: "Midtown",          addr: "3955 N 7th Ave, Phoenix, AZ 85013",             zip: "85013", state: "AZ", lat: 33.4951, lng: -112.0825, phone: "(602) 633-2007" },
+    { name: "Phoenix Airport",  addr: "4133 E Van Buren St, Phoenix, AZ 85008",        zip: "85008", state: "AZ", lat: 33.4520, lng: -111.9890, phone: "(602) 254-1300" },
+    { name: "Scottsdale Pavilions", addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", state: "AZ", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818" },
+    { name: "Sedona",           addr: "2155 W State Route 89A, Sedona, AZ 86336",      zip: "86336", state: "AZ", lat: 34.8580, lng: -111.8120, phone: "(928) 862-4148" },
+    { name: "Gilbert",          addr: "725 N Gilbert Rd, Gilbert, AZ 85234",           zip: "85234", state: "AZ", lat: 33.3618, lng: -111.7894, phone: "(480) 999-0667" },
+    { name: "Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
+    { name: "Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", state: "AZ", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
+    { name: "Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", state: "AZ", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" },
     // --- Maryland (authorized retail partners; city-level location) ---
     { name: "Columbia Care",                  addr: "Chevy Chase, MD",  zip: "20815", state: "MD", lat: 38.9686, lng: -77.0780, phone: "" },
     { name: "gLeaf Wellness Solutions",       addr: "Rockville, MD",    zip: "20850", state: "MD", lat: 39.0840, lng: -77.1528, phone: "" },
@@ -260,7 +260,7 @@
       const near = nearestStores(z, 1);
       el.querySelector("[data-zip-text]").textContent = z;
       const sub = el.querySelector("[data-zip-store]");
-      if (sub) sub.textContent = near ? near[0].name.replace("Curaleaf ", "") : "AZ";
+      if (sub) sub.textContent = near ? near[0].name : "AZ";
     } else {
       el.querySelector("[data-zip-text]").textContent = "Set ZIP";
       const sub = el.querySelector("[data-zip-store]");
