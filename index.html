@@ -60,17 +60,9 @@
   @keyframes beddrift{ 0%{ background-position:0% 40%; transform:scale(1.05); } 100%{ background-position:100% 60%; transform:scale(1.18); } }
   html.motion .liquid{ filter:url(#liquid); }
 
-  /* ---------- Scroll reveals ---------- */
-  .reveal{ opacity:0; transform:translateY(34px); transition:opacity 1s cubic-bezier(.16,.84,.3,1), transform 1s cubic-bezier(.16,.84,.3,1); }
-  .reveal.in{ opacity:1; transform:none; }
-  .line-mask{ display:block; overflow:hidden; padding-bottom:0.14em; margin-bottom:-0.14em; }   /* room for descenders (y, p, g) so the mask doesn't clip them */
-  .line-mask > span{ display:block; transform:translateY(110%); transition:transform 1.05s cubic-bezier(.16,.84,.3,1); }
-  .line-mask.in > span{ transform:none; }
-  .stagger > *{ transition-delay:var(--d,0ms); }
-
-  /* clip-reveal for imagery */
-  .clip{ clip-path:inset(0 0 100% 0); transition:clip-path 1.2s cubic-bezier(.16,.84,.3,1); }
-  .clip.in{ clip-path:inset(0 0 0 0); }
+  /* ---------- Scroll reveals removed — content renders static, in its final position ---------- */
+  .line-mask{ display:block; }
+  .line-mask > span{ display:block; }
 
   /* ---------- Buttons: flood invert ---------- */
   .btn{ font-family:'Oswald',sans-serif; font-weight:500; text-transform:uppercase; letter-spacing:.1em;
@@ -118,10 +110,6 @@
     html{ scroll-behavior:auto; }
     .swirl-text{ animation:none; color:#fff; -webkit-text-fill-color:#fff; }
     .swirl-bed{ animation:none; transform:scale(1.1); }
-    .reveal,.line-mask>span,.clip{ transition:none !important; }
-    .reveal{ opacity:1; transform:none; }
-    .line-mask>span{ transform:none; }
-    .clip{ clip-path:inset(0 0 0 0); }
   }
 </style>
 
@@ -564,12 +552,6 @@
       + '</div>'
     ));
   });
-
-  /* ---------- Scroll reveals ---------- */
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-  },{threshold:0.16, rootMargin:'0px 0px -8% 0px'});
-  document.querySelectorAll('.reveal,.line-mask,.clip').forEach(function(n){ io.observe(n); });
 
   /* ---------- Nav: invert background on scroll past hero ---------- */
   var nav=document.getElementById('nav');
