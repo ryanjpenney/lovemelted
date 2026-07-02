@@ -122,21 +122,12 @@
   const PRODUCTS = {
     "live-resin-gummies": {
       name: "Live Resin Gummies", price: "$28.00", kind: "product",
-      badge: "", spec: "Live Resin · 4 Flavors",
+      badge: "Fan Favorite", spec: "Live Resin · 4 Flavors",
       tagline: "Bold, fruit-forward live resin gummies.",
       detail: "Full-flavored live resin gummies in our black-and-white tin. Ten pieces per tin, 10mg each — even, dependable, and made to taste like the real thing.",
       facts: ["10 pieces · 10mg each", "Live resin", "Even, reliable dose", "Four fruit flavors"],
       flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
       gallery: ["assets/melted/gallery/live_resin.jpg"]
-    },
-    "live-rosin-gummies": {
-      name: "Live Rosin Gummies", price: "$28.00", kind: "product",
-      badge: "Fan Favorite", spec: "Live Rosin · 4 Flavors",
-      tagline: "Rich, full-flavored live rosin gummies.",
-      detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per tin, 10mg each. No distillate, no shortcuts.",
-      facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
-      flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
-      gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"]
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
@@ -145,6 +136,15 @@
       detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
       facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
       gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
+    },
+    "live-rosin-gummies": {
+      name: "Live Rosin Gummies", price: "$28.00", kind: "product",
+      badge: "", spec: "Live Rosin · 4 Flavors",
+      tagline: "Rich, full-flavored live rosin gummies.",
+      detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per tin, 10mg each. No distillate, no shortcuts.",
+      facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
+      flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
+      gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"]
     },
     "tigerstyle-cartridge": {
       name: "Tiger Style Cartridge", price: "$40.00", kind: "product",
