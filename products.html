@@ -51,7 +51,7 @@
     const p = P[id];
     const center = (i === ids.length - 1 && ids.length % 3 === 1) ? " md:col-start-2" : "";
     const badge = p.badge
-      ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[12px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
+      ? `<div class="h-[30px] text-center"><span class="garamond inline-block border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
       : `<div class="h-[30px]"></div>`;
     return `<a href="product.html?id=${id}" class="text-center group block${center}">
       ${badge}
