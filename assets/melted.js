@@ -289,7 +289,7 @@
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
     const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
     return `
-<header class="bg-white sticky top-0 z-50">
+<header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
     <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
@@ -319,19 +319,6 @@
       <a href="merch.html" class="block">Merch</a>
       <a href="locations.html" class="block">Locations</a>
     </div>
-  </div>
-  <!-- melting bottom edge: white wax band + drips + slow droplets (replaces the straight border-b) -->
-  <div class="m-drip" aria-hidden="true">
-    <svg viewBox="0 0 1440 26" preserveAspectRatio="none">
-      <path class="m-drip-fill" d="M0,0 H1440 V5.6 C1380,7 1300,4.6 1220,5.8 C1130,7 1050,4.8 960,5.9 C880,6.9 800,4.9 720,5.7 C640,6.8 560,4.7 480,5.8 C400,6.9 320,4.8 240,5.9 C160,7 80,4.6 0,5.4 Z"/>
-      <path class="m-drip-fill" d="M142,2 C146.5,6 145.5,9 146.2,13 C146.6,17.2 148.2,19 150,19 C151.8,19 153.4,17.2 153.8,13 C154.5,9 153.5,6 158,2 Z"/>
-      <path class="m-drip-fill" d="M406,2 C410.5,6.5 409.5,10 410.2,16 C410.6,20.2 412.2,22 414,22 C415.8,22 417.4,20.2 417.8,16 C418.5,10 417.5,6.5 422,2 Z"/>
-      <path class="m-drip-fill" d="M810,2 C814.5,5.5 813.5,8 814.2,10 C814.6,13.7 816.2,15.5 818,15.5 C819.8,15.5 821.4,13.7 821.8,10 C822.5,8 821.5,5.5 826,2 Z"/>
-      <path class="m-drip-fill" d="M1148,2 C1152.5,6.5 1151.5,10 1152.2,15 C1152.6,19.2 1154.2,21 1156,21 C1157.8,21 1159.4,19.2 1159.8,15 C1160.5,10 1159.5,6.5 1164,2 Z"/>
-      <circle class="m-dp m-dp1" cx="150" cy="17.5" r="1.7"/>
-      <circle class="m-dp m-dp2" cx="414" cy="20.5" r="2"/>
-      <circle class="m-dp m-dp3" cx="1156" cy="19.5" r="1.9"/>
-    </svg>
   </div>
 </header>`;
   }
@@ -375,6 +362,9 @@
       </ul>
     </div>
   </div>
+  <div class="mt-[64px] mx-[-28px] md:mx-[-45px]">
+    <img src="assets/melted/tiger_style_cropped.jpg" alt="Tiger Style" class="block w-full h-auto select-none" loading="lazy">
+  </div>
   <div class="caslon text-[12px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
     <p>Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
   </div>
@@ -385,10 +375,7 @@
       <p class="mt-[8px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
     </div>
   </div>
-</footer>
-<div class="bg-black">
-  <img src="assets/melted/tiger_style_banner.jpg" alt="Tiger Style" class="block w-full h-auto select-none" loading="lazy">
-</div>`;
+</footer>`;
   }
 
   /* ---------- Wiring ---------- */
@@ -461,23 +448,7 @@
 @keyframes m-tiger{ 0%{transform:scale(.26); opacity:0;} 16%{opacity:1;} 74%{opacity:1;} 100%{transform:scale(3); opacity:0;} }
 @keyframes m-glow{ 0%{transform:scale(.4); opacity:0;} 40%{opacity:1;} 100%{transform:scale(2.4); opacity:0;} }
 @keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
-@media (prefers-reduced-motion: reduce){ #m-intro .t-tiger,#m-intro .t-glow{ animation-duration:.5s; } }
-
-/* ---- melting header edge (shared header only) ---- */
-.m-drip{ position:absolute; top:100%; left:0; right:0; height:36px; pointer-events:none; overflow:hidden; line-height:0; }
-.m-drip svg{ display:block; width:100%; min-width:980px; height:26px; overflow:visible; filter:drop-shadow(0 1px 0 #ededed); }
-.m-drip-fill{ fill:#fff; }
-.m-dp{ fill:#fff; opacity:0; animation:m-dripfall 9s ease-in infinite; }
-.m-dp2{ animation-delay:3s; }
-.m-dp3{ animation-delay:6s; }
-@keyframes m-dripfall{
-  0%{ opacity:0; transform:translateY(0); }
-  10%{ opacity:1; }
-  55%{ opacity:1; transform:translateY(6px); }
-  78%{ opacity:0; transform:translateY(10px); }
-  100%{ opacity:0; transform:translateY(10px); }
-}
-@media (prefers-reduced-motion: reduce){ .m-dp{ animation:none; opacity:0; } }`;
+@media (prefers-reduced-motion: reduce){ #m-intro .t-tiger,#m-intro .t-glow{ animation-duration:.5s; } }`;
 
   function lockScroll(on) { document.documentElement.style.overflow = on ? "hidden" : ""; }
 
