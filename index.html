@@ -271,7 +271,7 @@
 <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-colors duration-500">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-[1fr_auto_1fr] items-center h-[72px] gap-[16px]">
     <a href="index.html" class="flex items-center justify-self-start" aria-label="Melted home">
-      <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
+      <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
       <a href="products.html" data-nav class="nlink text-white">Products</a>
@@ -408,7 +408,7 @@
 <section class="bg-white py-[96px] md:py-[120px]">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[70px] items-center">
     <div class="overflow-hidden order-2 md:order-1">
-      <img src="assets/melted/rooted_desert.jpg" alt="A Melted community member standing in the Arizona desert" class="clip w-full">
+      <img src="assets/melted/desert-model-1-2026.jpg" alt="A Melted community member in the Arizona desert" class="clip w-full">
     </div>
     <div class="order-1 md:order-2">
       <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink line-mask"><span>Rooted in the desert.<br>Crafted for humankind.</span></h2>
@@ -508,8 +508,8 @@
     {id:'bandana',   name:'Tiger Bandana',              price:'$18.00', soldout:true, img:'assets/melted/gallery/band_1.jpg'}
   ];
   var LOCATIONS=[
-    {state:'Arizona', cities:['Gilbert','Glendale','Midtown','Peoria','Phoenix','Queen Creek','Scottsdale','Sedona','Tucson','Youngtown']},
-    {state:'Maryland',cities:['Baltimore','Frederick','Germantown','Ocean City','Rockville','Salisbury']},
+    {state:'Arizona', cities:[['Gilbert','85234'],['Glendale','85301'],['Midtown','85013'],['Peoria','85381'],['Phoenix','85023'],['Queen Creek','85142'],['Scottsdale','85251'],['Sedona','86336'],['Tucson','85705'],['Youngtown','85363']]},
+    {state:'Maryland',cities:[['Baltimore','21201'],['Frederick','21701'],['Germantown','20874'],['Ocean City','21842'],['Rockville','20850'],['Salisbury','21801']]},
     {state:'Ohio',    cities:[]}
   ];
 
@@ -548,7 +548,7 @@
   var lgrid=document.querySelector('[data-locations]');
   LOCATIONS.forEach(function(group){
     var items = group.cities.length
-      ? group.cities.map(function(c){ return '<li><a href="locations.html" class="block py-[7px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c+'</a></li>'; }).join('')
+      ? group.cities.map(function(c){ return '<li><a href="locations.html?store='+c[1]+'" class="block py-[7px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c[0]+'</a></li>'; }).join('')
       : '<li class="py-[7px] font-garamond text-[16px] italic text-[#8a8a8a]">Coming soon</li>';
     lgrid.appendChild(el(
       '<div class="border-t border-white/20 pt-[20px]">'

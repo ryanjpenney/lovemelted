@@ -292,7 +292,7 @@
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
     <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
-      <img src="assets/melted/logo_black.png" alt="Melted" class="h-[20px] md:h-[22px] w-auto">
+      <img src="assets/melted/logo_black.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
       ${link("products.html", "Products")}
