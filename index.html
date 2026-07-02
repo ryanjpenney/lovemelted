@@ -129,14 +129,22 @@
   #m-gate .g-logo{ height:38px; margin:0 auto 38px; display:block; }
   #m-gate h2{ font-family:'Libre Caslon Text',serif; color:#fff; font-size:40px; line-height:1.12; margin:0; }
   #m-gate .g-sub{ font-family:'EB Garamond',serif; color:#bdbdbd; font-size:18px; margin:16px 0 0; }
-  #m-gate .g-btns{ display:flex; gap:14px; justify-content:center; margin-top:34px; }
+  #m-gate .g-btns{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px; }
   #m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em;
-    text-transform:uppercase; padding:16px 38px; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
+    text-transform:uppercase; padding:16px 30px; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
   #m-gate .g-yes{ background:#fff; color:#000; border:1px solid #fff; }
   #m-gate .g-yes:hover{ background:#1c1c1c; color:#fff; border-color:#1c1c1c; }
-  #m-gate .g-no{ background:transparent; color:#fff; border:1px solid #5a5a5a; }
+  #m-gate .g-no{ background:transparent; color:#fff; border:1px solid #8a8a8a; }
   #m-gate .g-no:hover{ border-color:#fff; }
-  #m-gate .g-legal{ font-family:'EB Garamond',serif; color:#666; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+  #m-gate .g-legal{ font-family:'EB Garamond',serif; color:#8a8a8a; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+  #m-gate .g-legal a{ color:#bdbdbd; text-decoration:underline; }
+  #m-intro .t-skip{ position:absolute; bottom:28px; right:28px; z-index:2; font-family:'Oswald',sans-serif; font-size:12px; font-weight:500;
+    letter-spacing:.1em; text-transform:uppercase; background:rgba(10,10,10,.55); color:#fff; border:1px solid #8a8a8a; padding:10px 22px; cursor:pointer; }
+  #m-intro .t-skip:hover{ border-color:#fff; }
+  /* Visible keyboard focus, site-wide (WCAG 2.4.7) */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible{ outline:2px solid #0A0A0A; outline-offset:2px; }
+  #nav :focus-visible, footer :focus-visible, #m-gate :focus-visible, #m-intro :focus-visible,
+  .bg-black :focus-visible, .bg-ink :focus-visible{ outline-color:#fff; }
   #m-gate .g-deny{ display:none; }
   #m-gate.denied .g-ask{ display:none; }
   #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
@@ -147,21 +155,22 @@
 <body class="bg-black">
 
 <!-- ===== First-visit tiger opener → "are you 21?" age gate ===== -->
-<div id="m-intro" aria-hidden="true">
-  <video id="m-intro-vid" muted autoplay playsinline preload="auto">
+<div id="m-intro">
+  <video id="m-intro-vid" muted autoplay playsinline preload="auto" aria-hidden="true">
     <source src="assets/melted/tiger-intro-2026.webm" type="video/webm">
     <source src="assets/melted/tiger-intro-2026.mp4" type="video/mp4">
   </video>
+  <button type="button" class="t-skip" id="m-intro-skip">Skip intro</button>
 </div>
-<div id="m-gate" role="dialog" aria-modal="true" aria-label="Age verification">
+<div id="m-gate" role="dialog" aria-modal="true" aria-labelledby="m-gate-title">
   <div class="g-inner">
     <div class="g-ask">
       <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
-      <h2>Are you 21 years<br>or older?</h2>
-      <p class="g-sub">You must be of legal age to enter Melted.</p>
+      <h2 id="m-gate-title">Are you 21<br>or older?</h2>
+      <p class="g-sub">You must be 21 or older to enter.</p>
       <div class="g-btns">
-        <button type="button" class="g-yes">Yes, I'm 21+</button>
-        <button type="button" class="g-no">No</button>
+        <button type="button" class="g-yes">I am 21 or older — Enter</button>
+        <button type="button" class="g-no">I am under 21</button>
       </div>
       <p class="g-legal">By entering, you agree you are of legal age to view and purchase cannabis products in your state. For use only by adults 21+.</p>
     </div>
@@ -169,7 +178,7 @@
       <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
       <h2>Come back<br>another time.</h2>
       <p class="g-sub">You must be 21 or older to enter this site.</p>
-      <p class="g-legal">If you believe you reached this message in error, refresh the page and try again.</p>
+      <p class="g-legal">Questions about substance use? Visit <a href="https://www.samhsa.gov" target="_blank" rel="noopener">SAMHSA.gov</a>. If you reached this message in error, refresh the page and try again.</p>
     </div>
   </div>
 </div>
@@ -185,21 +194,54 @@
   function verified(){ try{ return localStorage.getItem('melted_age_ok') === '1'; }catch(e){ return false; } }
   function lock(on){ html.style.overflow = on ? 'hidden' : ''; }
 
+  // While the gate/opener covers the page, hide the page from assistive tech + keyboard.
+  function setPageInert(on){
+    Array.prototype.forEach.call(document.body.children, function(el){
+      if(el === intro || el === gate) return;
+      var t = el.tagName ? el.tagName.toUpperCase() : '';
+      if(t === 'SCRIPT' || t === 'STYLE' || t === 'SVG') return;
+      if(on){ el.setAttribute('inert',''); el.setAttribute('aria-hidden','true'); }
+      else{ el.removeAttribute('inert'); el.removeAttribute('aria-hidden'); }
+    });
+  }
+
+  // This script runs before the rest of <body> is parsed, so wait for the DOM
+  // before marking the page inert — and only if the gate is still up.
+  function applyInertWhenReady(){
+    if(document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', function(){ if(gate.classList.contains('show')) setPageInert(true); });
+    } else setPageInert(true);
+  }
+
   function showGate(){
     lock(true);
+    applyInertWhenReady();
     gate.classList.remove('denied');
     gate.classList.add('show');
     var yes = gate.querySelector('.g-yes');
     if(yes){ try{ yes.focus(); }catch(e){} }
   }
+  // Trap focus inside the gate dialog; Escape does NOT dismiss.
+  gate.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ e.preventDefault(); return; }
+    if(e.key !== 'Tab') return;
+    var list = Array.prototype.filter.call(gate.querySelectorAll('button, a[href]'), function(el){ return el.offsetParent !== null; });
+    if(!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  });
   function hideIntro(){                             // fade the opener out, then unmount it
     intro.classList.add('fade');
     setTimeout(function(){ intro.classList.remove('playing','fade'); }, 600);
   }
   function enterSite(){                             // opener finished (or skipped) → into the site
     hideIntro();
+    setPageInert(false);
     lock(false);
     window.scrollTo(0,0);
+    var h1 = document.querySelector('main h1') || document.querySelector('h1');
+    if(h1){ h1.setAttribute('tabindex','-1'); try{ h1.focus({preventScroll:true}); }catch(e){} }
     var wm = document.querySelector('.swirl-text'); // restart the 3s wordmark wave as the hero is revealed
     if(wm){ wm.style.animation='none'; void wm.offsetWidth; wm.style.animation=''; }
   }
@@ -213,6 +255,8 @@
     intro.classList.add('playing');
     if(vid){ try{ vid.currentTime = 0; }catch(e){} }
     lock(true);
+    var sk = document.getElementById('m-intro-skip');
+    if(sk){ try{ sk.focus(); }catch(e){} }
 
     var done = false;
     var failsafe = setTimeout(end, 12000);          // never hang on a stalled video
@@ -244,14 +288,19 @@
     vid.addEventListener('error', function(){ if(currentEnd) currentEnd(); });
   }
   gate.querySelector('.g-yes').addEventListener('click', accept);
-  gate.querySelector('.g-no').addEventListener('click', function(){ gate.classList.add('denied'); });
+  gate.querySelector('.g-no').addEventListener('click', function(){
+    gate.classList.add('denied');
+    var l = gate.querySelector('.g-deny a'); if(l){ try{ l.focus(); }catch(e){} }
+  });
+  var skipBtn = document.getElementById('m-intro-skip');
+  if(skipBtn) skipBtn.addEventListener('click', function(){ if(currentEnd) currentEnd(); });
 
   // ---- boot: 21+ gate ALWAYS first, opener video second (every fresh session) ----
   var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
   if(seen){
     lock(false);                                    // already passed the gate + watched the opener this session → into the site
   } else {
-    showGate();                                     // fresh session → 21+ gate first; "Yes, I'm 21+" then plays the opener
+    showGate();                                     // fresh session → 21+ gate first; "I am 21 or older" then plays the opener
   }
 })();
 </script>
@@ -273,7 +322,7 @@
     <a href="index.html" class="flex items-center justify-self-start" aria-label="Melted home">
       <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
-    <nav class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
+    <nav aria-label="Primary" class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
       <a href="products.html" data-nav class="nlink text-white">Products</a>
       <a href="about.html" data-nav class="nlink text-white">About Us</a>
       <a href="merch.html" data-nav class="nlink text-white">Merch</a>
@@ -284,7 +333,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="hzip-in font-oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent">
       </form>
-      <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-label="Menu">Menu</button>
+      <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
   <!-- mobile menu -->
@@ -294,14 +343,17 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[15px] h-[15px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP CODE" aria-label="ZIP code" class="hzip-in font-oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent">
       </form>
+      <nav aria-label="Mobile" class="contents">
       <a href="products.html">Products</a>
       <a href="about.html">About Us</a>
       <a href="merch.html">Merch</a>
       <a href="locations.html">Locations</a>
+      </nav>
     </div>
   </div>
 </header>
 
+<main>
 <!-- ============================== HERO ============================== -->
 <section class="relative min-h-[100svh] bg-black overflow-hidden flex flex-col justify-center">
   <!-- swirl backdrop -->
@@ -399,7 +451,7 @@
     <img src="assets/melted/tiger.png" alt="Melted folk-tiger mark" class="reveal w-[180px] md:w-[220px] shrink-0">
     <div class="text-center md:text-left">
       <p class="font-caslon text-[clamp(26px,3.4vw,40px)] leading-[1.28] text-ink reveal">“From the beginning, our goal was simple: build a brand people trust, products they love, and an experience they want to come back to.”</p>
-      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#777] mt-[26px]">— Melted Team</p>
+      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#666] mt-[26px]">— Melted Team</p>
     </div>
   </div>
 </section>
@@ -449,6 +501,7 @@
     </a>
   </div>
 </section>
+</main>
 
 <!-- ============================== FOOTER ============================== -->
 <footer class="bg-black text-white pt-[80px]">
@@ -480,6 +533,12 @@
   </div>
   <img src="assets/melted/tiger_style_cropped.jpg" alt="Tiger Style" class="block w-full h-auto select-none mt-[64px]" loading="lazy">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <div class="pt-[28px] font-oswald font-light text-[11px] tracking-[0.06em] text-[#767676] leading-[1.7] space-y-[8px] max-w-[1080px]">
+      <p>For use only by adults 21 and older. Keep out of reach of children and pets.</p>
+      <p>Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under its influence.</p>
+      <p>There may be health risks associated with consumption of this product. For use only by adults 21 and older. This product is not approved by the FDA.</p>
+      <p>© The Kind Relief Inc. · License [LICENSE #] · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
+    </div>
     <div class="py-[28px] flex flex-col md:flex-row gap-[10px] md:items-center md:justify-between">
       <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">© 2026 Love Melted · Arizona</p>
       <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">For adults 21+ · Keep out of reach of children</p>
@@ -525,7 +584,7 @@
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
       + '<p class="font-garamond text-[17px] text-[#666] leading-[1.5] mt-[6px]">'+p.tag+'</p>'
-      + '<p class="font-oswald text-[11px] text-[#8a8a8a] font-light tracking-[0.12em] uppercase mt-[10px]">'+p.spec+'</p>'
+      + '<p class="font-oswald text-[11px] text-[#767676] font-light tracking-[0.12em] uppercase mt-[10px]">'+p.spec+'</p>'
       + '</a>'
     ));
   });
@@ -539,7 +598,7 @@
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
-      + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#999]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
+      + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#767676]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
       + '</a>'
     ));
   });
@@ -575,7 +634,7 @@
 
   /* ---------- Mobile menu ---------- */
   var burger=document.querySelector('[data-burger]'), mob=document.querySelector('[data-mobile]');
-  if(burger) burger.addEventListener('click',function(){ mob.classList.toggle('hidden'); });
+  if(burger) burger.addEventListener('click',function(){ mob.classList.toggle('hidden'); burger.setAttribute('aria-expanded', String(!mob.classList.contains('hidden'))); });
   mob && mob.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ mob.classList.add('hidden'); }); });
 
   /* ---------- Header ZIP input: state-aware messaging + persists to melted_zip (syncs with the locator) ---------- */

@@ -21,12 +21,14 @@
 
 <div data-melted-header></div>
 
+<main>
 <section class="text-center pt-[56px] px-6">
   <h1 class="caslon text-[44px] md:text-[56px] text-black leading-[1.05]">Events &amp; Happenings</h1>
   <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Pop-ups, dispensary takeovers, and community nights across Arizona.</p>
 </section>
 
 <section class="max-w-[900px] mx-auto px-[28px] md:px-0 mt-[52px]" data-events></section>
+</main>
 
 <div data-melted-footer></div>
 
@@ -35,7 +37,7 @@
 (function () {
   const events = [
     ["Sat · Jun 21", "Midtown Takeover", "Phoenix, AZ", "Live rosin sampling, merch drops, and the collective on-site all afternoon."],
-    ["Fri · Jul 11", "710 Block Party", "Scottsdale Pavilions", "Our annual oil day — Tigerstyle features, giveaways, and guest sets."],
+    ["Fri · Jul 11", "710 Block Party", "Scottsdale Pavilions", "Our biggest party of the year — Tiger Style features, giveaways, and guest sets."],
     ["Sat · Aug 9", "Desert Sessions Pop-Up", "Tucson Oracle", "Limited Mini Melt bundles and a first look at new flavors."],
     ["Sat · Sep 13", "Harvest Kickoff", "Gilbert, AZ", "Meet the makers and tour what goes into every batch."]
   ];
@@ -44,7 +46,7 @@
       <div class="md:w-[140px] shrink-0"><p class="oswald text-[13px] font-medium tracking-[0.08em] uppercase text-black">${date}</p></div>
       <div class="flex-1">
         <p class="caslon text-[24px] text-black">${title}</p>
-        <p class="garamond text-[16px] text-[#777] mt-1">${place} — ${desc}</p>
+        <p class="garamond text-[16px] text-[#666] mt-1">${place} — ${desc}</p>
       </div>
     </div>`).join("");
 })();

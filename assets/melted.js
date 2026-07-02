@@ -125,9 +125,15 @@
       badge: "Fan Favorite", spec: "Live Resin · 4 Flavors",
       tagline: "Bold, fruit-forward live resin gummies.",
       detail: "Full-flavored live resin gummies in our black-and-white tin. Ten pieces per tin, 10mg each — even, dependable, and made to taste like the real thing.",
-      facts: ["10 pieces · 10mg each", "Live resin", "Even, reliable dose", "Four fruit flavors"],
+      facts: ["10 pieces · 10mg each", "Live resin", "Consistent piece to piece", "Four fruit flavors"],
       flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
-      gallery: ["assets/melted/gallery/live_resin.jpg"]
+      gallery: ["assets/melted/gallery/live_resin.jpg"],
+      // menuLinks: dispensary menu deep-links for the "Order for pickup or delivery"
+      // module on product.html. Keys are store zips (must match STORES above);
+      // values are the full product URL on that dispensary's menu. Examples:
+      //   "85234": "https://dutchie.com/dispensary/example-gilbert/products/melted-live-resin-gummies",
+      //   "20850": "https://www.iheartjane.com/stores/0000/example-rockville/products/melted-live-resin-gummies",
+      menuLinks: {}
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
@@ -135,7 +141,8 @@
       tagline: "Five mini infused pre-rolls, ready when you are.",
       detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
       facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
-      gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
+      gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"],
+      menuLinks: {}
     },
     "live-rosin-gummies": {
       name: "Live Rosin Gummies", price: "$28.00", kind: "product",
@@ -144,15 +151,17 @@
       detail: "Our flagship, pressed from fresh-frozen flower for a rich, full-flavored experience. Ten pieces per tin, 10mg each. No distillate, no shortcuts.",
       facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
       flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
-      gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"]
+      gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"],
+      menuLinks: {}
     },
     "tigerstyle-cartridge": {
       name: "Tiger Style Cartridge", price: "$40.00", kind: "product",
       badge: "", spec: "510 Thread · 1g",
       tagline: "A rich, flower-like experience, on the go.",
       detail: "Our Tiger Style cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
-      facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific terpenes"],
-      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
+      facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific flavor"],
+      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"],
+      menuLinks: {}
     },
     "tiger-style-pre-roll": {
       name: "Tiger Style Pre-Roll", price: "", kind: "product",
@@ -160,7 +169,8 @@
       tagline: "An infused pre-roll of uncommon proportion.",
       detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
       facts: ["1.5g top-tier flower", "Infused with premium concentrate", "Tobacco-free organic hemp wrap", "Glass tube in the tiger canister"],
-      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"]
+      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"],
+      menuLinks: {}
     },
     "tiger-style-thca-diamonds": {
       name: "Tiger Style THCa Diamonds", price: "", kind: "product",
@@ -168,7 +178,8 @@
       tagline: "Crystalline THCa, refined to its purest form.",
       detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
       facts: ["1g crystalline THCa", "Exceptional purity and potency", "Grown slowly from premium extract", "Glass jar in the tiger keepsake box"],
-      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"]
+      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"],
+      menuLinks: {}
     },
     "bill-hat": {
       name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
@@ -287,14 +298,14 @@
   /* ---------- Markup: header ---------- */
   function headerHTML() {
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
-    const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
+    const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
     <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
-    <nav class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
+    <nav aria-label="Primary" class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
       ${link("products.html", "Products")}
       ${link("about.html", "About Us")}
       ${link("merch.html", "Merch")}
@@ -303,22 +314,22 @@
     <div class="flex items-center gap-[12px] justify-self-end">
       <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[34px] px-[11px]">
         ${pin}
-        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#999]">
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#767676]">
       </form>
-      <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-label="Menu">Menu</button>
+      <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
   <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
     <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] px-[12px] mb-[20px] max-w-[220px]">
       ${pin}
-      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#999]">
+      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#767676]">
     </form>
-    <div class="oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px]">
+    <nav aria-label="Mobile" class="oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px]">
       <a href="products.html" class="block">Products</a>
       <a href="about.html" class="block">About Us</a>
       <a href="merch.html" class="block">Merch</a>
       <a href="locations.html" class="block">Locations</a>
-    </div>
+    </nav>
   </div>
 </header>`;
   }
@@ -328,7 +339,7 @@
     return `<a href="product.html?id=${id}" class="group/card block">
       <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"></div>
       <p class="oswald text-[12px] font-medium tracking-[0.03em] uppercase text-black mt-2 normal-case">${p.name}</p>
-      <p class="garamond text-[13px] text-[#999] normal-case tracking-normal">${p.spec}</p>
+      <p class="garamond text-[13px] text-[#767676] normal-case tracking-normal">${p.spec}</p>
     </a>`;
   }
 
@@ -369,10 +380,12 @@
     <p>Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
   </div>
   <div class="relative mt-[25px]">
-    <img src="assets/melted/mark_white.png" alt="Melted mark" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
-    <div class="caslon text-[11px] text-[#d6d6d6] leading-[1.5] max-w-[1080px]">
-      <p>For use only by adults twenty-one years of age and older. Keep out of reach of children. Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under the influence of marijuana.</p>
-      <p class="mt-[8px]">Melted products are sold through licensed dispensaries in Arizona and Maryland, with Ohio coming soon. Products contain marijuana and have intoxicating effects.</p>
+    <img src="assets/melted/mark_white.png" alt="" aria-hidden="true" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
+    <div class="oswald font-light text-[11px] tracking-[0.06em] text-[#767676] leading-[1.7] max-w-[1080px] space-y-[8px]">
+      <p>For use only by adults 21 and older. Keep out of reach of children and pets.</p>
+      <p>Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under its influence.</p>
+      <p>There may be health risks associated with consumption of this product. For use only by adults 21 and older. This product is not approved by the FDA.</p>
+      <p>© The Kind Relief Inc. · License [LICENSE #] · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
     </div>
   </div>
 </footer>`;
@@ -393,7 +406,7 @@
     // Mobile menu
     const mt = document.querySelector("[data-mobile-toggle]");
     const mm = document.querySelector("[data-mobile-menu]");
-    if (mt && mm) mt.addEventListener("click", () => mm.classList.toggle("hidden"));
+    if (mt && mm) mt.addEventListener("click", () => { mm.classList.toggle("hidden"); mt.setAttribute("aria-expanded", String(!mm.classList.contains("hidden"))); });
 
     // Header ZIP input(s) ↔ store locator — synced via setZip() + the "melted:zip" event
     const zipInputs = document.querySelectorAll("[data-hzip]");
@@ -423,23 +436,29 @@
   /* ---------- Age gate + tiger intro ---------- */
   const AGE_KEY = "melted_age_ok";
   const GATE_CSS = `
+/* Visible keyboard focus, site-wide (WCAG 2.4.7) — never remove outlines */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible{ outline:2px solid #0A0A0A; outline-offset:2px; }
+footer :focus-visible, #m-gate :focus-visible, #m-intro :focus-visible, [class*="bg-[#0a0a0a]"] :focus-visible, .bg-black :focus-visible, .bg-ink :focus-visible{ outline-color:#fff; }
 #m-gate, #m-intro{ position:fixed; inset:0; z-index:2147483600; background:#0a0a0a; display:flex; align-items:center; justify-content:center; }
 #m-gate{ text-align:center; padding:28px; }
-#m-gate .g-inner{ max-width:480px; animation:m-fade .5s ease both; }
+#m-gate .g-inner{ max-width:520px; animation:m-fade .5s ease both; }
 #m-gate .g-logo{ height:38px; margin:0 auto 38px; display:block; }
 #m-gate h2{ font-family:'Libre Caslon Text',serif; color:#fff; font-size:40px; line-height:1.12; margin:0; }
 #m-gate .g-sub{ font-family:'EB Garamond',serif; color:#bdbdbd; font-size:18px; margin:16px 0 0; }
-#m-gate .g-btns{ display:flex; gap:14px; justify-content:center; margin-top:34px; }
-#m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; padding:16px 38px; cursor:pointer; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
+#m-gate .g-btns{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px; }
+#m-gate button{ font-family:'Oswald',sans-serif; font-size:13px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; padding:16px 30px; cursor:pointer; transition:background-color .2s ease, color .2s ease, border-color .2s ease; }
 #m-gate .g-yes{ background:#fff; color:#000; border:1px solid #fff; }
 #m-gate .g-yes:hover{ background:#1c1c1c; color:#fff; border-color:#1c1c1c; }
-#m-gate .g-no{ background:transparent; color:#fff; border:1px solid #5a5a5a; }
+#m-gate .g-no{ background:transparent; color:#fff; border:1px solid #8a8a8a; }
 #m-gate .g-no:hover{ border-color:#fff; }
-#m-gate .g-legal{ font-family:'EB Garamond',serif; color:#666; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+#m-gate .g-legal{ font-family:'EB Garamond',serif; color:#8a8a8a; font-size:13px; margin:30px auto 0; max-width:380px; line-height:1.5; }
+#m-gate .g-legal a{ color:#bdbdbd; text-decoration:underline; }
 #m-gate .g-deny{ display:none; }
 #m-gate.denied .g-ask{ display:none; }
 #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
 #m-intro{ overflow:hidden; }
+#m-intro .t-skip{ position:absolute; bottom:28px; right:28px; font-family:'Oswald',sans-serif; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; background:transparent; color:#fff; border:1px solid #8a8a8a; padding:10px 22px; cursor:pointer; }
+#m-intro .t-skip:hover{ border-color:#fff; }
 #m-intro.fade{ opacity:0; transition:opacity .5s ease; }
 #m-intro .t-glow{ position:absolute; width:60vmin; height:60vmin; border-radius:50%;
   background:radial-gradient(circle, rgba(255,255,255,.10), rgba(10,10,10,0) 70%); animation:m-glow 2.1s ease both; }
@@ -461,15 +480,21 @@
   function playIntro() {
     const intro = document.createElement("div");
     intro.id = "m-intro";
-    intro.innerHTML = '<div class="t-glow"></div><img class="t-tiger" src="assets/melted/tiger_white.png" alt="">';
+    intro.innerHTML = '<div class="t-glow" aria-hidden="true"></div><img class="t-tiger" src="assets/melted/tiger_white.png" alt="" aria-hidden="true"><button type="button" class="t-skip">Skip intro</button>';
     document.documentElement.appendChild(intro);
     let dur = 2100;
     try { if (matchMedia("(prefers-reduced-motion: reduce)").matches) dur = 600; } catch (e) {}
-    setTimeout(() => {
+    let done = false;
+    const finish = () => {
+      if (done) return; done = true;
       reveal();                       // unhide the site behind the intro
       intro.classList.add("fade");
       setTimeout(() => intro.remove(), 520);
-    }, dur);
+      try { document.body.focus(); } catch (e) {}
+    };
+    intro.querySelector(".t-skip").addEventListener("click", finish);
+    try { intro.querySelector(".t-skip").focus(); } catch (e) {}
+    setTimeout(finish, dur);
   }
 
   function initAgeGate() {
@@ -479,15 +504,18 @@
 
     const gate = document.createElement("div");
     gate.id = "m-gate";
+    gate.setAttribute("role", "dialog");
+    gate.setAttribute("aria-modal", "true");
+    gate.setAttribute("aria-labelledby", "m-gate-title");
     gate.innerHTML = `
       <div class="g-inner">
         <div class="g-ask">
           <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
-          <h2>Are you 21 years<br>or older?</h2>
-          <p class="g-sub">You must be of legal age to enter Melted.</p>
+          <h2 id="m-gate-title">Are you 21<br>or older?</h2>
+          <p class="g-sub">You must be 21 or older to enter.</p>
           <div class="g-btns">
-            <button type="button" class="g-yes">Yes, I'm 21+</button>
-            <button type="button" class="g-no">No</button>
+            <button type="button" class="g-yes">I am 21 or older — Enter</button>
+            <button type="button" class="g-no">I am under 21</button>
           </div>
           <p class="g-legal">By entering, you agree you are of legal age to view and purchase cannabis products in your state. For use only by adults 21+.</p>
         </div>
@@ -495,17 +523,39 @@
           <img class="g-logo" src="assets/melted/logo_white.png" alt="Melted">
           <h2>Come back<br>another time.</h2>
           <p class="g-sub">You must be 21 or older to enter this site.</p>
-          <p class="g-legal">If you believe you reached this message in error, refresh the page and try again.</p>
+          <p class="g-legal">Questions about substance use? Visit <a href="https://www.samhsa.gov" target="_blank" rel="noopener">SAMHSA.gov</a>. If you reached this message in error, refresh the page and try again.</p>
         </div>
       </div>`;
     document.documentElement.appendChild(gate);
     lockScroll(true);
+
+    // Block assistive tech + keyboard from the page behind the gate
+    const prevFocus = document.activeElement;
+    try { document.body.setAttribute("inert", ""); document.body.setAttribute("aria-hidden", "true"); } catch (e) {}
+
+    // Trap focus inside the dialog; Escape does NOT dismiss
+    gate.addEventListener("keydown", e => {
+      if (e.key === "Escape") { e.preventDefault(); return; }
+      if (e.key !== "Tab") return;
+      const focusables = Array.from(gate.querySelectorAll("button, a[href]")).filter(el => el.offsetParent !== null);
+      if (!focusables.length) return;
+      const first = focusables[0], last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
     gate.querySelector(".g-yes").addEventListener("click", () => {
       try { localStorage.setItem(AGE_KEY, "1"); } catch (e) {}
+      try { document.body.removeAttribute("inert"); document.body.removeAttribute("aria-hidden"); } catch (e) {}
       gate.remove();
+      if (prevFocus && prevFocus.focus) { try { prevFocus.focus(); } catch (e) {} }
       playIntro();
     });
-    gate.querySelector(".g-no").addEventListener("click", () => gate.classList.add("denied"));
+    gate.querySelector(".g-no").addEventListener("click", () => {
+      gate.classList.add("denied");
+      const l = gate.querySelector(".g-deny a"); if (l) l.focus();
+    });
+    setTimeout(() => { try { gate.querySelector(".g-yes").focus(); } catch (e) {} }, 30);
   }
 
   /* ============================================================
@@ -585,15 +635,15 @@
 
   /* ---- Modal markup ---- */
   function authModalHTML() {
-    const consentNote = `<p class="garamond text-[12px] text-[#999] leading-[1.45] mt-4">By continuing you agree to our <a href="#" class="underline">Terms</a> &amp; <a href="#" class="underline">Privacy Policy</a>. You must be 21+.</p>`;
+    const consentNote = `<p class="garamond text-[12px] text-[#767676] leading-[1.45] mt-4">By continuing you agree to our <a href="#" class="underline">Terms</a> &amp; <a href="#" class="underline">Privacy Policy</a>. You must be 21+.</p>`;
     return `
 <div data-auth-overlay class="fixed inset-0 z-[100000] hidden items-center justify-center bg-black/60 px-4">
   <div data-auth-card class="bg-white w-full max-w-[420px] max-h-[94vh] overflow-y-auto relative" role="dialog" aria-modal="true" aria-label="Sign in">
-    <button data-auth-close aria-label="Close" class="absolute top-4 right-4 text-[#999] hover:text-black text-[22px] leading-none">&times;</button>
+    <button data-auth-close aria-label="Close" class="absolute top-4 right-4 text-[#767676] hover:text-black text-[22px] leading-none">&times;</button>
     <div class="px-8 pt-10 pb-9">
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[26px] mx-auto">
       <h2 data-auth-title class="caslon text-[26px] text-black text-center leading-[1.15] mt-6">Sign in or join Melted</h2>
-      <p data-auth-sub class="garamond text-[15px] text-[#777] text-center mt-2">Unlock drops, flash sales, and member perks.</p>
+      <p data-auth-sub class="garamond text-[15px] text-[#767676] text-center mt-2">Unlock drops, flash sales, and member perks.</p>
 
       <!-- Social -->
       <div class="mt-7 space-y-3">
@@ -608,12 +658,12 @@
         <p data-sso-note class="garamond text-[13px] text-[#9a6b1f] text-center hidden"></p>
       </div>
 
-      <div class="flex items-center gap-3 my-6"><span class="h-px bg-[#e3e3e3] flex-1"></span><span class="oswald text-[11px] tracking-[0.12em] uppercase text-[#aaa]">or</span><span class="h-px bg-[#e3e3e3] flex-1"></span></div>
+      <div class="flex items-center gap-3 my-6"><span class="h-px bg-[#e3e3e3] flex-1"></span><span class="oswald text-[11px] tracking-[0.12em] uppercase text-[#767676]">or</span><span class="h-px bg-[#e3e3e3] flex-1"></span></div>
 
       <!-- Method tabs -->
       <div class="grid grid-cols-2 mb-5">
         <button type="button" data-method="email" class="oswald text-[12px] tracking-[0.08em] uppercase py-2 border-b-2 border-black">Email</button>
-        <button type="button" data-method="phone" class="oswald text-[12px] tracking-[0.08em] uppercase py-2 border-b-2 border-transparent text-[#999]">Phone</button>
+        <button type="button" data-method="phone" class="oswald text-[12px] tracking-[0.08em] uppercase py-2 border-b-2 border-transparent text-[#767676]">Phone</button>
       </div>
 
       <!-- Email -->
@@ -639,7 +689,7 @@
         <div data-otp-step class="hidden">
           <p class="garamond text-[14px] text-[#555] text-center">Enter the 6-digit code we sent to <span data-otp-dest class="text-black"></span>.</p>
           <input data-otp inputmode="numeric" maxlength="6" placeholder="------" class="w-full text-center tracking-[0.5em] border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[20px] oswald mt-3">
-          <p data-otp-hint class="garamond text-[12px] text-[#999] text-center mt-2"></p>
+          <p data-otp-hint class="garamond text-[12px] text-[#767676] text-center mt-2"></p>
           <button type="button" data-otp-verify class="w-full bg-black text-white oswald text-[12px] font-medium tracking-[0.1em] uppercase py-3 mt-4 hover:bg-[#333] transition-colors">Verify &amp; continue</button>
         </div>
       </form>
@@ -656,10 +706,10 @@
     const row = (label, on, key) =>
       `<div class="flex items-center justify-between py-2">
         <span class="garamond text-[14px] text-[#555]">${label}</span>
-        <button type="button" data-toggle="${key}" class="oswald text-[10px] tracking-[0.08em] uppercase border px-2 py-1 ${on ? "bg-black text-white border-black" : "border-[#ccc] text-[#999]"}">${on ? "On" : "Off"}</button>
+        <button type="button" data-toggle="${key}" class="oswald text-[10px] tracking-[0.08em] uppercase border px-2 py-1 ${on ? "bg-black text-white border-black" : "border-[#ccc] text-[#767676]"}">${on ? "On" : "Off"}</button>
       </div>`;
     return `<div class="px-5 py-5">
-      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#999]">Signed in</p>
+      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#767676]">Signed in</p>
       <p class="garamond text-[16px] text-black mt-1 break-words">${u.email || u.phone || "Melted member"}</p>
       <div class="border-t border-[#eee] mt-3 pt-2">
         ${row("Email newsletter", !!u.emailOptIn, "emailOptIn")}
@@ -713,8 +763,8 @@
     const emailForm = ov.querySelector("[data-email-form]");
     const phoneForm = ov.querySelector("[data-phone-form]");
     tabs.forEach(t => t.addEventListener("click", () => {
-      tabs.forEach(x => { x.classList.remove("border-black"); x.classList.add("border-transparent", "text-[#999]"); });
-      t.classList.add("border-black"); t.classList.remove("border-transparent", "text-[#999]");
+      tabs.forEach(x => { x.classList.remove("border-black"); x.classList.add("border-transparent", "text-[#767676]"); });
+      t.classList.add("border-black"); t.classList.remove("border-transparent", "text-[#767676]");
       const m = t.dataset.method;
       emailForm.classList.toggle("hidden", m !== "email");
       phoneForm.classList.toggle("hidden", m !== "phone");
@@ -777,11 +827,11 @@
   // Mini phone-capture step shown when a member turns SMS on without a number on file.
   function phonePromptHTML() {
     return `<div class="px-5 py-5">
-      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#999]">Add a mobile number</p>
+      <p class="oswald text-[11px] tracking-[0.1em] uppercase text-[#767676]">Add a mobile number</p>
       <p class="garamond text-[14px] text-[#555] leading-[1.45] mt-1">Add a number to get flash-sale alerts &amp; promos.</p>
       <input data-acct-phone type="tel" inputmode="tel" autocomplete="tel" placeholder="(555) 123-4567" class="w-full border border-[#d4d4d4] focus:border-black outline-none px-3 py-2.5 text-[14px] garamond mt-3">
       <p data-acct-phone-msg class="garamond text-[12px] text-[#c0392b] min-h-[15px] mt-1"></p>
-      <p class="garamond text-[11px] text-[#999] leading-[1.4]">By saving you agree to receive recurring automated promotional texts from Melted at this number. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help.</p>
+      <p class="garamond text-[11px] text-[#767676] leading-[1.4]">By saving you agree to receive recurring automated promotional texts from Melted at this number. Msg &amp; data rates may apply. Reply STOP to cancel, HELP for help.</p>
       <div class="flex gap-2 mt-3">
         <button type="button" data-acct-phone-save class="flex-1 oswald text-[11px] tracking-[0.08em] uppercase bg-black text-white py-2.5 hover:bg-[#333] transition-colors">Save &amp; turn on</button>
         <button type="button" data-acct-phone-cancel class="oswald text-[11px] tracking-[0.08em] uppercase border border-[#ccc] px-3 py-2.5 hover:border-black transition-colors">Cancel</button>
