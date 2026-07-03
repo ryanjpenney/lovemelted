@@ -145,6 +145,8 @@
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible{ outline:2px solid #0A0A0A; outline-offset:2px; }
   #nav :focus-visible, footer :focus-visible, #m-gate :focus-visible, #m-intro :focus-visible,
   .bg-black :focus-visible, .bg-ink :focus-visible{ outline-color:#fff; }
+  /* Programmatic focus targets (e.g. the hero h1 after the intro) get no ring */
+  [tabindex="-1"]:focus, [tabindex="-1"]:focus-visible{ outline:none; }
   #m-gate .g-deny{ display:none; }
   #m-gate.denied .g-ask{ display:none; }
   #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
