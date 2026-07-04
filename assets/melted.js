@@ -20,37 +20,51 @@
      real lat/lng, and a ZIP that also lives in the ZIPS table below.
      The locator, map, and region filters all scale off this one array. */
   const STORES = [
-    // --- Arizona ---
-    { name: "Youngtown",        addr: "11148 N 111th Ave, Youngtown, AZ 85363",        zip: "85363", state: "AZ", lat: 33.5942, lng: -112.3023, phone: "(623) 469-1322" },
-    { name: "Peoria",           addr: "8157 W Cactus Rd, Peoria, AZ 85381",            zip: "85381", state: "AZ", lat: 33.5992, lng: -112.2378, phone: "(623) 412-9100" },
-    { name: "Glendale",         addr: "5612 W Glendale Ave, Glendale, AZ 85301",       zip: "85301", state: "AZ", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117" },
-    { name: "Phoenix Bell",     addr: "2615 W Bell Rd, Phoenix, AZ 85023",             zip: "85023", state: "AZ", lat: 33.6401, lng: -112.1126, phone: "(602) 935-7280" },
-    { name: "Scottsdale",       addr: "7235 E 1st Ave, Scottsdale, AZ 85251",          zip: "85251", state: "AZ", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340" },
-    { name: "Midtown",          addr: "3955 N 7th Ave, Phoenix, AZ 85013",             zip: "85013", state: "AZ", lat: 33.4951, lng: -112.0825, phone: "(602) 633-2007" },
-    { name: "Phoenix Airport",  addr: "4133 E Van Buren St, Phoenix, AZ 85008",        zip: "85008", state: "AZ", lat: 33.4520, lng: -111.9890, phone: "(602) 254-1300" },
-    { name: "Scottsdale Pavilions", addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", state: "AZ", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818" },
-    { name: "Sedona",           addr: "2155 W State Route 89A, Sedona, AZ 86336",      zip: "86336", state: "AZ", lat: 34.8580, lng: -111.8120, phone: "(928) 862-4148" },
-    { name: "Gilbert",          addr: "725 N Gilbert Rd, Gilbert, AZ 85234",           zip: "85234", state: "AZ", lat: 33.3618, lng: -111.7894, phone: "(480) 999-0667" },
-    { name: "Queen Creek",      addr: "21321 E Rittenhouse Rd, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.2483, lng: -111.6343, phone: "(480) 781-9001" },
-    { name: "Phoenix 48th St.", addr: "4659 S 48th St, Phoenix, AZ 85040",             zip: "85040", state: "AZ", lat: 33.4099, lng: -111.9836, phone: "(602) 633-3010" },
-    { name: "Tucson Oracle",    addr: "4220 N Oracle Rd, Tucson, AZ 85705",            zip: "85705", state: "AZ", lat: 32.2790, lng: -110.9742, phone: "(520) 314-9420" },
-    // --- Maryland (authorized retail partners; city-level location) ---
-    { name: "Columbia Care",                  addr: "Chevy Chase, MD",  zip: "20815", state: "MD", lat: 38.9686, lng: -77.0780, phone: "" },
-    { name: "gLeaf Wellness Solutions",       addr: "Rockville, MD",    zip: "20850", state: "MD", lat: 39.0840, lng: -77.1528, phone: "" },
-    { name: "gLeaf Wellness / Columbia Care", addr: "Frederick, MD",    zip: "21701", state: "MD", lat: 39.4143, lng: -77.4105, phone: "" },
-    { name: "Nirvana Center Maryland",        addr: "Rosedale, MD",     zip: "21237", state: "MD", lat: 39.3271, lng: -76.5094, phone: "" },
-    { name: "Jenny's of Maryland",            addr: "Lanham, MD",       zip: "20706", state: "MD", lat: 38.9668, lng: -76.8638, phone: "" },
-    { name: "Summit Wellness",                addr: "Catonsville, MD",  zip: "21228", state: "MD", lat: 39.2721, lng: -76.7319, phone: "" },
-    { name: "Waave Cannabis",                 addr: "Greenbelt, MD",    zip: "20770", state: "MD", lat: 39.0046, lng: -76.8755, phone: "" },
-    { name: "Elevated Dispo",                 addr: "Salisbury, MD",    zip: "21801", state: "MD", lat: 38.3607, lng: -75.5994, phone: "" },
-    { name: "Kent Reserve",                   addr: "Millington, MD",   zip: "21651", state: "MD", lat: 39.2590, lng: -75.8438, phone: "" },
-    { name: "Chesapeake Apothecary",          addr: "White Plains, MD", zip: "20695", state: "MD", lat: 38.5893, lng: -76.9783, phone: "" },
-    { name: "Chesacanna",                     addr: "Cockeysville, MD", zip: "21030", state: "MD", lat: 39.4812, lng: -76.6433, phone: "" },
-    { name: "Coastal Cure",                   addr: "Delmar, MD",       zip: "21875", state: "MD", lat: 38.4563, lng: -75.5780, phone: "" },
-    { name: "Greenwave",                      addr: "Solomons, MD",     zip: "20688", state: "MD", lat: 38.3193, lng: -76.4563, phone: "" },
-    { name: "Bloom",                          addr: "Germantown, MD",   zip: "20874", state: "MD", lat: 39.1732, lng: -77.2716, phone: "" },
-    { name: "Hi Tides",                       addr: "Ocean City, MD",   zip: "21842", state: "MD", lat: 38.3365, lng: -75.0849, phone: "" },
-    { name: "ReLeaf Shop",                    addr: "Baltimore, MD",    zip: "21201", state: "MD", lat: 39.2904, lng: -76.6122, phone: "" }
+    // --- Arizona (menu: online-ordering URL when confirmed; null/"" = Directions-only for now) ---
+    // Curaleaf fleet — the original city-nickname records, upgraded in place to canonical
+    // Curaleaf names/addresses (2026-07). Existing phone numbers kept where Curaleaf's feed was blank.
+    { name: "Curaleaf Youngtown",       addr: "11200 W Michigan Ave #5, Youngtown, AZ 85363",   zip: "85363", state: "AZ", lat: 33.593, lng: -112.302, phone: "(623) 469-1322", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-youngtown/recreational" },
+    { name: "Curaleaf Peoria",          addr: "8970 N 91st Ave, Peoria, AZ 85345",              zip: "85345", state: "AZ", lat: 33.577, lng: -112.246, phone: "(623) 412-9100", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-peoria/recreational" },
+    { name: "Glendale",                 addr: "5612 W Glendale Ave, Glendale, AZ 85301",        zip: "85301", state: "AZ", lat: 33.5385, lng: -112.1860, phone: "(623) 915-1117", menu: null }, // CONFIRM: matches no incoming Curaleaf record — same store as Glendale East?
+    { name: "Curaleaf Bell",            addr: "17201 N 19th Ave, Phoenix, AZ 85023",            zip: "85023", state: "AZ", lat: 33.639, lng: -112.098, phone: "(602) 935-7280", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-bell/recreational" },
+    { name: "Scottsdale",               addr: "7235 E 1st Ave, Scottsdale, AZ 85251",           zip: "85251", state: "AZ", lat: 33.4942, lng: -111.9261, phone: "(480) 999-3340", menu: null }, // CONFIRM: Old Town — distinct from Curaleaf Scottsdale (Greenway Hayden)?
+    { name: "Curaleaf Midtown",         addr: "2918 N Central Ave, Phoenix, AZ 85012",          zip: "85012", state: "AZ", lat: 33.482, lng: -112.074, phone: "(480) 805-1296", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-midtown/recreational" },
+    { name: "Curaleaf Phoenix Airport", addr: "14 S 41st Pl, Phoenix, AZ 85034",                zip: "85034", state: "AZ", lat: 33.446, lng: -111.996, phone: "(602) 254-1300", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-phoenix-airport/recreational" },
+    { name: "Curaleaf Pavilions",       addr: "9120 E Talking Stick Way, Scottsdale, AZ 85250", zip: "85250", state: "AZ", lat: 33.5290, lng: -111.8880, phone: "(480) 690-2818", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-pavilions/recreational" }, // kept verified addr; incoming addr was flagged CONFIRM
+    { name: "Curaleaf Sedona",          addr: "465 Jordan Rd, Sedona, AZ 86336",                zip: "86336", state: "AZ", lat: 34.868, lng: -111.762, phone: "(928) 862-4148", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-sedona/recreational" },
+    { name: "Curaleaf Gilbert",         addr: "175 S Hamilton Pl #110, Gilbert, AZ 85233",      zip: "85233", state: "AZ", lat: 33.353, lng: -111.792, phone: "(480) 999-0667", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-gilbert/recreational" },
+    { name: "Curaleaf Queen Creek",     addr: "18423 E San Tan Blvd #101, Queen Creek, AZ 85142", zip: "85142", state: "AZ", lat: 33.253, lng: -111.634, phone: "(480) 781-9001", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-queen-creek/recreational" },
+    { name: "Curaleaf 48th Street",     addr: "4730 S 48th St #101, Phoenix, AZ 85040",         zip: "85040", state: "AZ", lat: 33.417, lng: -111.983, phone: "(602) 633-3010", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-48th-street/recreational" },
+    { name: "Curaleaf Tucson",          addr: "4695 N Oracle Rd #117, Tucson, AZ 85705",        zip: "85705", state: "AZ", lat: 32.284, lng: -110.978, phone: "(520) 314-9420", menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-tucson/recreational" },
+    // Curaleaf — additional stores (2026-07)
+    { name: "Curaleaf Central",         addr: "3333 S Central Ave, Phoenix, AZ 85040",          zip: "85040", state: "AZ", lat: 33.428, lng: -112.074, phone: "",               menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-central/recreational" },
+    { name: "Curaleaf Camelback",       addr: "1040 E Camelback Rd Ste A, Phoenix, AZ 85014",   zip: "85014", state: "AZ", lat: 33.509, lng: -112.070, phone: "",               menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-camelback/recreational" },
+    { name: "Curaleaf Glendale East",   addr: "5558 W Bell Rd, Glendale, AZ 85308",             zip: "85308", state: "AZ", lat: 33.638, lng: -112.176, phone: "",               menu: "https://curaleaf.com/shop/arizona/curaleaf-dispensary-glendale-east/recreational" },
+    { name: "Curaleaf Glendale (Union Hills)", addr: "8160 W Union Hills Dr, Glendale, AZ 85308", zip: "85308", state: "AZ", lat: 33.653, lng: -112.242, phone: "",             menu: "" }, // CONFIRM slug
+    // Herbal Wellness Center
+    { name: "Herbal Wellness Center North", addr: "1720 E Deer Valley Rd, Phoenix, AZ 85024",   zip: "85024", state: "AZ", lat: 33.683, lng: -112.056, phone: "(602) 877-0211", menu: "https://herbalwellnesscenter.com/az/hwc-north-menu/" },
+    { name: "Herbal Wellness Center West",  addr: "4126 W Indian School Rd, Phoenix, AZ 85019", zip: "85019", state: "AZ", lat: 33.495, lng: -112.152, phone: "(602) 635-3502", menu: "https://herbalwellnesscenter.com/az/hwc-west-menu/" },
+    // Nirvana Center
+    { name: "Nirvana West Phoenix",     addr: "2 N 35th Ave, Phoenix, AZ 85009",                zip: "85009", state: "AZ", lat: 33.451, lng: -112.126, phone: "(602) 730-3236", menu: "" }, // CONFIRM own-site menu URL
+    { name: "Nirvana Downtown (7th St)", addr: "Phoenix, AZ",                                   zip: "",      state: "AZ", lat: 33.460, lng: -112.082, phone: "",               menu: "https://dtphx.nirvanacenter.com/stores/yavapai-herbal-services-nirvana-7th-st" }, // CONFIRM address
+    { name: "Nirvana Prescott Valley",  addr: "6287 E Copper Hill Dr Ste A, Prescott Valley, AZ 86314", zip: "86314", state: "AZ", lat: 34.598, lng: -112.293, phone: "(928) 227-2441", menu: "https://prescottvalley.nirvanacenter.com/stores/nirvana-center-phoenix-total-accountability-systems" },
+    // --- Maryland (confirmed retail partners with online-ordering menus, 2026-07) ---
+    { name: "Columbia Care",          addr: "4609 Willow Ln, Chevy Chase, MD 20815",           zip: "20815", state: "MD", lat: 38.985, lng: -77.087, phone: "(301) 637-0870", menu: "https://www.columbia.care/stores/maryland/chevy-chase/shop" },
+    { name: "gLeaf Wellness",         addr: "808 Hungerford Dr, Rockville, MD 20850",          zip: "20850", state: "MD", lat: 39.093, lng: -77.153, phone: "(301) 917-3665", menu: "https://www.gleaf.com/stores/maryland/rockville/shop" },
+    { name: "gLeaf Frederick",        addr: "4606 Wedgewood Blvd, Frederick, MD 21703",        zip: "21703", state: "MD", lat: 39.373, lng: -77.435, phone: "(301) 662-2222", menu: "https://www.gleaf.com/stores/maryland/frederick/shop" },
+    { name: "Nirvana Center",         addr: "8803 Pulaski Hwy, Rosedale, MD 21237",            zip: "21237", state: "MD", lat: 39.334, lng: -76.482, phone: "",               menu: "https://rosedale.nirvanacenter.com/stores/the-nirvana-center" },
+    { name: "Jenny's of Maryland",    addr: "9354 Lanham Severn Rd, Lanham, MD 20706",         zip: "20706", state: "MD", lat: 38.977, lng: -76.856, phone: "(443) 674-0119", menu: "https://dutchie.com/dispensary/jennys-of-maryland" },
+    { name: "Summit Wellness",        addr: "6328 Baltimore National Pike, Catonsville, MD 21228", zip: "21228", state: "MD", lat: 39.278, lng: -76.746, phone: "(443) 840-8287", menu: "https://dutchie.com/dispensary/mission-catonsville" },
+    { name: "Waave Cannabis",         addr: "7327 Hanover Pkwy, Greenbelt, MD 20770",          zip: "20770", state: "MD", lat: 39.011, lng: -76.855, phone: "(443) 383-3730", menu: "https://dutchie.com/dispensary/waave" },
+    { name: "Elevated Dispo",         addr: "733 S Salisbury Blvd, Salisbury, MD 21801",       zip: "21801", state: "MD", lat: 38.350, lng: -75.601, phone: "(410) 886-7890", menu: "https://dutchie.com/dispensary/elevated-dispo" },
+    { name: "Kent Reserve",           addr: "400 Cypress St, Millington, MD 21651",            zip: "21651", state: "MD", lat: 39.259, lng: -75.844, phone: "(410) 758-0081", menu: "https://kentreserve.com/shop/featured" },
+    { name: "Chesapeake Apothecary",  addr: "4781 Crain Hwy Ste A, White Plains, MD 20695",    zip: "20695", state: "MD", lat: 38.585, lng: -76.978, phone: "(301) 818-2427", menu: "https://dutchie.com/dispensary/chesapeake-apothecary" },
+    { name: "Chesacanna",             addr: "10534 York Rd Ste 101, Cockeysville, MD 21030",   zip: "21030", state: "MD", lat: 39.483, lng: -76.640, phone: "(410) 650-6555", menu: "https://menu.chesacanna.com/stores/chesacanna1" },
+    { name: "Coastal Cure",           addr: "9315 Ocean Hwy, Delmar, MD 21875",                zip: "21875", state: "MD", lat: 38.447, lng: -75.573, phone: "(443) 669-1081", menu: "https://coastalcurecannabis.com/" },
+    { name: "Greenwave",              addr: "70 Holiday Dr, Solomons, MD 20688",               zip: "20688", state: "MD", lat: 38.323, lng: -76.457, phone: "(410) 394-3936", menu: "https://greenwavemd.com/shop/" },
+    { name: "Bloom",                  addr: "11530 Middlebrook Rd, Germantown, MD 20876",      zip: "20876", state: "MD", lat: 39.178, lng: -77.242, phone: "",               menu: "https://bloommarijuana.com/md/germantown-marijuana-dispensary/recreational-menu" },
+    { name: "Hi Tide",                addr: "12600 Marjan Ln, Ocean City, MD 21842",           zip: "21842", state: "MD", lat: 38.353, lng: -75.086, phone: "(410) 701-2837", menu: "https://ochitide.com/jane2/" },
+    { name: "ReLeaf Shop",            addr: "1114 Cathedral St Ste 5, Baltimore, MD 21201",    zip: "21201", state: "MD", lat: 39.303, lng: -76.617, phone: "(410) 773-9054", menu: "https://www.releaf-shop.com/menu-baltimore-dispensary-near-me" }
   ];
 
   /* ---------- ZIP centroid lookup (AZ + dispensary zips) ----------
@@ -59,8 +73,8 @@
     // Phoenix metro
     "85003":[33.452,-112.078],"85004":[33.451,-112.070],"85006":[33.466,-112.047],
     "85007":[33.448,-112.090],"85008":[33.466,-111.984],"85009":[33.447,-112.123],
-    "85013":[33.509,-112.082],"85014":[33.512,-112.055],"85015":[33.508,-112.103],
-    "85016":[33.510,-112.030],"85018":[33.496,-111.984],"85020":[33.567,-112.052],
+    "85012":[33.481,-112.074],"85013":[33.509,-112.082],"85014":[33.512,-112.055],"85015":[33.508,-112.103],
+    "85016":[33.510,-112.030],"85018":[33.496,-111.984],"85019":[33.495,-112.152],"85020":[33.567,-112.052],
     "85021":[33.561,-112.097],"85022":[33.628,-112.052],"85023":[33.640,-112.113],
     "85024":[33.679,-112.043],"85027":[33.681,-112.108],"85028":[33.582,-111.998],
     "85029":[33.598,-112.108],"85031":[33.495,-112.166],"85032":[33.622,-111.987],
@@ -115,7 +129,7 @@
     "20815":[38.969,-77.078],"21237":[39.327,-76.509],"20706":[38.967,-76.864],
     "21228":[39.272,-76.732],"21801":[38.361,-75.599],"21651":[39.259,-75.844],
     "20695":[38.589,-76.978],"21030":[39.481,-76.643],"21875":[38.456,-75.578],
-    "20688":[38.319,-76.456],"20874":[39.173,-77.272],"21842":[38.337,-75.085]
+    "20688":[38.319,-76.456],"20874":[39.173,-77.272],"20876":[39.192,-77.238],"21842":[38.337,-75.085]
   };
 
   /* ---------- Product catalog ---------- */
@@ -128,11 +142,9 @@
       facts: ["10 pieces · 10mg each", "Live resin", "Consistent piece to piece", "Four fruit flavors"],
       flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
       gallery: ["assets/melted/gallery/live_resin.jpg"],
-      // menuLinks: dispensary menu deep-links for the "Order for pickup or delivery"
-      // module on product.html. Keys are store zips (must match STORES above);
-      // values are the full product URL on that dispensary's menu. Examples:
-      //   "85234": "https://dutchie.com/dispensary/example-gilbert/products/melted-live-resin-gummies",
-      //   "20850": "https://www.iheartjane.com/stores/0000/example-rockville/products/melted-live-resin-gummies",
+      // menuLinks: OPTIONAL per-product deep-links, keyed by store zip. Store-level
+      // ordering now lives on STORES[].menu (used by product.html + locations.html);
+      // fill these only when a dispensary gives us product-specific URLs.
       menuLinks: {}
     },
     "mini-melt-pre-rolls": {

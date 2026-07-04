@@ -116,34 +116,35 @@
       `<span class="garamond text-[15px] text-[#333] border border-[#ddd] px-[14px] py-[6px]">${f}</span>`).join("");
   }
 
-  // "Order for pickup or delivery" — dispensary menu deep-links (menuLinks in melted.js)
+  // "Order for pickup at a dispensary" — partner stores with confirmed online menus (STORES[].menu)
   const buy = document.querySelector("[data-buy]");
-  const links = p.menuLinks || {};
-  const orderStores = Object.keys(links)
-    .map(z => M.STORES.find(s => s.zip === z))
-    .filter(Boolean);
-  if (p.kind !== "merch" && orderStores.length) {
-    const order = document.createElement("div");
-    order.className = "border border-black mb-[16px]";
-    order.innerHTML = `
-      <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center border-b border-[#e3e3e3] bg-black text-white">Order for pickup or delivery</div>
-      <div class="p-[24px]">
-        <label for="order-store" class="oswald text-[11px] tracking-[0.12em] uppercase text-[#767676]">Choose your dispensary</label>
-        <select id="order-store" class="oswald w-full border border-[#d4d4d4] focus:border-black outline-none px-4 py-3 text-[16px] md:text-[14px] tracking-[0.04em] uppercase bg-white rounded-none appearance-none mt-[10px]">
-          ${orderStores.map(s => `<option value="${s.zip}">${s.name} — ${s.addr}</option>`).join("")}
-        </select>
-        <a data-order-link href="${links[orderStores[0].zip]}" target="_blank" rel="noopener"
-           class="oswald block w-full bg-black text-white text-center text-[12px] font-medium tracking-[0.1em] uppercase px-6 py-[16px] mt-[14px] hover:bg-[#333] transition-colors">
-          View at <span data-order-store-name>${orderStores[0].name}</span></a>
-        <p class="garamond text-[13px] text-[#555] leading-[1.5] mt-[12px]">All sales are completed on the licensed dispensary's site. Valid ID required — 21+.</p>
-      </div>`;
-    buy.parentNode.insertBefore(order, buy);
-    const sel = order.querySelector("#order-store");
-    sel.addEventListener("change", () => {
-      const s = orderStores.find(x => x.zip === sel.value);
-      order.querySelector("[data-order-link]").href = links[s.zip];
-      order.querySelector("[data-order-store-name]").textContent = s.name;
-    });
+  if (p.kind !== "merch") {
+    const savedOrderZip = M.getZip();
+    let partners = M.STORES.filter(s => s.menu);
+    if (savedOrderZip && M.validZip(savedOrderZip) && M.zipCoords(savedOrderZip)) {
+      const ranked = M.nearestStores(savedOrderZip);
+      if (ranked) partners = ranked.filter(s => s.menu);
+    }
+    partners = partners.slice(0, 5);
+    if (partners.length) {
+      const city = s => s.addr.split(", ").slice(-2)[0] + ", " + s.state;
+      const order = document.createElement("div");
+      order.className = "border border-black mb-[16px]";
+      order.innerHTML = `
+      <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center bg-black text-white">Order for pickup at a dispensary</div>
+      <ul class="px-[24px]">
+        ${partners.map((s, i) => `
+        <li class="flex items-center justify-between gap-4 py-[14px] ${i === 0 ? "" : "border-t border-[#eee]"}">
+          <div class="min-w-0">
+            <p class="garamond text-[17px] text-black leading-[1.35]">${s.name}</p>
+            <p class="oswald text-[11px] font-light tracking-[0.08em] uppercase text-[#767676] mt-[2px]">${city(s)}${typeof s.dist === "number" ? ` · ${s.dist.toFixed(1)} mi` : ""}</p>
+          </div>
+          <a href="${s.menu}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">Order Online</a>
+        </li>`).join("")}
+      </ul>
+      <p class="garamond text-[13px] text-[#555] leading-[1.5] px-[24px] pb-[16px] pt-[4px] border-t border-[#eee]">All sales are completed on the licensed dispensary's site. Valid ID required — 21+.</p>`;
+      buy.parentNode.insertBefore(order, buy);
+    }
   }
   if (p.kind === "merch") {
     buy.innerHTML = `<div class="border border-[#e3e3e3] p-[24px]">
