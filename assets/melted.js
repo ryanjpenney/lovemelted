@@ -399,7 +399,7 @@
       <p>For use only by adults 21 and older. Keep out of reach of children and pets.</p>
       <p>Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under its influence.</p>
       <p>There may be health risks associated with consumption of this product. For use only by adults 21 and older. This product is not approved by the FDA.</p>
-      <p>© The Kind Relief Inc. · License [LICENSE #] · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
+      <p>© The Kind Relief Inc. · License 00000053ESYR15319850 · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
     </div>
   </div>
 </footer>`;
