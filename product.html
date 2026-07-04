@@ -109,41 +109,89 @@
   document.querySelector("[data-p-facts]").innerHTML = p.facts.map(f =>
     `<li class="flex gap-2"><span class="text-black">—</span><span>${f}</span></li>`).join("");
 
-  // Flavors
-  if (p.flavors && p.flavors.length) {
-    document.querySelector("[data-p-flavors]").classList.remove("hidden");
-    document.querySelector("[data-flavor-list]").innerHTML = p.flavors.map(f =>
+  // Variants (flavors/strains): selecting one swaps the hero image and re-points each
+  // store's Order Online link (exact variant URL when known, store menu otherwise,
+  // "Not available at this store" when the variant is confirmed out of range there).
+  const variants = p.variants || [];
+  let selected = null;   // no default selection — product-level view until a flavor is tapped
+  const flavorWrap = document.querySelector("[data-p-flavors]");
+  const flavorList = document.querySelector("[data-flavor-list]");
+
+  function applyVariantImage() {
+    main.src = (selected && selected.img) || p.gallery[0];
+    main.alt = p.name + (selected ? " — " + selected.label : "");
+  }
+  function renderChips() {
+    flavorList.innerHTML = variants.map(v => {
+      const on = !!(selected && v.key === selected.key);
+      return `<button type="button" data-variant="${v.key}" aria-pressed="${on}"
+        class="garamond text-[15px] px-[14px] py-[9px] border transition-colors ${on ? "bg-black text-white border-black" : "text-[#333] border-[#ddd] hover:border-black"}">${v.label}</button>`;
+    }).join("");
+    flavorList.querySelectorAll("[data-variant]").forEach(b => b.addEventListener("click", () => {
+      const v = variants.find(x => x.key === b.dataset.variant);
+      selected = (selected && selected.key === v.key) ? null : v;   // tap again to deselect
+      applyVariantImage();
+      renderChips();
+      renderOrderRows();
+    }));
+  }
+  if (variants.length) {
+    flavorWrap.classList.remove("hidden");
+    renderChips();
+  } else if (p.flavors && p.flavors.length) {
+    // static chips for products without variant data yet
+    flavorWrap.classList.remove("hidden");
+    flavorList.innerHTML = p.flavors.map(f =>
       `<span class="garamond text-[15px] text-[#333] border border-[#ddd] px-[14px] py-[6px]">${f}</span>`).join("");
   }
 
   // "Order for pickup at a dispensary" — partner stores with confirmed online menus (STORES[].menu)
   const buy = document.querySelector("[data-buy]");
+  let partners = [];
+  let orderList = null;   // <ul> inside the order module; re-rendered when the variant changes
+  const city = s => s.addr.split(", ").slice(-2)[0] + ", " + s.state;
+
+  function rowHref(s) {
+    const l = selected && selected.links ? selected.links[s.id] : undefined;
+    if (l === null) return null;   // partner confirmed this variant is not stocked there
+    return l || s.menu;            // exact variant URL when known, else the store's menu
+  }
+  function renderOrderRows() {
+    if (!orderList) return;
+    orderList.innerHTML = partners.map((s, i) => {
+      const href = rowHref(s);
+      const action = href
+        ? `<a href="${href}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">Order Online</a>`
+        : `<span class="oswald shrink-0 text-[12px] font-light tracking-[0.08em] uppercase text-[#8a8a8a] pt-[10px] pb-[3px] text-right">Not available at this store</span>`;
+      return `
+        <li class="flex items-center justify-between gap-4 py-[14px] ${i === 0 ? "" : "border-t border-[#eee]"}">
+          <div class="min-w-0">
+            <p class="garamond text-[17px] text-black leading-[1.35]">${s.name}</p>
+            <p class="oswald text-[11px] font-light tracking-[0.08em] uppercase text-[#767676] mt-[2px]">${city(s)}${typeof s.dist === "number" ? ` · ${s.dist.toFixed(1)} mi` : ""}</p>
+          </div>
+          ${action}
+        </li>`;
+    }).join("");
+  }
+
   if (p.kind !== "merch") {
     const savedOrderZip = M.getZip();
-    let partners = M.STORES.filter(s => s.menu);
+    partners = M.STORES.filter(s => s.menu);
     if (savedOrderZip && M.validZip(savedOrderZip) && M.zipCoords(savedOrderZip)) {
       const ranked = M.nearestStores(savedOrderZip);
       if (ranked) partners = ranked.filter(s => s.menu);
     }
     partners = partners.slice(0, 5);
     if (partners.length) {
-      const city = s => s.addr.split(", ").slice(-2)[0] + ", " + s.state;
       const order = document.createElement("div");
       order.className = "border border-black mb-[16px]";
       order.innerHTML = `
       <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center bg-black text-white">Order for pickup at a dispensary</div>
-      <ul class="px-[24px]">
-        ${partners.map((s, i) => `
-        <li class="flex items-center justify-between gap-4 py-[14px] ${i === 0 ? "" : "border-t border-[#eee]"}">
-          <div class="min-w-0">
-            <p class="garamond text-[17px] text-black leading-[1.35]">${s.name}</p>
-            <p class="oswald text-[11px] font-light tracking-[0.08em] uppercase text-[#767676] mt-[2px]">${city(s)}${typeof s.dist === "number" ? ` · ${s.dist.toFixed(1)} mi` : ""}</p>
-          </div>
-          <a href="${s.menu}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">Order Online</a>
-        </li>`).join("")}
-      </ul>
+      <ul data-order-rows class="px-[24px]"></ul>
       <p class="garamond text-[13px] text-[#555] leading-[1.5] px-[24px] pb-[16px] pt-[4px] border-t border-[#eee]">All sales are completed on the licensed dispensary's site. Valid ID required — 21+.</p>`;
       buy.parentNode.insertBefore(order, buy);
+      orderList = order.querySelector("[data-order-rows]");
+      renderOrderRows();
     }
   }
   if (p.kind === "merch") {

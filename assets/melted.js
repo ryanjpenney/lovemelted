@@ -67,6 +67,12 @@
     { name: "ReLeaf Shop",            addr: "1114 Cathedral St Ste 5, Baltimore, MD 21201",    zip: "21201", state: "MD", lat: 39.303, lng: -76.617, phone: "(410) 773-9054", menu: "https://www.releaf-shop.com/menu-baltimore-dispensary-near-me" }
   ];
 
+  // Stable store ids, used by PRODUCTS[].variants[].links — derived from the name so the
+  // records stay compact: "Curaleaf 48th Street" → "curaleaf-48th-street". Renaming a store
+  // orphans its variant links (they gracefully fall back to the store menu), so re-check
+  // variant link keys whenever a store is renamed.
+  STORES.forEach(s => { s.id = s.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); });
+
   /* ---------- ZIP centroid lookup (AZ + dispensary zips) ----------
      Used to geocode the shopper's entered ZIP for distance ranking. */
   const ZIPS = {
@@ -142,10 +148,21 @@
       facts: ["10 pieces · 10mg each", "Live resin", "Consistent piece to piece", "Four fruit flavors"],
       flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
       gallery: ["assets/melted/gallery/live_resin.jpg"],
-      // menuLinks: OPTIONAL per-product deep-links, keyed by store zip. Store-level
-      // ordering now lives on STORES[].menu (used by product.html + locations.html);
-      // fill these only when a dispensary gives us product-specific URLs.
-      menuLinks: {}
+      /* variants: selectable flavors/strains on the product page.
+         - img (optional): swaps the hero image while that variant is selected.
+         - links: store id → exact product URL on that store's menu.
+             url string → "Order Online" deep-links straight to the variant
+             null       → confirmed NOT stocked there → "Not available at this store"
+             absent     → unknown → falls back to the store's general menu
+         Platform product URLs rot fast (Dutchie 403s bots; Curaleaf /brands/melted pages
+         404 whenever a store's Melted inventory hits zero — verified 2026-07-04), so fill
+         links ONLY from partner-confirmed URLs and expect to re-verify them. */
+      variants: [
+        { key: "blood-orange", label: "Blood Orange", img: null, links: {} },
+        { key: "green-apple",  label: "Green Apple",  img: null, links: {} },
+        { key: "guava",        label: "Guava",        img: null, links: {} },
+        { key: "wildberry",    label: "Wildberry",    img: "assets/melted/gallery/gum_2.jpg", links: {} } // PROVISIONAL shot — replace with a confirmed Wildberry photo
+      ]
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
@@ -153,8 +170,7 @@
       tagline: "Five mini infused pre-rolls, ready when you are.",
       detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
       facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
-      gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"],
-      menuLinks: {}
+      gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
     },
     "live-rosin-gummies": {
       name: "Live Rosin Gummies", price: "$28.00", kind: "product",
@@ -164,7 +180,12 @@
       facts: ["10 pieces · 10mg each", "Pressed live rosin", "Rich, full-flavored", "Four dessert-inspired flavors"],
       flavors: ["Blue Razzberry", "Coconut Chiffon", "Pineapple Upsidedown", "Strawberry Rose"],
       gallery: ["assets/melted/gallery/live-rosin-gummy.jpg","assets/melted/gallery/live-rosin-secondary.jpg"],
-      menuLinks: {}
+      variants: [
+        { key: "blue-razzberry",       label: "Blue Razzberry",       img: "assets/melted/gallery/gum_3.jpg", links: {} }, // PROVISIONAL shot — replace with a confirmed Blue Razzberry photo
+        { key: "coconut-chiffon",      label: "Coconut Chiffon",      img: null, links: {} },
+        { key: "pineapple-upsidedown", label: "Pineapple Upsidedown", img: null, links: {} },
+        { key: "strawberry-rose",      label: "Strawberry Rose",      img: null, links: {} }
+      ]
     },
     "tigerstyle-cartridge": {
       name: "Tiger Style Cartridge", price: "$40.00", kind: "product",
@@ -172,8 +193,7 @@
       tagline: "A rich, flower-like experience, on the go.",
       detail: "Our Tiger Style cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
       facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific flavor"],
-      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"],
-      menuLinks: {}
+      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
     },
     "tiger-style-pre-roll": {
       name: "Tiger Style Pre-Roll", price: "", kind: "product",
@@ -181,8 +201,7 @@
       tagline: "An infused pre-roll of uncommon proportion.",
       detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
       facts: ["1.5g top-tier flower", "Infused with premium concentrate", "Tobacco-free organic hemp wrap", "Glass tube in the tiger canister"],
-      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"],
-      menuLinks: {}
+      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"]
     },
     "tiger-style-thca-diamonds": {
       name: "Tiger Style THCa Diamonds", price: "", kind: "product",
@@ -190,8 +209,7 @@
       tagline: "Crystalline THCa, refined to its purest form.",
       detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
       facts: ["1g crystalline THCa", "Exceptional purity and potency", "Grown slowly from premium extract", "Glass jar in the tiger keepsake box"],
-      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"],
-      menuLinks: {}
+      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"]
     },
     "bill-hat": {
       name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
@@ -399,7 +417,7 @@
       <p>For use only by adults 21 and older. Keep out of reach of children and pets.</p>
       <p>Marijuana can impair concentration, coordination, and judgment. Do not operate a vehicle or machinery under its influence.</p>
       <p>There may be health risks associated with consumption of this product. For use only by adults 21 and older. This product is not approved by the FDA.</p>
-      <p>© The Kind Relief Inc. · License 00000053ESYR15319850 · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
+      <p>© The Kind Relief Inc. · AZ License 00000053ESYR15319850 · Element MD, LLC · MD License PA-23-00020 · Licensed cannabis products sold only through licensed dispensaries in AZ and MD.</p>
     </div>
   </div>
 </footer>`;
