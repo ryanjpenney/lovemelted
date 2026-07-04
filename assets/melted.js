@@ -388,8 +388,10 @@
   <div class="mt-[64px] mx-[-28px] md:mx-[-45px]">
     <img src="assets/melted/tiger_style_cropped.jpg" alt="Tiger Style" class="block w-full h-auto select-none" loading="lazy">
   </div>
-  <div class="caslon text-[12px] text-[#d6d6d6] leading-[1.5] mt-[39px]">
-    <p>Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
+  <div class="mt-[39px] flex flex-wrap items-center gap-x-[28px] gap-y-[6px]">
+    <p class="caslon text-[12px] text-[#d6d6d6] leading-[1.5]">Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
+    <a href="privacy.html" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Privacy Policy</a>
+    <a href="terms.html" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Terms of Service</a>
   </div>
   <div class="relative mt-[25px]">
     <img src="assets/melted/mark_white.png" alt="" aria-hidden="true" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">
