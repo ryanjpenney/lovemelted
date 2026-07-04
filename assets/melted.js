@@ -312,23 +312,23 @@
       ${link("locations.html", "Locations")}
     </nav>
     <div class="flex items-center gap-[12px] justify-self-end">
-      <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[34px] px-[11px]">
+      <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] md:h-[34px] px-[11px]">
         ${pin}
-        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#767676]">
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[52px] md:w-[44px] text-[16px] md:text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#767676]">
       </form>
-      <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black" data-mobile-toggle aria-expanded="false" aria-label="Menu">Menu</button>
+      <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black py-[13px] px-[12px] -mr-[12px]" data-mobile-toggle aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
   <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
-    <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] px-[12px] mb-[20px] max-w-[220px]">
+    <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[48px] px-[12px] mb-[14px] max-w-[240px]">
       ${pin}
-      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#767676]">
+      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[16px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#767676]">
     </form>
-    <nav aria-label="Mobile" class="oswald text-[14px] uppercase tracking-[0.16em] space-y-[18px]">
-      <a href="products.html" class="block">Products</a>
-      <a href="about.html" class="block">About Us</a>
-      <a href="merch.html" class="block">Merch</a>
-      <a href="locations.html" class="block">Locations</a>
+    <nav aria-label="Mobile" class="oswald text-[15px] uppercase tracking-[0.16em]">
+      <a href="products.html" class="block py-[12px]">Products</a>
+      <a href="about.html" class="block py-[12px]">About Us</a>
+      <a href="merch.html" class="block py-[12px]">Merch</a>
+      <a href="locations.html" class="block py-[12px]">Locations</a>
     </nav>
   </div>
 </header>`;
@@ -345,19 +345,19 @@
 
   /* ---------- Markup: footer ---------- */
   function footerHTML() {
-    const li = (href, label) => `<li><a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a></li>`;
+    const li = (href, label) => `<li><a href="${href}" class="inline-block py-[8px] -my-[8px] hover:opacity-60 transition-opacity">${label}</a></li>`;
     return `
 <footer class="bg-black text-white px-[28px] md:px-[45px] pt-[64px] pb-[70px] mt-[84px]">
   <div class="flex flex-col md:flex-row">
     <div class="md:w-[385px]">
-      <form data-news-form class="flex items-end justify-between border-b border-white pb-[14px] mt-[16px]">
-        <input type="email" required placeholder="Your email" class="caslon bg-transparent text-[20px] text-white placeholder-[#9b9b9b] outline-none flex-1">
-        <button class="caslon text-[16px] tracking-[0.18em] text-white hover:opacity-60">SUBSCRIBE</button>
+      <form data-news-form class="flex items-end justify-between gap-[12px] border-b border-white pb-[14px] mt-[16px]">
+        <input type="email" required placeholder="Your email" class="caslon bg-transparent text-[20px] text-white placeholder-[#9b9b9b] outline-none flex-1 min-w-0 py-[6px]">
+        <button class="caslon text-[16px] tracking-[0.18em] text-white hover:opacity-60 shrink-0 py-[10px] -my-[10px]">SUBSCRIBE</button>
       </form>
       <p data-news-msg class="garamond text-[14px] text-[#d6d6d6] mt-2 min-h-[18px]"></p>
-      <div class="flex items-center gap-4 mt-[40px]">
-        <a href="https://www.instagram.com/meltedusa" target="_blank" rel="noopener" aria-label="Instagram" class="hover:opacity-60"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.39A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.8.72 1.47 1.39 2.13a5.9 5.9 0 0 0 2.13 1.39c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.39 5.9 5.9 0 0 0 1.39-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.39-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg></a>
-        <a href="https://www.linkedin.com/company/meltedusa" target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:opacity-60"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg></a>
+      <div class="flex items-center gap-6 mt-[40px]">
+        <a href="https://www.instagram.com/meltedusa" target="_blank" rel="noopener" aria-label="Instagram" class="hover:opacity-60 p-[12px] -m-[12px]"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.9 5.9 0 0 0-2.13 1.39A5.9 5.9 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.8.72 1.47 1.39 2.13a5.9 5.9 0 0 0 2.13 1.39c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.9 5.9 0 0 0 2.13-1.39 5.9 5.9 0 0 0 1.39-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.9 5.9 0 0 0-1.39-2.13A5.9 5.9 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm7.85-10.4a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/meltedusa" target="_blank" rel="noopener" aria-label="LinkedIn" class="hover:opacity-60 p-[12px] -m-[12px]"><svg class="w-[17px] h-[17px] text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg></a>
       </div>
     </div>
     <div class="md:ml-[125px] mt-10 md:mt-0">
@@ -395,7 +395,7 @@
   function wireHeader() {
     // Products mega-dropdown (hover on desktop, click fallback)
     const grp = document.querySelector(".group");
-    if (grp) {
+    if (grp && grp.querySelector(".mega")) {
       const mega = grp.querySelector(".mega");
       const show = () => { mega.classList.remove("opacity-0","invisible"); };
       const hide = () => { mega.classList.add("opacity-0","invisible"); };
@@ -457,7 +457,7 @@ footer :focus-visible, #m-gate :focus-visible, #m-intro :focus-visible, [class*=
 #m-gate.denied .g-ask{ display:none; }
 #m-gate.denied .g-deny{ display:block; animation:m-fade .4s ease both; }
 #m-intro{ overflow:hidden; }
-#m-intro .t-skip{ position:absolute; bottom:28px; right:28px; font-family:'Oswald',sans-serif; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; background:transparent; color:#fff; border:1px solid #8a8a8a; padding:10px 22px; cursor:pointer; }
+#m-intro .t-skip{ position:absolute; bottom:28px; right:28px; font-family:'Oswald',sans-serif; font-size:12px; font-weight:500; letter-spacing:.1em; text-transform:uppercase; background:transparent; color:#fff; border:1px solid #8a8a8a; padding:14px 26px; cursor:pointer; }
 #m-intro .t-skip:hover{ border-color:#fff; }
 #m-intro.fade{ opacity:0; transition:opacity .5s ease; }
 #m-intro .t-glow{ position:absolute; width:60vmin; height:60vmin; border-radius:50%;
@@ -467,7 +467,14 @@ footer :focus-visible, #m-gate :focus-visible, #m-intro :focus-visible, [class*=
 @keyframes m-tiger{ 0%{transform:scale(.26); opacity:0;} 16%{opacity:1;} 74%{opacity:1;} 100%{transform:scale(3); opacity:0;} }
 @keyframes m-glow{ 0%{transform:scale(.4); opacity:0;} 40%{opacity:1;} 100%{transform:scale(2.4); opacity:0;} }
 @keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
-@media (prefers-reduced-motion: reduce){ #m-intro .t-tiger,#m-intro .t-glow{ animation-duration:.5s; } }`;
+@media (prefers-reduced-motion: reduce){ #m-intro .t-tiger,#m-intro .t-glow{ animation-duration:.5s; } }
+/* ---- Mobile ergonomics (site-wide) ---- */
+body{ overflow-x:clip; }                          /* no sideways scroll if one element overflows */
+html{ scroll-padding-top:84px; }                  /* anchor jumps clear the sticky header */
+a, button{ -webkit-tap-highlight-color:transparent; }
+/* invisible tap-area expansion for small text links/buttons — visual size unchanged */
+.hit{ position:relative; }
+.hit::before{ content:""; position:absolute; inset:-10px; }`;
 
   function lockScroll(on) { document.documentElement.style.overflow = on ? "hidden" : ""; }
 

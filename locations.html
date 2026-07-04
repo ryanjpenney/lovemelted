@@ -106,7 +106,8 @@
   let activeZip = null;       // currently highlighted store
 
   /* ---- Map ---- */
-  const map = L.map("map", { scrollWheelZoom: false, zoomControl: true }).setView([34.4, -111.7], 6);
+  // On phones, one-finger drag scrolls the page (not the map) — pinch with two fingers still zooms/pans.
+  const map = L.map("map", { scrollWheelZoom: false, zoomControl: true, dragging: !L.Browser.mobile }).setView([34.4, -111.7], 6);
   L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: "abcd", maxZoom: 19
@@ -135,7 +136,7 @@
   /* ---- Region chips ---- */
   function renderChips() {
     const chip = (key, label) =>
-      `<button data-region="${key}" class="oswald text-[11px] tracking-[0.08em] uppercase px-[16px] py-[8px] border transition-colors ${region === key ? "bg-black text-white border-black" : "bg-white text-[#555] border-[#d8d8d8] hover:border-black"}">${label}</button>`;
+      `<button data-region="${key}" class="oswald text-[11px] tracking-[0.08em] uppercase px-[16px] py-[12px] md:py-[8px] border transition-colors ${region === key ? "bg-black text-white border-black" : "bg-white text-[#555] border-[#d8d8d8] hover:border-black"}">${label}</button>`;
     chipWrap.innerHTML = chip("all", "All") + states.map(s => chip(s, M.STATE_NAMES[s] || s)).join("")
       + SOON_STATES.map(s => chip(s, (M.STATE_NAMES[s] || s) + " · Soon")).join("");
     chipWrap.querySelectorAll("[data-region]").forEach(b => b.addEventListener("click", () => {
@@ -201,10 +202,10 @@
         <div>
           <p class="oswald text-[16px] font-medium tracking-[0.02em] uppercase text-black">${s.name}${tag}${stateTag}</p>
           <p class="garamond text-[16px] text-[#666] mt-[6px]">${s.addr}</p>
-          ${s.phone ? `<p class="garamond text-[15px] text-[#767676] mt-[2px]"><a href="tel:${s.phone.replace(/\D/g,"")}" data-stop class="hover:text-black">${s.phone}</a></p>` : ""}
-          <div class="mt-[10px] flex gap-4">
-            <a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" data-stop class="oswald text-[10px] tracking-[0.08em] uppercase border-b border-black hover:opacity-60">Directions</a>
-            <button type="button" data-set="${s.zip}" data-stop class="oswald text-[10px] tracking-[0.08em] uppercase text-[#767676] hover:text-black border-b border-transparent hover:border-black">Set as my store</button>
+          ${s.phone ? `<p class="garamond text-[15px] text-[#767676] mt-[2px]"><a href="tel:${s.phone.replace(/\D/g,"")}" data-stop class="inline-block py-[8px] -my-[8px] hover:text-black">${s.phone}</a></p>` : ""}
+          <div class="mt-[6px] flex gap-5 items-end">
+            <a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" data-stop class="hit oswald inline-block text-[10px] tracking-[0.08em] uppercase pt-[12px] pb-[2px] border-b border-black hover:opacity-60">Directions</a>
+            <button type="button" data-set="${s.zip}" data-stop class="hit oswald text-[10px] tracking-[0.08em] uppercase text-[#767676] pt-[12px] pb-[2px] hover:text-black border-b border-transparent hover:border-black">Set as my store</button>
           </div>
         </div>
         <div class="text-right shrink-0">${dist}</div>

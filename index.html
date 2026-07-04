@@ -102,6 +102,18 @@
 
   .hairline{ border-color:#e3e3e3; }
 
+  /* ---------- Touch ergonomics ---------- */
+  a, button{ -webkit-tap-highlight-color:transparent; }
+  /* invisible hit-area expansion for underline links (keeps the visual size) */
+  .ulink::before, .nlink::before{ content:""; position:absolute; inset:-12px; }
+  /* on touch, pressing a button plays the same flood-invert as hover */
+  @media (hover:none){
+    .btn:active::after{ transform:scaleX(1); }
+    .btn-solid:active{ color:#fff; }
+    .btn-ghost-dark:active{ color:#000; }
+    .btn-ghost-light:active{ color:#fff; }
+  }
+
   /* manifesto big numerals — hollow outlined */
   .bignum{ font-family:'Archivo Black',sans-serif; line-height:.82; color:transparent;
     -webkit-text-stroke:1.5px rgba(255,255,255,.42); }
@@ -331,25 +343,25 @@
       <a href="locations.html" data-nav class="nlink text-white">Locations</a>
     </nav>
     <div class="flex items-center gap-[12px] justify-self-end">
-      <form data-hzip-form data-nav-zip class="hidden sm:flex items-center gap-[7px] border border-current h-[34px] px-[11px] text-white transition-colors">
+      <form data-hzip-form data-nav-zip class="hidden sm:flex items-center gap-[7px] border border-current h-[40px] md:h-[34px] px-[11px] text-white transition-colors">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="hzip-in font-oswald w-[44px] text-[12px] tracking-[0.08em] outline-none bg-transparent">
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="hzip-in font-oswald w-[52px] md:w-[44px] text-[16px] md:text-[12px] tracking-[0.08em] outline-none bg-transparent">
       </form>
-      <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white" aria-expanded="false" aria-label="Menu">Menu</button>
+      <button data-burger class="md:hidden font-oswald text-[12px] tracking-[0.16em] uppercase text-white py-[13px] px-[12px] -mr-[12px]" aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
   <!-- mobile menu -->
   <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
-    <div class="px-[28px] py-[22px] flex flex-col gap-[18px] font-oswald text-[14px] tracking-[0.16em] uppercase text-white">
-      <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-white/40 h-[40px] px-[12px] max-w-[220px] text-white mb-[2px]">
+    <div class="px-[28px] py-[16px] flex flex-col font-oswald text-[15px] tracking-[0.16em] uppercase text-white">
+      <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-white/40 h-[48px] px-[12px] max-w-[240px] text-white mt-[6px] mb-[8px]">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[15px] h-[15px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
-        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP CODE" aria-label="ZIP code" class="hzip-in font-oswald flex-1 text-[13px] tracking-[0.06em] outline-none bg-transparent">
+        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP CODE" aria-label="ZIP code" class="hzip-in font-oswald flex-1 text-[16px] tracking-[0.06em] outline-none bg-transparent">
       </form>
       <nav aria-label="Mobile" class="contents">
-      <a href="products.html">Products</a>
-      <a href="about.html">About Us</a>
-      <a href="merch.html">Merch</a>
-      <a href="locations.html">Locations</a>
+      <a href="products.html" class="py-[12px]">Products</a>
+      <a href="about.html" class="py-[12px]">About Us</a>
+      <a href="merch.html" class="py-[12px]">Merch</a>
+      <a href="locations.html" class="py-[12px]">Locations</a>
       </nav>
     </div>
   </div>
@@ -526,8 +538,8 @@
         <h4 class="font-oswald text-[12px] tracking-[0.22em] uppercase text-[#8a8a8a]">Stay Melted</h4>
         <p class="font-garamond text-[17px] text-[#bdbdbd] leading-[1.6] mt-[20px]">Drops, dispensaries, and what's next from Melted.</p>
         <form class="mt-[20px] flex border-b border-white/30" onsubmit="this.querySelector('[data-news]').textContent='Thanks — you’re on the list.';return false;">
-          <input type="email" required placeholder="Email address" aria-label="Email address" class="bg-transparent flex-1 py-[10px] font-garamond text-[16px] text-white placeholder:text-white/40 focus:outline-none">
-          <button class="font-oswald text-[12px] tracking-[0.12em] uppercase text-white pl-[14px]">Join</button>
+          <input type="email" required placeholder="Email address" aria-label="Email address" class="bg-transparent flex-1 min-w-0 py-[10px] font-garamond text-[16px] text-white placeholder:text-white/40 focus:outline-none">
+          <button class="font-oswald text-[12px] tracking-[0.12em] uppercase text-white pl-[14px] py-[10px] shrink-0">Join</button>
         </form>
         <p data-news class="font-oswald text-[11px] tracking-[0.08em] uppercase text-white mt-[10px] h-[14px]"></p>
       </div>
@@ -609,7 +621,7 @@
   var lgrid=document.querySelector('[data-locations]');
   LOCATIONS.forEach(function(group){
     var items = group.cities.length
-      ? group.cities.map(function(c){ return '<li><a href="locations.html?store='+c[1]+'" class="block py-[7px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c[0]+'</a></li>'; }).join('')
+      ? group.cities.map(function(c){ return '<li><a href="locations.html?store='+c[1]+'" class="block py-[10px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c[0]+'</a></li>'; }).join('')
       : '<li class="py-[7px] font-garamond text-[16px] italic text-[#8a8a8a]">Coming soon</li>';
     lgrid.appendChild(el(
       '<div class="border-t border-white/20 pt-[20px]">'
@@ -631,6 +643,8 @@
     if(logo) logo.src = solid ? 'assets/melted/logo_black.png' : 'assets/melted/logo_white.png';
     navLinks.forEach(function(a){ a.classList.toggle('text-white',!solid); a.classList.toggle('text-ink',solid); });
     if(zipForm){ zipForm.classList.toggle('text-white',!solid); zipForm.classList.toggle('text-ink',solid); }
+    var b=document.querySelector('[data-burger]');
+    if(b){ b.classList.toggle('text-white',!solid); b.classList.toggle('text-ink',solid); }
   }
   onScroll(); addEventListener('scroll',onScroll,{passive:true});
 
