@@ -79,6 +79,29 @@
   .btn-ghost-light{ color:#0a0a0a; }        /* on light: invert to black fill */
   .btn-ghost-light:hover{ color:#fff; }
 
+  /* ---------- Liquid-metal CTA (ported from the LiquidMetalButton React component) ----------
+     Melted adaptation: sharp corners (no pill radius), pure-silver shader (no chromatic shift),
+     Oswald uppercase label. Buttons marked data-liquid are upgraded by the module script at the
+     bottom of the page; if the shader fails to load they keep their normal .btn-solid look. */
+  .btn-liquid{ border-color:transparent; color:#eaeaea;
+    box-shadow:0 0 0 1px rgba(0,0,0,.3), 0 36px 14px rgba(0,0,0,.02), 0 20px 12px rgba(0,0,0,.08), 0 9px 9px rgba(0,0,0,.12), 0 2px 5px rgba(0,0,0,.15);
+    transition:color .3s, box-shadow .15s cubic-bezier(.4,0,.2,1), transform .15s cubic-bezier(.4,0,.2,1); }
+  .btn-liquid::after{ content:none; }                     /* replaces the flood-invert hover */
+  .btn-liquid:hover{ color:#fff;
+    box-shadow:0 0 0 1px rgba(0,0,0,.4), 0 12px 6px rgba(0,0,0,.05), 0 8px 5px rgba(0,0,0,.1), 0 4px 4px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.2); }
+  .btn-liquid:active{ transform:translateY(1px) scale(.98);
+    box-shadow:0 0 0 1px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3); }
+  .lm-shader{ position:absolute; inset:0; z-index:-2; overflow:hidden; }
+  .lm-shader canvas{ width:100% !important; height:100% !important; display:block; position:absolute; top:0; left:0; }
+  .lm-plate{ position:absolute; inset:2px; z-index:-1; background:linear-gradient(180deg,#202020 0%,#000 100%);
+    transition:box-shadow .15s cubic-bezier(.4,0,.2,1); }
+  .btn-liquid:active .lm-plate{ box-shadow:inset 0 2px 4px rgba(0,0,0,.4), inset 0 1px 2px rgba(0,0,0,.3); }
+  .lm-label{ position:relative; display:inline-flex; align-items:center; gap:12px; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  .lm-ripple{ position:absolute; width:20px; height:20px; margin:-10px 0 0 -10px; pointer-events:none;
+    background:radial-gradient(circle, rgba(255,255,255,.4) 0%, rgba(255,255,255,0) 70%);
+    animation:lm-ripple .6s ease-out forwards; }
+  @keyframes lm-ripple{ 0%{ transform:scale(0); opacity:.6; } 100%{ transform:scale(4); opacity:0; } }
+
   /* link with drawing underline */
   .ulink{ font-family:'Oswald',sans-serif; text-transform:uppercase; letter-spacing:.1em; position:relative; display:inline-block; }
   .ulink::after{ content:""; position:absolute; left:0; bottom:-6px; height:2px; width:100%; background:#0a0a0a; transform:scaleX(1); transform-origin:right; transition:transform .45s cubic-bezier(.7,0,.2,1); }
@@ -392,7 +415,7 @@
     </div>
 
     <div class="reveal flex flex-wrap gap-[16px] md:gap-[18px] mt-[44px]">
-      <a href="products.html" class="btn btn-solid">Explore the Lineup
+      <a href="products.html" class="btn btn-solid" data-liquid>Explore the Lineup
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
       </a>
       <a href="locations.html" class="btn btn-ghost-dark">Find a Dispensary</a>
@@ -510,7 +533,7 @@
 
     <div data-locations class="grid grid-cols-1 sm:grid-cols-3 gap-x-[40px] gap-y-[36px] mt-[52px] text-left"></div>
 
-    <a href="locations.html" class="btn btn-solid mt-[52px]">Open the Store Locator
+    <a href="locations.html" class="btn btn-solid mt-[52px]" data-liquid>Open the Store Locator
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
     </a>
   </div>
@@ -718,6 +741,50 @@
     });
   }
 })();
+</script>
+
+<!-- Liquid-metal CTA upgrade (progressive enhancement — buttons work untouched if this fails) -->
+<script type="module">
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  try {
+    const { ShaderMount, liquidMetalFragmentShader } = await import("https://esm.sh/@paper-design/shaders@0.0.77");
+    // Component's uniforms, minus the red/blue chromatic shift — Melted is monochrome.
+    const UNIFORMS = { u_repetition: 4, u_softness: 0.5, u_shiftRed: 0, u_shiftBlue: 0,
+      u_distortion: 0, u_contour: 0, u_angle: 45, u_scale: 8, u_shape: 1, u_offsetX: 0.1, u_offsetY: -0.1 };
+
+    document.querySelectorAll("[data-liquid]").forEach(btn => {
+      const label = document.createElement("span");
+      label.className = "lm-label";
+      while (btn.firstChild) label.appendChild(btn.firstChild);
+      const shader = document.createElement("span"); shader.className = "lm-shader"; shader.setAttribute("aria-hidden", "true");
+      const plate  = document.createElement("span"); plate.className  = "lm-plate";  plate.setAttribute("aria-hidden", "true");
+      btn.append(shader, plate, label);
+
+      let mount = null;
+      try { mount = new ShaderMount(shader, liquidMetalFragmentShader, UNIFORMS, undefined, 0.6); }
+      catch (e) { btn.removeChild(shader); btn.removeChild(plate); while (label.firstChild) btn.appendChild(label.firstChild); btn.removeChild(label); return; }
+
+      btn.classList.remove("btn-solid");
+      btn.classList.add("btn-liquid");
+
+      const speed = v => { try { mount && mount.setSpeed && mount.setSpeed(v); } catch (e) {} };
+      let hovered = false;
+      btn.addEventListener("mouseenter", () => { hovered = true; speed(1); });
+      btn.addEventListener("mouseleave", () => { hovered = false; speed(0.6); });
+      btn.addEventListener("click", e => {
+        speed(2.4);
+        setTimeout(() => speed(hovered ? 1 : 0.6), 300);
+        const r = btn.getBoundingClientRect();
+        const rip = document.createElement("span");
+        rip.className = "lm-ripple";
+        rip.style.left = (e.clientX - r.left) + "px";
+        rip.style.top  = (e.clientY - r.top) + "px";
+        btn.appendChild(rip);
+        setTimeout(() => rip.remove(), 650);
+      });
+    });
+  } catch (e) { /* CDN or WebGL unavailable — keep the standard buttons */ }
+}
 </script>
 </body>
 </html>
