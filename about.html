@@ -58,8 +58,8 @@
 <section class="bg-[#0a0a0a] text-white mt-[92px] py-[64px]">
   <div class="max-w-[1100px] mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-y-[36px] text-center">
     <div><p class="caslon text-[48px] md:text-[56px] leading-none">3</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">States</p></div>
-    <div><p class="caslon text-[48px] md:text-[56px] leading-none" data-stat-dispensaries>38</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Dispensary partners</p></div>
-    <div><p class="caslon text-[48px] md:text-[56px] leading-none">4</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Signature products</p></div>
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none" data-stat="dispensaries">38</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Dispensary partners</p></div>
+    <div><p class="caslon text-[48px] md:text-[56px] leading-none" data-stat="products">6</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">Signature products</p></div>
     <div><p class="caslon text-[48px] md:text-[56px] leading-none">100%</p><p class="eyebrow text-[#9a9a9a] mt-[10px]">No shortcuts</p></div>
   </div>
 </section>
@@ -122,33 +122,40 @@
 <script>
 (function () {
   "use strict";
-  // Dispensary-partner stat: computed live from the store list in melted.js so it never
-  // needs manual updates, and tallies up from 1 each time it scrolls into view.
-  var el = document.querySelector("[data-stat-dispensaries]");
-  if (!el || !window.MELTED || !Array.isArray(window.MELTED.STORES)) return;
-  var total = window.MELTED.STORES.length;
-  el.textContent = total;                                        // correct even with no animation
-
+  // Live stats: computed from the data in melted.js so they never need manual updates,
+  // and each tallies up from 1 whenever it scrolls into view.
+  var M = window.MELTED;
+  if (!M) return;
+  var SOURCES = {
+    dispensaries: Array.isArray(M.STORES) ? M.STORES.length : null,
+    products: M.PRODUCTS ? Object.keys(M.PRODUCTS).filter(function (k) { return M.PRODUCTS[k].kind === "product"; }).length : null
+  };
   var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reduce || !("IntersectionObserver" in window)) return;
 
-  var raf = null;
-  function tally() {
-    cancelAnimationFrame(raf);
-    var t0 = performance.now(), dur = 1400;
-    (function step(now) {
-      var k = Math.min(1, (now - t0) / dur);
-      var eased = 1 - Math.pow(1 - k, 3);                        // ease-out: fast start, soft landing
-      el.textContent = Math.max(1, Math.round(eased * total));
-      if (k < 1) raf = requestAnimationFrame(step);
-    })(t0);
-  }
-  new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) tally();
-      else { cancelAnimationFrame(raf); el.textContent = total; } // rest state; replays on re-entry
-    });
-  }, { threshold: 0.6 }).observe(el);
+  document.querySelectorAll("[data-stat]").forEach(function (el) {
+    var total = SOURCES[el.getAttribute("data-stat")];
+    if (!total) return;
+    el.textContent = total;                                        // correct even with no animation
+    if (reduce || !("IntersectionObserver" in window)) return;
+
+    var raf = null;
+    function tally() {
+      cancelAnimationFrame(raf);
+      var t0 = performance.now(), dur = 1400;
+      (function step(now) {
+        var k = Math.min(1, (now - t0) / dur);
+        var eased = 1 - Math.pow(1 - k, 3);                        // ease-out: fast start, soft landing
+        el.textContent = Math.max(1, Math.round(eased * total));
+        if (k < 1) raf = requestAnimationFrame(step);
+      })(t0);
+    }
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) tally();
+        else { cancelAnimationFrame(raf); el.textContent = total; } // rest state; replays on re-entry
+      });
+    }, { threshold: 0.6 }).observe(el);
+  });
 })();
 </script>
 </body>
