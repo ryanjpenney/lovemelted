@@ -15,6 +15,27 @@
   .garamond { font-family: 'EB Garamond', serif; }
   .caslon { font-family: 'Libre Caslon Text', serif; }
   body { font-family: 'EB Garamond', serif; }
+
+  /* ShimmerText (ported from the React/motion component to vanilla CSS):
+     a light band sweeps across the text — 1.5s sweep, 1.5s rest, 1.5s initial delay. */
+  .shimmer-text{
+    color:#0a0a0a;
+    -webkit-text-fill-color:transparent;
+    background:currentColor linear-gradient(to right, currentColor 0%, rgba(255,255,255,.6) 40%, rgba(255,255,255,.6) 60%, currentColor 100%);
+    -webkit-background-clip:text; background-clip:text;
+    background-repeat:no-repeat;
+    background-size:50% 200%;
+    background-position-x:250%;
+    animation:shimmer-sweep 3s linear 1.5s infinite;
+  }
+  @keyframes shimmer-sweep{
+    0%   { background-position-x:-100%; }
+    50%  { background-position-x:250%; }   /* sweep done at 1.5s… */
+    100% { background-position-x:250%; }   /* …then hold (the repeatDelay) */
+  }
+  @media (prefers-reduced-motion: reduce){
+    .shimmer-text{ animation:none; -webkit-text-fill-color:currentColor; background:none; }
+  }
 </style>
 </head>
 <body class="bg-white">
@@ -23,7 +44,7 @@
 
 <main>
 <section class="text-center pt-[56px] px-6">
-  <p class="oswald inline-block text-[12px] font-medium tracking-[0.22em] uppercase text-black border border-black px-[16px] py-[9px]">Coming this fall</p>
+  <p class="oswald inline-block text-[12px] font-medium tracking-[0.22em] uppercase text-black border border-black px-[16px] py-[9px]"><span class="shimmer-text">Coming this fall</span></p>
   <h1 class="caslon text-[44px] md:text-[56px] text-black leading-[1.05] mt-[20px]">Melted Merch</h1>
   <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Caps and tees from the collective. Restocking with print-on-demand — sign up below to be notified.</p>
 </section>
