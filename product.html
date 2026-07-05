@@ -145,16 +145,19 @@
       `<span class="garamond text-[15px] text-[#333] border border-[#ddd] px-[14px] py-[6px]">${f}</span>`).join("");
   }
 
-  // "Order for pickup at a dispensary" — partner stores with confirmed online menus (STORES[].menu)
+  // "Order for pickup at a dispensary" — partner stores with confirmed online menus
+  // (STORES[].menu), narrowed to the stores that stock THIS product when the catalog
+  // lists stockists. Hidden entirely while a product is out of production (pickup:false).
   const buy = document.querySelector("[data-buy]");
   let partners = [];
-  let orderList = null;   // <ul> inside the order module; re-rendered when the variant changes
+  let orderList = null;   // <ul> inside the order module; re-rendered when the variant or ZIP changes
   const city = s => s.addr.split(", ").slice(-2)[0] + ", " + s.state;
+  const pickupPool = M.STORES.filter(s => s.menu && (!p.stockists || p.stockists.indexOf(s.id) !== -1));
 
   function rowHref(s) {
     const l = selected && selected.links ? selected.links[s.id] : undefined;
-    if (l === null) return null;   // partner confirmed this variant is not stocked there
-    return l || s.menu;            // exact variant URL when known, else the store's menu
+    if (l === null) return null;      // partner confirmed this variant is not stocked there
+    return l || M.menuUrl(s, p);      // exact variant URL when known, else the store menu searching this product's listed name
   }
   function renderOrderRows() {
     if (!orderList) return;
@@ -174,25 +177,69 @@
     }).join("");
   }
 
-  if (p.kind !== "merch") {
-    const savedOrderZip = M.getZip();
-    partners = M.STORES.filter(s => s.menu);
-    if (savedOrderZip && M.validZip(savedOrderZip) && M.zipCoords(savedOrderZip)) {
-      const ranked = M.nearestStores(savedOrderZip);
-      if (ranked) partners = ranked.filter(s => s.menu);
-    }
-    partners = partners.slice(0, 5);
-    if (partners.length) {
-      const order = document.createElement("div");
-      order.className = "border border-black mb-[16px]";
-      order.innerHTML = `
+  // Rank this product's stockists by distance from a ZIP (falls back to list order without one).
+  function rankPartners(zip) {
+    const c = zip && M.validZip(zip) ? M.zipCoords(zip) : null;
+    if (!c) return pickupPool.slice(0, 5);
+    return pickupPool
+      .map(s => Object.assign({ dist: M.haversine(c[0], c[1], s.lat, s.lng) }, s))
+      .sort((a, b) => a.dist - b.dist)
+      .slice(0, 5);
+  }
+
+  if (p.kind !== "merch" && p.pickup !== false && pickupPool.length) {
+    const order = document.createElement("div");
+    order.className = "border border-black mb-[16px]";
+    order.innerHTML = `
       <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center bg-black text-white">Order for pickup at a dispensary</div>
+      <div class="px-[24px] pt-[16px]">
+        <form data-order-zip-form class="flex gap-2">
+          <input data-order-zip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code — find the nearest dispensary carrying this product" class="oswald flex-1 min-w-0 border border-[#d4d4d4] focus:border-black outline-none px-4 py-[10px] text-[16px] tracking-[0.05em]">
+          <button type="submit" class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-5 hover:bg-[#333] transition-colors">Find</button>
+        </form>
+        <p data-order-zip-msg role="status" class="garamond text-[13px] leading-[1.5] mt-[8px] min-h-[18px]"></p>
+      </div>
       <ul data-order-rows class="px-[24px]"></ul>
       <p class="garamond text-[13px] text-[#555] leading-[1.5] px-[24px] pb-[16px] pt-[4px] border-t border-[#eee]">All sales are completed on the licensed dispensary's site. Valid ID required — 21+.</p>`;
-      buy.parentNode.insertBefore(order, buy);
-      orderList = order.querySelector("[data-order-rows]");
+    buy.parentNode.insertBefore(order, buy);
+    orderList = order.querySelector("[data-order-rows]");
+    const zipInput = order.querySelector("[data-order-zip]");
+    const zipMsg = order.querySelector("[data-order-zip-msg]");
+
+    function applyZip(z, quiet) {
+      partners = rankPartners(z);
       renderOrderRows();
+      zipMsg.style.color = "#555";
+      if (!z) { zipMsg.textContent = ""; return; }
+      if (!M.validZip(z)) { if (!quiet) { zipMsg.style.color = "#c0392b"; zipMsg.textContent = "Enter a valid 5-digit ZIP code."; } else zipMsg.textContent = ""; return; }
+      if (!M.zipCoords(z)) { zipMsg.style.color = "#c0392b"; zipMsg.textContent = "We couldn't place that ZIP — showing our partner stores instead."; return; }
+      zipMsg.textContent = (partners[0] && partners[0].dist > 150)
+        ? "Not carried near " + z + " yet — the closest stores are listed."
+        : "Closest stores to " + z + " first.";
     }
+
+    // Instant update: re-rank the moment a full 5-digit ZIP is typed (no submit needed).
+    zipInput.addEventListener("input", () => {
+      const z = zipInput.value.replace(/\D/g, "");
+      if (zipInput.value !== z) zipInput.value = z;
+      if (z.length === 5) { applyZip(z); if (M.zipCoords(z)) M.setZip(z); }
+      else applyZip("", true);
+    });
+    order.querySelector("[data-order-zip-form]").addEventListener("submit", e => {
+      e.preventDefault();
+      const z = zipInput.value.trim();
+      applyZip(z);
+      if (M.validZip(z) && M.zipCoords(z)) M.setZip(z);
+    });
+    // Stay in sync when the ZIP is set elsewhere (header bar, brand locator below).
+    document.addEventListener("melted:zip", e => {
+      const z = e.detail || "";
+      if (zipInput.value !== z) { zipInput.value = z; applyZip(z, true); }
+    });
+
+    const savedOrderZip = M.getZip();
+    if (savedOrderZip) zipInput.value = savedOrderZip;
+    applyZip(savedOrderZip, true);
   }
   if (p.kind === "merch") {
     buy.innerHTML = `<div class="border border-[#e3e3e3] p-[24px]">

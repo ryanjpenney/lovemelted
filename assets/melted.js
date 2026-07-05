@@ -193,7 +193,21 @@
       tagline: "A rich, flower-like experience, on the go.",
       detail: "Our Tiger Style cartridge captures the rich character of the plant in a discreet, draw-activated 510 cart. Pairs with any standard battery for a flower-like experience anywhere.",
       facts: ["1g premium oil", "510-thread compatible", "No added cutting agents", "Strain-specific flavor"],
-      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"]
+      gallery: ["assets/melted/gallery/ct_1.jpg","assets/melted/gallery/ct_2.jpg","assets/melted/gallery/ct_3.jpg"],
+      /* Partner menus list this product under "Tiger Style", not "Melted" — menuQuery
+         swaps the search term in each store's menu link so the cart actually shows up. */
+      menuQuery: "Tiger Style",
+      /* stockists: store ids (see STORES[].id) confirmed carrying this product (2026-07):
+         most Curaleaf AZ locations + other Arizona partners. Stores absent from this
+         list never appear in the "Order for pickup" module for this product. */
+      stockists: [
+        "curaleaf-youngtown", "curaleaf-peoria", "curaleaf-bell", "curaleaf-midtown",
+        "curaleaf-phoenix-airport", "curaleaf-pavilions", "curaleaf-sedona", "curaleaf-gilbert",
+        "curaleaf-queen-creek", "curaleaf-48th-street", "curaleaf-tucson", "curaleaf-central",
+        "curaleaf-camelback", "curaleaf-glendale-east", "curaleaf-glendale-union-hills",
+        "herbal-wellness-center-north", "herbal-wellness-center-west",
+        "nirvana-west-phoenix", "nirvana-downtown-7th-st", "nirvana-prescott-valley"
+      ]
     },
     "tiger-style-pre-roll": {
       name: "Tiger Style Pre-Roll", price: "", kind: "product",
@@ -201,7 +215,8 @@
       tagline: "An infused pre-roll of uncommon proportion.",
       detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
       facts: ["1.5g top-tier flower", "Infused with premium concentrate", "Tobacco-free organic hemp wrap", "Glass tube in the tiger canister"],
-      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"]
+      gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"],
+      pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "tiger-style-thca-diamonds": {
       name: "Tiger Style THCa Diamonds", price: "", kind: "product",
@@ -209,7 +224,8 @@
       tagline: "Crystalline THCa, refined to its purest form.",
       detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
       facts: ["1g crystalline THCa", "Exceptional purity and potency", "Grown slowly from premium extract", "Glass jar in the tiger keepsake box"],
-      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"]
+      gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"],
+      pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "bill-hat": {
       name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
@@ -256,6 +272,13 @@
       if (d < bestD) { bestD = d; best = ZIPS[z]; }
     }
     return best; // null if unknown region
+  }
+  /* Store menu link for a specific product. Partner menu URLs default to searching
+     "Melted"; a product listed on menus under another brand name (e.g. Tiger Style)
+     sets PRODUCTS[].menuQuery and gets that term swapped into the link here. */
+  function menuUrl(store, product) {
+    if (!store.menu || !product || !product.menuQuery) return store.menu;
+    return store.menu.replace(/melted/gi, encodeURIComponent(product.menuQuery));
   }
   function nearestStores(zip, limit) {
     const c = zipCoords(zip);
@@ -951,7 +974,7 @@ a, button{ -webkit-tap-highlight-color:transparent; }
   }
 
   // Expose for page scripts
-  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, getZip, setZip, validZip, haversine,
+  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, menuUrl, getZip, setZip, validZip, haversine,
     zipStateAbbr, zipStateName, AUTH_CONFIG, getUser, openAuth, syncMarketing };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);
