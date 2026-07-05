@@ -68,15 +68,19 @@
   .btn{ font-family:'Oswald',sans-serif; font-weight:500; text-transform:uppercase; letter-spacing:.1em;
     font-size:12px; padding:16px 30px; display:inline-flex; align-items:center; gap:12px; position:relative;
     border:1px solid currentColor; overflow:hidden; transition:color .35s; isolation:isolate; }
-  .btn::after{ content:""; position:absolute; inset:0; background:currentColor; transform:scaleX(0); transform-origin:left;
+  /* The flood fill must be a FIXED color per variant — using currentColor here made the
+     fill follow the hover text color (ghost-dark hovered to black fill + black text). */
+  .btn::after{ content:""; position:absolute; inset:0; transform:scaleX(0); transform-origin:left;
     transition:transform .4s cubic-bezier(.7,0,.2,1); z-index:-1; }
   .btn:hover::after{ transform:scaleX(1); }
   .btn-solid{ background:#fff; color:#000; border-color:#fff; }
   .btn-solid::after{ background:#0a0a0a; }
   .btn-solid:hover{ color:#fff; }
   .btn-ghost-dark{ color:#fff; }            /* on dark: invert to white fill */
+  .btn-ghost-dark::after{ background:#fff; }
   .btn-ghost-dark:hover{ color:#000; }
   .btn-ghost-light{ color:#0a0a0a; }        /* on light: invert to black fill */
+  .btn-ghost-light::after{ background:#0a0a0a; }
   .btn-ghost-light:hover{ color:#fff; }
 
   /* ---------- Liquid-metal CTA (ported from the LiquidMetalButton React component) ----------
