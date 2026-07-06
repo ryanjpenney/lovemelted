@@ -215,6 +215,9 @@
   @media (max-width:600px){ #m-gate h2{ font-size:30px; } #m-gate .g-btns{ flex-direction:column; } }
 </style>
 <link rel="canonical" href="https://lovemelted.com/">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/melted/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/melted/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/melted/favicon-180.png">
 </head>
 <body class="bg-black">
 
@@ -396,6 +399,7 @@
       <a href="/about" data-nav class="nlink text-white">About Us</a>
       <a href="/merch" data-nav class="nlink text-white">Merch</a>
       <a href="/locations" data-nav class="nlink text-white">Locations</a>
+      <a href="/contact" data-nav class="nlink text-white">Contact</a>
     </nav>
     <!-- col-start-3: on mobile the center nav is display:none, so without explicit
          placement this group auto-flows into the middle column next to the logo -->
@@ -413,6 +417,7 @@
       <a href="/about" class="py-[12px]">About Us</a>
       <a href="/merch" class="py-[12px]">Merch</a>
       <a href="/locations" class="py-[12px]">Locations</a>
+      <a href="/contact" class="py-[12px]">Contact</a>
       </nav>
     </div>
   </div>
@@ -476,6 +481,7 @@
 <section class="relative bg-ink text-white py-[110px] md:py-[150px] overflow-hidden">
   <div aria-hidden="true" class="swirl-bed absolute inset-[-10%] -z-0 opacity-[0.10]"></div>
   <div class="relative max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <!-- DESIGN-VIOLATION: pillars below read Quality / Consistency / Innovation; Paul's directive lists Inclusivity / Healing / Innovation — confirm the approved set before rewriting -->
     <h2 class="font-caslon text-[clamp(34px,5vw,60px)] leading-[1.05] max-w-[820px] mb-[72px] line-mask"><span>Three things we<br>never compromise.</span></h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-y-[56px] md:gap-x-[60px] stagger">
@@ -501,7 +507,7 @@
     <img src="assets/melted/tiger_white.png" alt="" aria-hidden="true" class="pointer-events-none select-none absolute -right-[60px] -bottom-[40px] w-[320px] opacity-[0.06]">
     <div class="relative px-[28px] md:px-[64px] py-[80px] md:py-[120px]">
       <h2 class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.12] max-w-[480px] line-mask"><span>Made to meet<br>your moment.</span></h2>
-      <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">For those who know what they like, and those still finding their fit. Melted offers high-quality cannabis products made to bring more ease, enjoyment, and intention to everyday moments.</p>
+      <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">For those who know what they like, and those still finding their fit. Melted offers high-quality cannabis products made to bring more ease, enjoyment, and a sense of everyday healing to the moments that matter — small wellness rituals, done right.</p>
       <a href="/about" class="reveal btn btn-ghost-dark mt-[34px]">Our Story</a>
     </div>
   </div>
@@ -516,7 +522,7 @@
     <img src="assets/melted/tiger_favicon.png" alt="Melted folk-tiger mark" class="reveal w-[180px] md:w-[220px] shrink-0 mix-blend-multiply">
     <div class="text-center md:text-left">
       <p class="font-caslon text-[clamp(26px,3.4vw,40px)] leading-[1.28] text-ink reveal">“From the beginning, our goal was simple: build a brand people trust, products they love, and an experience they want to come back to.”</p>
-      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#666] mt-[26px]">— Melted Team</p>
+      <p class="reveal font-oswald text-[13px] tracking-[0.2em] uppercase text-[#666] mt-[26px]">— THE MELTED TEAM</p>
     </div>
   </div>
 </section>
@@ -545,6 +551,96 @@
       <a href="/merch" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
     </div>
     <div data-merch class="grid grid-cols-2 sm:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px]"></div>
+  </div>
+</section>
+
+
+<!-- ============================== AUTHORIZED PARTNERS ==============================
+     Text logotypes render the wall as one monochrome system (no partner logo files in
+     the repo yet); drop real logo images into the tiles later with class
+     "grayscale hover:grayscale-0" to keep the uniform treatment. -->
+<section class="bg-bone py-[88px] md:py-[110px]" aria-labelledby="partners-title">
+  <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
+    <p class="font-oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555] text-center">Where you'll find us</p>
+    <h2 id="partners-title" class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.08] text-ink text-center mt-[14px]">Authorized Partners.</h2>
+    <p class="font-garamond text-[18px] text-[#555] leading-[1.6] text-center max-w-[540px] mx-auto mt-[16px]">Carried by licensed dispensary partners across Arizona and Maryland.</p>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[52px]">
+      <!-- PARTNER-UNVERIFIED: confirm authorization before publishing — "Flow" is not on the authoritative Melted_Retail_Partners list (16 MD retailers) -->
+      <a href="/locations" class="col-span-2 border border-ink bg-white flex flex-col items-center justify-center text-center px-[20px] py-[34px] text-ink hover:bg-ink hover:text-white transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase opacity-60">Featured Partner</span>
+        <span class="font-caslon text-[40px] md:text-[46px] leading-none mt-[10px]">Flow</span>
+      </a>
+      <!-- PARTNER-UNVERIFIED: confirm authorization before publishing — "Curaleaf" is not on the authoritative Melted_Retail_Partners list (16 MD retailers) -->
+      <a href="/locations" class="col-span-2 md:col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[20px] py-[34px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[30px] md:text-[34px] leading-none">Curaleaf</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[10px] text-[#555]">Arizona</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Columbia Care</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Chevy Chase · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">gLeaf Wellness Solutions</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Rockville · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">gLeaf Wellness / Columbia Care</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Frederick · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Nirvana Center Maryland</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Rosedale · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Jenny's of Maryland</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Lanham · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Summit Wellness</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Catonsville · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Waave Cannabis</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Greenbelt · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Elevated Dispo</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Salisbury · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Kent Reserve</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Millington · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Chesapeake Apothecary</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">White Plains · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Chesacanna</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Cockeysville · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Coastal Cure</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Delmar · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Greenwave</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Solomons · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Bloom</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Germantown · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">Hi Tides</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Ocean City · MD</span>
+      </a>
+      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
+        <span class="font-caslon text-[18px] leading-[1.2]">ReLeaf Shop</span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Baltimore · MD</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -627,8 +723,8 @@
     {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_3.jpg'},
     {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin gummies.',          badge:'',            img:'assets/melted/gallery/live-rosin-gummy.jpg'},
     {id:'tigerstyle-cartridge',name:'Tiger Style Cartridge',    price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'},
-    {id:'tiger-style-pre-roll',name:'Tiger Style Pre-Roll',     price:'',       spec:'Infused · 1.5g',             tag:'An infused pre-roll of uncommon proportion.',    badge:'New',         img:'assets/melted/gallery/tsp_1.jpg'},
-    {id:'tiger-style-thca-diamonds',name:'Tiger Style THCa Diamonds',price:'',  spec:'Concentrate · 1g',           tag:'Crystalline THCa, refined to its purest form.', badge:'New',         img:'assets/melted/gallery/tsd_1.jpg'}
+    {id:'tiger-style-pre-roll',name:'Tiger Style Pre-Roll',     price:'',       spec:'Infused · 1.5g',             tag:'An infused pre-roll of uncommon proportion.',    badge:'New', soldout:true, img:'assets/melted/gallery/tsp_1.jpg'},  // keep soldout in sync with melted.js PRODUCTS
+    {id:'tiger-style-thca-diamonds',name:'Tiger Style THCa Diamonds',price:'',  spec:'Concentrate · 1g',           tag:'Crystalline THCa, refined to its purest form.', badge:'New', soldout:true, img:'assets/melted/gallery/tsd_1.jpg'}   // keep soldout in sync with melted.js PRODUCTS
   ];
   var MERCH=[
     {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/hat_front.jpg'},
@@ -646,10 +742,12 @@
   /* ---------- Render products ---------- */
   var pgrid=document.querySelector('[data-products]');
   PRODUCTS.forEach(function(p,i){
-    var badge = p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
+    var badge = p.soldout
+      ? '<span class="font-oswald inline-block border border-[#cfcfcf] text-[#555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[20px] px-[10px] py-[1px]">Sold Out</span>'
+      : p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
     pgrid.appendChild(el(
       '<a href="/product?id='+p.id+'" class="pcard reveal group" data-mag>'
-      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'"><div class="swirlhover"></div></div>'
+      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-70':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
       + '<p class="font-garamond text-[17px] text-[#666] leading-[1.5] mt-[6px]">'+p.tag+'</p>'
@@ -667,7 +765,7 @@
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
-      + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#767676]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
+      + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#555]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
       + '</a>'
     ));
   });

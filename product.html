@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/melted/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/melted/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/melted/favicon-180.png">
 <script>try{if(localStorage.getItem('melted_age_ok')!=='1')document.documentElement.setAttribute('data-gate','');}catch(e){}</script>
 <style>html[data-gate]{background:#0a0a0a}html[data-gate] body{visibility:hidden}</style>
 <title>Melted — Product</title>
@@ -105,7 +108,13 @@
 
   // Info
   const badge = document.querySelector("[data-p-badge]");
-  if (p.soldout) { badge.textContent = "Sold Out"; badge.classList.remove("hidden"); }
+  if (p.soldout) {
+    badge.textContent = "Sold Out";
+    badge.classList.remove("hidden");
+    badge.classList.add("inline-block", "border", "border-[#bbbbbb]", "px-[10px]", "py-[4px]", "text-[#555]");
+    // Dim the gallery — SKU stays fully visible/indexable, just visually muted
+    main.closest("div").parentNode.classList.add("opacity-70");
+  }
   else if (p.badge) { badge.textContent = p.badge; badge.classList.remove("hidden"); }
   document.querySelector("[data-p-name]").textContent = p.name;
   document.querySelector("[data-p-spec]").textContent = p.spec;
@@ -168,7 +177,7 @@
     orderList.innerHTML = partners.map((s, i) => {
       const href = rowHref(s);
       const action = href
-        ? `<a href="${href}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">Order Online</a>`
+        ? `<a href="${href}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">${M.menuDeepLinks(href) ? "Order Online" : "View Dispensary Menu"}</a>`
         : `<span class="oswald shrink-0 text-[12px] font-light tracking-[0.08em] uppercase text-[#8a8a8a] pt-[10px] pb-[3px] text-right">Not available at this store</span>`;
       return `
         <li class="flex items-center justify-between gap-4 py-[14px] ${i === 0 ? "" : "border-t border-[#eee]"}">
@@ -203,7 +212,30 @@
     return rankAll(c[0], c[1]).slice(0, 5);
   }
 
-  if (p.kind !== "merch" && p.pickup !== false && pickupPool.length) {
+  // Sold out: swap the dispensary CTA for a notify-me email capture. The SKU/page stays live.
+  if (p.kind !== "merch" && p.soldout) {
+    const notify = document.createElement("div");
+    notify.className = "border border-black mb-[16px]";
+    notify.innerHTML = `
+      <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center bg-black text-white">Sold Out — For Now</div>
+      <div class="px-[24px] py-[20px]">
+        <p class="garamond text-[16px] text-[#555] leading-[1.6]">This batch is gone. Leave your email and we\u2019ll let you know the moment it\u2019s back.</p>
+        <!-- NOTIFY-ME: placeholder capture — wire to Klaviyo back-in-stock list when the account is connected (see INTEGRATION.md) -->
+        <form data-notify-form class="flex gap-2 mt-[14px]">
+          <input type="email" required placeholder="Your email" aria-label="Email address — notify me when this product is back in stock" class="garamond flex-1 min-w-0 border border-[#d4d4d4] focus:border-black outline-none px-4 py-[10px] text-[16px]">
+          <button type="submit" class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-5 hover:bg-[#333] transition-colors">Notify Me</button>
+        </form>
+        <p data-notify-msg role="status" aria-live="polite" class="garamond text-[13px] text-[#555] leading-[1.5] mt-[8px] min-h-[18px]"></p>
+      </div>`;
+    buy.parentNode.insertBefore(notify, buy);
+    notify.querySelector("[data-notify-form]").addEventListener("submit", e => {
+      e.preventDefault();
+      notify.querySelector("[data-notify-msg]").textContent = "You\u2019re on the list — we\u2019ll email you when it\u2019s back.";
+      e.target.reset();
+    });
+  }
+
+  if (p.kind !== "merch" && !p.soldout && p.pickup !== false && pickupPool.length) {
     const order = document.createElement("div");
     order.className = "border border-black mb-[16px]";
     order.innerHTML = `
@@ -278,7 +310,7 @@
       <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#767676]">Sold Out</p>
       <p class="garamond text-[17px] text-[#555] leading-[1.6] mt-2">Our merch is being restocked with print-on-demand — check back soon.</p>
     </div>`;
-  } else {
+  } else if (!p.soldout) {
     buy.innerHTML = `<div class="border border-[#e3e3e3]">
       <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center border-b border-[#e3e3e3] bg-[#fafafa]">Find it at a dispensary</div>
       <div class="p-[24px]">

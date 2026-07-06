@@ -210,7 +210,7 @@
       ]
     },
     "tiger-style-pre-roll": {
-      name: "Tiger Style Pre-Roll", price: "", kind: "product",
+      name: "Tiger Style Pre-Roll", price: "", kind: "product", soldout: true,
       badge: "New", spec: "Infused · 1.5g",
       tagline: "An infused pre-roll of uncommon proportion.",
       detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
@@ -219,7 +219,7 @@
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "tiger-style-thca-diamonds": {
-      name: "Tiger Style THCa Diamonds", price: "", kind: "product",
+      name: "Tiger Style THCa Diamonds", price: "", kind: "product", soldout: true,
       badge: "New", spec: "Concentrate · 1g",
       tagline: "Crystalline THCa, refined to its purest form.",
       detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
@@ -280,6 +280,12 @@
     if (!store.menu || !product || !product.menuQuery) return store.menu;
     return store.menu.replace(/melted/gi, encodeURIComponent(product.menuQuery));
   }
+  /* True when a store's menu URL deep-links to a product search (Curaleaf searchTerm,
+     Dutchie search/dtche, etc.). Base menu pages (e.g. Nirvana West Phoenix on Greensling,
+     which has no search deep-link — verified live 2026-07) should render as
+     "View Dispensary Menu" rather than implying a product-specific "Order Online" link. */
+  function menuDeepLinks(url) { return !!url && /melted|search|dtche|query=/i.test(url); }
+
   function nearestStores(zip, limit) {
     const c = zipCoords(zip);
     if (!c) return null;
@@ -352,6 +358,36 @@
   function headerHTML() {
     const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
     const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
+
+    /* ---- Nav dropdowns (Stiiizy-style hover panels, keyboard operable) ----
+       Disclosure-nav pattern: trigger is a real link (navigates on click/Enter);
+       panel opens on hover AND on keyboard focus, Escape closes, arrows rove. */
+    const dd = (label, href, id, width, panel) =>
+      '<div class="relative" data-dd>'
+      + '<a href="' + href + '" class="inline-block hover:opacity-60 transition-opacity" aria-haspopup="true" aria-expanded="false" aria-controls="' + id + '">' + label + '</a>'
+      + '<div id="' + id + '" data-dd-panel hidden class="absolute top-full left-1/2 -translate-x-1/2 pt-[26px] z-50 ' + width + ' max-w-[calc(100vw-40px)]">'
+      + '<div class="bg-white border border-[#0a0a0a] shadow-[0_18px_40px_rgba(0,0,0,0.14)] p-[10px] text-left normal-case whitespace-normal">' + panel + '</div>'
+      + '</div></div>';
+    const ddThumb = (id) => {
+      const p = PRODUCTS[id];
+      return '<a href="/product?id=' + id + '" class="flex items-center gap-[12px] px-[10px] py-[8px] hover:bg-[#f6f6f4] transition-colors">'
+        + '<img src="' + p.gallery[0] + '" alt="" class="w-[44px] h-[44px] object-cover bg-[#f6f6f4] shrink-0' + (p.soldout ? ' opacity-60' : '') + '">'
+        + '<span class="oswald text-[11px] font-medium tracking-[0.1em] uppercase leading-[1.4] ' + (p.soldout ? 'text-[#555]' : 'text-black') + '">' + p.name + '</span>'
+        + (p.soldout ? '<span class="oswald ml-auto shrink-0 border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[3px]">Sold Out</span>' : '')
+        + '</a>';
+    };
+    const ddLink = (href, label, dim) =>
+      '<a href="' + href + '" class="block oswald text-[11px] font-medium tracking-[0.12em] uppercase px-[10px] py-[10px] hover:bg-[#f6f6f4] transition-colors ' + (dim ? 'text-[#8a8a8a]' : 'text-black') + '">' + label + '</a>';
+    const prodPanel = () =>
+      '<div class="grid grid-cols-2 gap-[2px]">'
+      + Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(ddThumb).join("")
+      + '</div><div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/products", "View All Products") + '</div>';
+    const merchPanel = () =>
+      Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "merch").map(ddThumb).join("")
+      + '<div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/merch", "Shop All Merch") + '</div>';
+    const aboutPanel = () => ddLink("/about", "Our Story") + ddLink("/about#join", "Join Melted") + ddLink("/events", "Events &amp; Happenings") + ddLink("/faqs", "FAQs");
+    const locPanel = () => ddLink("/locations", "Arizona") + ddLink("/locations", "Maryland") + ddLink("/locations", "Ohio — Coming Soon", true) + '<div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/locations", "All Locations") + '</div>';
+    const contactPanel = () => ddLink("/contact#support", "Customer Service") + ddLink("/contact#business", "Partnerships &amp; B2B");
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
@@ -359,10 +395,11 @@
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav aria-label="Primary" class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
-      ${link("/products", "Products")}
-      ${link("/about", "About Us")}
-      ${link("/merch", "Merch")}
-      ${link("/locations", "Locations")}
+      ${dd("Products", "/products", "dd-products", "w-[520px]", prodPanel())}
+      ${dd("About Us", "/about", "dd-about", "w-[230px]", aboutPanel())}
+      ${dd("Merch", "/merch", "dd-merch", "w-[320px]", merchPanel())}
+      ${dd("Locations", "/locations", "dd-locations", "w-[230px]", locPanel())}
+      ${dd("Contact", "/contact", "dd-contact", "w-[260px]", contactPanel())}
     </nav>
     <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
       <div data-loc-slot class="text-black"></div>
@@ -375,6 +412,7 @@
       <a href="/about" class="block py-[12px]">About Us</a>
       <a href="/merch" class="block py-[12px]">Merch</a>
       <a href="/locations" class="block py-[12px]">Locations</a>
+      <a href="/contact" class="block py-[12px]">Contact</a>
     </nav>
   </div>
 </header>`;
@@ -409,7 +447,7 @@
     <div class="md:ml-[125px] mt-10 md:mt-0">
       <h4 class="oswald text-[12px] font-medium tracking-[0.05em] uppercase text-white">Company</h4>
       <ul class="oswald text-[16px] font-light uppercase text-white mt-[24px] space-y-[21px]">
-        ${li("/about","About Us")}${li("/about#join","Join Melted")}${li("/events","Events &amp; Happenings")}${li("/faqs","FAQs")}
+        ${li("/about","About Us")}${li("/about#join","Join Melted")}${li("/events","Events &amp; Happenings")}${li("/faqs","FAQs")}${li("/contact","Contact")}
       </ul>
     </div>
     <div class="md:ml-[91px] mt-10 md:mt-0">
@@ -451,6 +489,27 @@
       grp.addEventListener("mouseleave", hide);
       // Clicking "Products" navigates to the dedicated page; hover reveals the menu.
     }
+    // Nav dropdowns: hover opens; keyboard focus opens too (WCAG — hover-only fails).
+    // Escape closes and returns focus to the trigger; ArrowUp/Down rove through items.
+    document.querySelectorAll("[data-dd]").forEach(ddEl => {
+      const trig = ddEl.querySelector("[aria-haspopup]");
+      const panel = ddEl.querySelector("[data-dd-panel]");
+      if (!trig || !panel) return;
+      let closeTimer = null, escaped = false;   // `escaped` keeps the focus-return from re-opening via focusin
+      const open = () => { if (escaped) return; clearTimeout(closeTimer); panel.hidden = false; trig.setAttribute("aria-expanded", "true"); };
+      const close = () => { panel.hidden = true; trig.setAttribute("aria-expanded", "false"); };
+      ddEl.addEventListener("mouseenter", () => { escaped = false; open(); });
+      ddEl.addEventListener("mouseleave", () => { closeTimer = setTimeout(close, 150); });
+      ddEl.addEventListener("focusin", open);
+      ddEl.addEventListener("focusout", e => { if (!ddEl.contains(e.relatedTarget)) { escaped = false; close(); } });
+      ddEl.addEventListener("keydown", e => {
+        const items = Array.from(panel.querySelectorAll("a[href]"));
+        if (e.key === "Escape") { escaped = true; close(); trig.focus(); return; }
+        if (e.key === "ArrowDown") { e.preventDefault(); escaped = false; if (panel.hidden) open(); const i = items.indexOf(document.activeElement); (items[i + 1] || items[0]).focus(); }
+        if (e.key === "ArrowUp") { e.preventDefault(); const i = items.indexOf(document.activeElement); if (i <= 0) { trig.focus(); } else { items[i - 1].focus(); } }
+      });
+    });
+
     // Mobile menu
     const mt = document.querySelector("[data-mobile-toggle]");
     const mm = document.querySelector("[data-mobile-menu]");
@@ -972,7 +1031,7 @@ a, button{ -webkit-tap-highlight-color:transparent; }
   }
 
   // Expose for page scripts
-  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, menuUrl, getZip, setZip, validZip, haversine,
+  window.MELTED = { STORES, PRODUCTS, ZIPS, STATE_NAMES, COMING_SOON, nearestStores, zipCoords, menuUrl, menuDeepLinks, getZip, setZip, validZip, haversine,
     zipStateAbbr, zipStateName, AUTH_CONFIG, getUser, openAuth, syncMarketing };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mount);

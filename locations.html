@@ -47,6 +47,9 @@
   .store-row.flash .store-card { animation: m-pop 1.2s ease 1; }
 </style>
 <link rel="canonical" href="https://lovemelted.com/locations">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/melted/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/melted/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/melted/favicon-180.png">
 </head>
 <body class="bg-white">
 
@@ -210,7 +213,7 @@
           ${s.phone ? `<p class="garamond text-[15px] text-[#767676] mt-[2px]"><a href="tel:${s.phone.replace(/\D/g,"")}" data-stop class="inline-block py-[8px] -my-[8px] hover:text-black">${s.phone}</a></p>` : ""}
           <div class="mt-[6px] flex flex-wrap gap-x-5 items-end">
             <a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" data-stop class="hit oswald inline-block text-[12px] tracking-[0.08em] uppercase pt-[12px] pb-[2px] border-b border-black hover:opacity-60">Directions</a>
-            ${s.menu ? `<a href="${s.menu}" target="_blank" rel="noopener" data-stop class="hit oswald inline-block text-[12px] font-medium tracking-[0.08em] uppercase pt-[12px] pb-[2px] border-b border-black hover:opacity-60">Order Online</a>` : ""}
+            ${s.menu ? `<a href="${s.menu}" target="_blank" rel="noopener" data-stop class="hit oswald inline-block text-[12px] font-medium tracking-[0.08em] uppercase pt-[12px] pb-[2px] border-b border-black hover:opacity-60">${M.menuDeepLinks(s.menu) ? "Order Online" : "View Dispensary Menu"}</a>` : ""}
             ${s.zip ? `<button type="button" data-set="${s.zip}" data-stop class="hit oswald text-[12px] tracking-[0.08em] uppercase text-[#767676] pt-[12px] pb-[2px] hover:text-black border-b border-transparent hover:border-black">Set as my store</button>` : ""}
           </div>
         </div>

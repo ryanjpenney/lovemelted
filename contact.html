@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>try{if(localStorage.getItem('melted_age_ok')!=='1')document.documentElement.setAttribute('data-gate','');}catch(e){}</script>
+<style>html[data-gate]{background:#0a0a0a}html[data-gate] body{visibility:hidden}</style>
+<title>Melted — Contact Us</title>
+<meta name="description" content="Get in touch with Melted — customer service for questions about our products, or business inquiries for dispensary partnerships and licensing across Arizona, Maryland, and beyond.">
+<link rel="canonical" href="https://lovemelted.com/contact">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/melted/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/melted/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/melted/favicon-180.png">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  .oswald { font-family: 'Oswald', sans-serif; }
+  .garamond { font-family: 'EB Garamond', serif; }
+  .caslon { font-family: 'Libre Caslon Text', serif; }
+  body { font-family: 'EB Garamond', serif; }
+  /* Form fields — hairline borders, zero radius, ink focus */
+  .cfield { width:100%; border:1px solid #d4d4d4; background:#fafafa; color:#0a0a0a;
+    padding:12px 14px; font-family:'EB Garamond',serif; font-size:16px; outline:none; border-radius:0; -webkit-appearance:none; }
+  .cfield:focus { border-color:#0a0a0a; }
+  .clabel { font-family:'Oswald',sans-serif; font-size:11px; font-weight:500; letter-spacing:.16em;
+    text-transform:uppercase; color:#555; display:block; margin-bottom:8px; }
+</style>
+</head>
+<body class="bg-white">
+
+<div data-melted-header></div>
+
+<main>
+<!-- Hero -->
+<section class="bg-[#0a0a0a] text-center py-[64px] px-6">
+  <h1 class="caslon text-[44px] md:text-[56px] text-white leading-[1.05]">Contact Us</h1>
+  <p class="garamond text-[19px] text-[#bdbdbd] mt-[14px] max-w-[600px] mx-auto">Questions about a product, or interested in carrying Melted? Two doors — pick yours.</p>
+</section>
+
+<!-- Two lanes -->
+<section class="max-w-[1180px] mx-auto px-[28px] md:px-[45px] mt-[72px] grid grid-cols-1 md:grid-cols-2 gap-[56px] md:gap-0 md:divide-x md:divide-[#e3e3e3]">
+
+  <!-- Lane 1: customer service -->
+  <div id="support" class="md:pr-[56px] scroll-mt-[96px]">
+    <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#767676]">Customer Service</p>
+    <h2 class="caslon text-[32px] md:text-[38px] leading-[1.12] text-black mt-[12px]">Questions, feedback,<br>or a batch to rave about.</h2>
+    <p class="garamond text-[18px] text-[#555] leading-[1.7] mt-[18px]">Product questions, where to find something, or anything else on your mind — we read everything and answer fast.</p>
+    <!-- CONTACT-EMAILS: confirm final addresses with Ryan — placeholders route to hello@ / partnerships@ lovemelted.com -->
+    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:hello@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">hello@lovemelted.com</a></p>
+
+    <!-- Static site: submitting composes a pre-filled email in the visitor's mail app (no backend). Swap action to a Formspree endpoint when one is provisioned. -->
+    <form data-contact-form data-mailto="hello@lovemelted.com" data-subject="Customer inquiry — lovemelted.com" class="mt-[28px] space-y-[18px]">
+      <div>
+        <label class="clabel" for="cs-name">Your name</label>
+        <input class="cfield" id="cs-name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div>
+        <label class="clabel" for="cs-email">Your email</label>
+        <input class="cfield" id="cs-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div>
+        <label class="clabel" for="cs-msg">How can we help?</label>
+        <textarea class="cfield" id="cs-msg" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="oswald w-full bg-black text-white text-[12px] font-medium tracking-[0.1em] uppercase py-[15px] hover:bg-[#333] transition-colors">Send Message</button>
+      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]">Sending opens your email app with the message pre-filled.</p>
+    </form>
+  </div>
+
+  <!-- Lane 2: business / B2B -->
+  <div id="business" class="md:pl-[56px] scroll-mt-[96px]">
+    <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#767676]">Business &amp; B2B</p>
+    <h2 class="caslon text-[32px] md:text-[38px] leading-[1.12] text-black mt-[12px]">Partnerships, wholesale,<br>and licensing.</h2>
+    <p class="garamond text-[18px] text-[#555] leading-[1.7] mt-[18px]">Dispensary buyers, distributors, and operators interested in bringing Melted to your shelves or your state — this lane is yours.</p>
+    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:partnerships@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">partnerships@lovemelted.com</a></p>
+
+    <form data-contact-form data-mailto="partnerships@lovemelted.com" data-subject="Partnership / B2B inquiry — lovemelted.com" class="mt-[28px] space-y-[18px]">
+      <div>
+        <label class="clabel" for="bz-name">Your name</label>
+        <input class="cfield" id="bz-name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div>
+        <label class="clabel" for="bz-company">Company / dispensary</label>
+        <input class="cfield" id="bz-company" name="company" type="text" autocomplete="organization" required>
+      </div>
+      <div>
+        <label class="clabel" for="bz-email">Work email</label>
+        <input class="cfield" id="bz-email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div>
+        <label class="clabel" for="bz-msg">Tell us about the opportunity</label>
+        <textarea class="cfield" id="bz-msg" name="message" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="oswald w-full bg-black text-white text-[12px] font-medium tracking-[0.1em] uppercase py-[15px] hover:bg-[#333] transition-colors">Send Inquiry</button>
+      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]">Sending opens your email app with the message pre-filled.</p>
+    </form>
+  </div>
+</section>
+
+<!-- The people behind Melted -->
+<section class="bg-[#f1f0ea] mt-[88px] py-[80px]">
+  <div class="max-w-[1180px] mx-auto px-[28px] md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px] items-center">
+    <!-- ASSET-NEEDED: drop Paul's high-res headshot at assets/melted/paul-portrait.jpg (monochrome or to-be-treated;
+         portrait crop, min ~1200px wide). Placeholder tile renders until the file exists — per brand rules we do NOT
+         substitute a lifestyle/model photo for a real portrait. -->
+    <figure class="m-0">
+      <div data-paul-slot class="border border-[#0a0a0a] bg-white aspect-[4/5] max-w-[440px] flex flex-col items-center justify-center text-center px-[28px]">
+        <span class="caslon text-[84px] leading-none text-[#e3e3e3]" aria-hidden="true">P</span>
+        <span class="oswald text-[11px] font-medium tracking-[0.2em] uppercase text-[#555] mt-[18px]">Portrait forthcoming</span>
+      </div>
+      <figcaption class="oswald text-[12px] font-medium tracking-[0.18em] uppercase text-[#555] mt-[14px]">Paul — Melted</figcaption>
+    </figure>
+    <div>
+      <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555]">The people behind Melted</p>
+      <h2 class="caslon text-[34px] md:text-[42px] leading-[1.12] text-black mt-[14px]">A real team, reachable<br>by real humans.</h2>
+      <p class="garamond text-[18px] text-[#555] leading-[1.75] mt-[20px]">Melted is built by a small crew that answers its own email. Whether you're a customer with a question or a buyer with a shelf to fill, you'll hear back from a person — not a ticket queue.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<div data-melted-footer></div>
+
+<script src="assets/melted.js"></script>
+<script>
+(function () {
+  // If the portrait file exists, swap it into the placeholder slot automatically.
+  var slot = document.querySelector("[data-paul-slot]");
+  var img = new Image();
+  img.onload = function () {
+    slot.innerHTML = "";
+    img.alt = "Portrait of Paul of Melted";
+    img.className = "w-full h-full object-cover";
+    slot.appendChild(img);
+    slot.classList.remove("bg-white");
+  };
+  img.src = "assets/melted/paul-portrait.jpg";
+
+  // Mailto composer: static site — no backend. Visible note explains the behavior.
+  document.querySelectorAll("[data-contact-form]").forEach(function (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var d = new FormData(form);
+      var body = ["Name: " + (d.get("name") || "")];
+      if (d.get("company")) body.push("Company: " + d.get("company"));
+      body.push("Email: " + (d.get("email") || ""), "", d.get("message") || "");
+      location.href = "mailto:" + form.dataset.mailto +
+        "?subject=" + encodeURIComponent(form.dataset.subject) +
+        "&body=" + encodeURIComponent(body.join("\n"));
+      form.querySelector("[data-contact-note]").textContent = "Your email app should open with the message ready to send.";
+    });
+  });
+})();
+</script>
+</body>
+</html>

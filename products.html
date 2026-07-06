@@ -18,6 +18,9 @@
   body { font-family: 'EB Garamond', serif; }
 </style>
 <link rel="canonical" href="https://lovemelted.com/products">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/melted/favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/melted/favicon-192.png">
+<link rel="apple-touch-icon" href="assets/melted/favicon-180.png">
 </head>
 <body class="bg-white">
 
@@ -33,11 +36,6 @@
 
 <!-- Products -->
 <section class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] mt-[64px]">
-  <!-- Location-radius filter status (hidden until a location preference is saved) -->
-  <div data-loc-note class="hidden max-w-[1000px] mx-auto mb-[32px] border border-[#e3e3e3] px-[18px] py-[13px] flex flex-wrap items-baseline justify-between gap-x-[16px] gap-y-[4px]">
-    <p data-loc-note-text class="garamond text-[15px] text-[#333] leading-[1.5]"></p>
-    <button type="button" data-loc-change class="oswald text-[11px] font-medium tracking-[0.12em] uppercase underline underline-offset-4 text-[#555] hover:text-black transition-colors">Change</button>
-  </div>
   <div data-products-grid class="grid grid-cols-2 md:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px] max-w-[1000px] mx-auto"></div>
   <!-- Empty state: nothing carried inside the chosen radius -->
   <div data-loc-empty class="hidden max-w-[560px] mx-auto text-center py-[40px]">
@@ -64,12 +62,14 @@
   document.querySelector("[data-products-grid]").innerHTML = ids.map((id, i) => {
     const p = P[id];
     const center = (i === ids.length - 1 && ids.length % 3 === 1) ? " md:col-start-2" : "";
-    const badge = p.badge
+    const badge = p.soldout
+      ? `<div class="h-[30px] text-center"><span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Sold Out</span></div>`
+      : p.badge
       ? `<div class="h-[30px] text-center"><span class="garamond inline-block border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
       : `<div class="h-[30px]"></div>`;
     return `<a href="/product?id=${id}" data-pid="${id}" class="text-center group block${center}">
       ${badge}
-      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
+      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-70" : ""}"></div>
       <p class="oswald text-[17px] font-medium leading-[1.5] mt-[16px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
       <p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] md:px-[20px]">${p.tagline}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.12em] uppercase mt-[12px]">${p.spec}</p>
@@ -93,8 +93,6 @@
       .filter(s => s.menu && (!p.stockists || p.stockists.indexOf(s.id) !== -1))
       .some(s => M.haversine(L.lat, L.lng, s.lat, s.lng) <= L.radius);
   }
-  const note = document.querySelector("[data-loc-note]");
-  const noteText = document.querySelector("[data-loc-note-text]");
   const empty = document.querySelector("[data-loc-empty]");
   const emptyText = document.querySelector("[data-loc-empty-text]");
 
@@ -103,7 +101,6 @@
     const L = getLocPref();
     if (!L) {
       cards.forEach(c => c.classList.remove("hidden"));
-      note.classList.add("hidden");
       empty.classList.add("hidden");
       return;
     }
@@ -114,7 +111,6 @@
       if (ok) shown++;
     });
     if (shown === 0) {
-      note.classList.add("hidden");
       const nearest = M.STORES
         .filter(s => s.menu)
         .map(s => Object.assign({ dist: M.haversine(L.lat, L.lng, s.lat, s.lng) }, s))
@@ -124,9 +120,6 @@
       empty.classList.remove("hidden");
     } else {
       empty.classList.add("hidden");
-      noteText.textContent = "Showing products available within " + L.radius + " mi of " + L.label +
-        " (" + shown + " of " + cards.length + ")." + (shown < cards.length ? " Products no nearby dispensary carries are hidden." : "");
-      note.classList.remove("hidden");
     }
   }
   document.querySelectorAll("[data-loc-change]").forEach(b =>
