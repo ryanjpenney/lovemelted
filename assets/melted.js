@@ -355,14 +355,14 @@
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
-    <a href="index.html" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
+    <a href="/" aria-label="Melted home" class="flex items-center shrink-0 justify-self-start">
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav aria-label="Primary" class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
-      ${link("products.html", "Products")}
-      ${link("about.html", "About Us")}
-      ${link("merch.html", "Merch")}
-      ${link("locations.html", "Locations")}
+      ${link("/products", "Products")}
+      ${link("/about", "About Us")}
+      ${link("/merch", "Merch")}
+      ${link("/locations", "Locations")}
     </nav>
     <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
       <div data-loc-slot class="text-black"></div>
@@ -371,10 +371,10 @@
   </div>
   <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
     <nav aria-label="Mobile" class="oswald text-[15px] uppercase tracking-[0.16em]">
-      <a href="products.html" class="block py-[12px]">Products</a>
-      <a href="about.html" class="block py-[12px]">About Us</a>
-      <a href="merch.html" class="block py-[12px]">Merch</a>
-      <a href="locations.html" class="block py-[12px]">Locations</a>
+      <a href="/products" class="block py-[12px]">Products</a>
+      <a href="/about" class="block py-[12px]">About Us</a>
+      <a href="/merch" class="block py-[12px]">Merch</a>
+      <a href="/locations" class="block py-[12px]">Locations</a>
     </nav>
   </div>
 </header>`;
@@ -382,7 +382,7 @@
 
   function productMenuCard(id) {
     const p = PRODUCTS[id];
-    return `<a href="product.html?id=${id}" class="group/card block">
+    return `<a href="/product?id=${id}" class="group/card block">
       <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"></div>
       <p class="oswald text-[12px] font-medium tracking-[0.03em] uppercase text-black mt-2 normal-case">${p.name}</p>
       <p class="garamond text-[13px] text-[#767676] normal-case tracking-normal">${p.spec}</p>
@@ -409,13 +409,13 @@
     <div class="md:ml-[125px] mt-10 md:mt-0">
       <h4 class="oswald text-[12px] font-medium tracking-[0.05em] uppercase text-white">Company</h4>
       <ul class="oswald text-[16px] font-light uppercase text-white mt-[24px] space-y-[21px]">
-        ${li("about.html","About Us")}${li("about.html#join","Join Melted")}${li("events.html","Events &amp; Happenings")}${li("faqs.html","FAQs")}
+        ${li("/about","About Us")}${li("/about#join","Join Melted")}${li("/events","Events &amp; Happenings")}${li("/faqs","FAQs")}
       </ul>
     </div>
     <div class="md:ml-[91px] mt-10 md:mt-0">
       <h4 class="oswald text-[12px] font-medium tracking-[0.05em] uppercase text-white">Explore</h4>
       <ul class="oswald text-[16px] font-light uppercase text-white mt-[24px] space-y-[21px]">
-        ${li("products.html","Products")}${li("locations.html","Locations")}${li("merch.html","Merch")}${li("https://www.instagram.com/meltedusa","@meltedusa")}
+        ${li("/products","Products")}${li("/locations","Locations")}${li("/merch","Merch")}${li("https://www.instagram.com/meltedusa","@meltedusa")}
       </ul>
     </div>
   </div>
@@ -424,8 +424,8 @@
   </div>
   <div class="mt-[39px] flex flex-wrap items-center gap-x-[28px] gap-y-[6px]">
     <p class="caslon text-[12px] text-[#d6d6d6] leading-[1.5]">Copyright © 2026, <span class="oswald text-[12px] font-light">Melted</span>. All rights reserved.</p>
-    <a href="privacy.html" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Privacy Policy</a>
-    <a href="terms.html" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Terms of Service</a>
+    <a href="/privacy" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Privacy Policy</a>
+    <a href="/terms" class="oswald text-[12px] font-light tracking-[0.12em] uppercase text-[#d6d6d6] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Terms of Service</a>
   </div>
   <div class="relative mt-[25px]">
     <img src="assets/melted/mark_white.png" alt="" aria-hidden="true" class="absolute right-0 top-[6px] w-[80px] opacity-90 hidden md:block">

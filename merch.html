@@ -37,6 +37,7 @@
     .shimmer-text{ animation:none; -webkit-text-fill-color:currentColor; background:none; }
   }
 </style>
+<link rel="canonical" href="https://lovemelted.com/merch">
 </head>
 <body class="bg-white">
 
@@ -55,7 +56,7 @@
 
 <section class="text-center mt-[80px]">
   <p class="oswald text-[13px] tracking-[0.1em] uppercase text-[#767676]">Looking for the cannabis lineup?</p>
-  <a href="locations.html" class="oswald inline-block text-[13px] font-medium tracking-[0.08em] uppercase text-black mt-[4px] pt-[12px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Shop products at a dispensary</a>
+  <a href="/locations" class="oswald inline-block text-[13px] font-medium tracking-[0.08em] uppercase text-black mt-[4px] pt-[12px] border-b-2 border-black pb-[5px] hover:opacity-60 transition-opacity">Shop products at a dispensary</a>
 </section>
 </main>
 
@@ -72,7 +73,7 @@
     const badge = label
       ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[10px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${label}</span></div>`
       : `<div class="h-[30px]"></div>`;
-    return `<a href="product.html?id=${id}" class="text-center group block">
+    return `<a href="/product?id=${id}" class="text-center group block">
       ${badge}
       <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}"></div>
       <p class="oswald text-[16px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>

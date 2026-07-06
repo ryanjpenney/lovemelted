@@ -213,6 +213,7 @@
   @keyframes m-fade{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
   @media (max-width:600px){ #m-gate h2{ font-size:30px; } #m-gate .g-btns{ flex-direction:column; } }
 </style>
+<link rel="canonical" href="https://lovemelted.com/">
 </head>
 <body class="bg-black">
 
@@ -386,14 +387,14 @@
 <!-- ============================== NAV ============================== -->
 <header id="nav" class="fixed top-0 inset-x-0 z-50 transition-colors duration-500">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] grid grid-cols-[1fr_auto_1fr] items-center h-[72px] gap-[16px]">
-    <a href="index.html" class="flex items-center justify-self-start" aria-label="Melted home">
+    <a href="/" class="flex items-center justify-self-start" aria-label="Melted home">
       <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav aria-label="Primary" class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
-      <a href="products.html" data-nav class="nlink text-white">Products</a>
-      <a href="about.html" data-nav class="nlink text-white">About Us</a>
-      <a href="merch.html" data-nav class="nlink text-white">Merch</a>
-      <a href="locations.html" data-nav class="nlink text-white">Locations</a>
+      <a href="/products" data-nav class="nlink text-white">Products</a>
+      <a href="/about" data-nav class="nlink text-white">About Us</a>
+      <a href="/merch" data-nav class="nlink text-white">Merch</a>
+      <a href="/locations" data-nav class="nlink text-white">Locations</a>
     </nav>
     <!-- col-start-3: on mobile the center nav is display:none, so without explicit
          placement this group auto-flows into the middle column next to the logo -->
@@ -407,10 +408,10 @@
   <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
     <div class="px-[28px] py-[16px] flex flex-col font-oswald text-[15px] tracking-[0.16em] uppercase text-white">
       <nav aria-label="Mobile" class="contents">
-      <a href="products.html" class="py-[12px]">Products</a>
-      <a href="about.html" class="py-[12px]">About Us</a>
-      <a href="merch.html" class="py-[12px]">Merch</a>
-      <a href="locations.html" class="py-[12px]">Locations</a>
+      <a href="/products" class="py-[12px]">Products</a>
+      <a href="/about" class="py-[12px]">About Us</a>
+      <a href="/merch" class="py-[12px]">Merch</a>
+      <a href="/locations" class="py-[12px]">Locations</a>
       </nav>
     </div>
   </div>
@@ -441,10 +442,10 @@
     </div>
 
     <div class="reveal flex flex-wrap gap-[16px] md:gap-[18px] mt-[44px]">
-      <a href="products.html" class="btn btn-solid" data-liquid>Explore the Lineup
+      <a href="/products" class="btn btn-solid" data-liquid>Explore the Lineup
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
       </a>
-      <a href="locations.html" class="btn btn-ghost-dark">Find a Dispensary</a>
+      <a href="/locations" class="btn btn-ghost-dark">Find a Dispensary</a>
     </div>
   </div>
 
@@ -463,7 +464,7 @@
       <div>
         <h2 class="font-caslon text-[clamp(40px,6vw,74px)] leading-[1.02] text-ink line-mask"><span>Curated cannabis for<br><span class="wavetext">everyday elevation.</span></span></h2>
       </div>
-      <a href="locations.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Find a Dispensary</a>
+      <a href="/locations" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Find a Dispensary</a>
     </div>
 
     <div data-products class="grid grid-cols-2 lg:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[52px]"></div>
@@ -500,7 +501,7 @@
     <div class="relative px-[28px] md:px-[64px] py-[80px] md:py-[120px]">
       <h2 class="font-caslon text-[clamp(34px,4.6vw,52px)] leading-[1.12] max-w-[480px] line-mask"><span>Made to meet<br>your moment.</span></h2>
       <p class="reveal font-garamond text-[19px] text-[#cfcfcf] leading-[1.7] mt-[24px] max-w-[460px]">For those who know what they like, and those still finding their fit. Melted offers high-quality cannabis products made to bring more ease, enjoyment, and intention to everyday moments.</p>
-      <a href="about.html" class="reveal btn btn-ghost-dark mt-[34px]">Our Story</a>
+      <a href="/about" class="reveal btn btn-ghost-dark mt-[34px]">Our Story</a>
     </div>
   </div>
   <div class="order-1 md:order-2 min-h-[420px] md:min-h-[640px] overflow-hidden">
@@ -528,7 +529,7 @@
     <div class="order-1 md:order-2">
       <h2 class="font-caslon text-[clamp(36px,4.6vw,52px)] leading-[1.1] text-ink line-mask"><span>Rooted in the desert.<br>Crafted for humankind.</span></h2>
       <p class="reveal font-garamond text-[19px] text-[#555] leading-[1.7] mt-[24px] max-w-[520px]">Melted is an Arizona-born cannabis brand built on quality, consistency, and care. What started as a local collective has grown into a lifestyle brand for those who appreciate premium products, authentic experiences, and cannabis crafted the right way.</p>
-      <a href="about.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] mt-[32px] inline-block">About Us</a>
+      <a href="/about" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] mt-[32px] inline-block">About Us</a>
     </div>
   </div>
 </section>
@@ -540,7 +541,7 @@
       <div>
         <h2 class="font-caslon text-[clamp(34px,4.6vw,56px)] leading-[1.04] text-ink line-mask"><span>Melted Essentials.</span></h2>
       </div>
-      <a href="merch.html" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
+      <a href="/merch" class="reveal ulink text-ink text-[13px] font-medium pb-[2px] self-start md:self-end">Shop the Collection</a>
     </div>
     <div data-merch class="grid grid-cols-2 sm:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px]"></div>
   </div>
@@ -559,7 +560,7 @@
 
     <div data-locations class="grid grid-cols-1 sm:grid-cols-3 gap-x-[40px] gap-y-[36px] mt-[52px] text-left"></div>
 
-    <a href="locations.html" class="btn btn-solid mt-[52px]" data-liquid>Open the Store Locator
+    <a href="/locations" class="btn btn-solid mt-[52px]" data-liquid>Open the Store Locator
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6"/></svg>
     </a>
   </div>
@@ -577,10 +578,10 @@
       <div>
         <h4 class="font-oswald text-[12px] tracking-[0.22em] uppercase text-[#8a8a8a]">Explore</h4>
         <ul class="mt-[20px] space-y-[14px] font-oswald text-[13px] tracking-[0.08em] uppercase">
-          <li><a href="products.html" class="ulink ulink-dark">Products</a></li>
-          <li><a href="locations.html" class="ulink ulink-dark">Locations</a></li>
-          <li><a href="about.html" class="ulink ulink-dark">Our Story</a></li>
-          <li><a href="merch.html" class="ulink ulink-dark">Merch</a></li>
+          <li><a href="/products" class="ulink ulink-dark">Products</a></li>
+          <li><a href="/locations" class="ulink ulink-dark">Locations</a></li>
+          <li><a href="/about" class="ulink ulink-dark">Our Story</a></li>
+          <li><a href="/merch" class="ulink ulink-dark">Merch</a></li>
         </ul>
       </div>
       <div>
@@ -605,8 +606,8 @@
     <div class="py-[28px] flex flex-col md:flex-row gap-[10px] md:items-center md:justify-between">
       <div class="flex flex-wrap items-center gap-x-[24px] gap-y-[4px]">
         <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">Copyright 2026 Melted</p>
-        <a href="privacy.html" class="font-oswald text-[12px] tracking-[0.16em] uppercase text-[#8a8a8a] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Privacy Policy</a>
-        <a href="terms.html" class="font-oswald text-[12px] tracking-[0.16em] uppercase text-[#8a8a8a] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Terms of Service</a>
+        <a href="/privacy" class="font-oswald text-[12px] tracking-[0.16em] uppercase text-[#8a8a8a] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Privacy Policy</a>
+        <a href="/terms" class="font-oswald text-[12px] tracking-[0.16em] uppercase text-[#8a8a8a] hover:text-white transition-colors inline-block py-[10px] -my-[10px]">Terms of Service</a>
       </div>
       <p class="font-oswald text-[11px] tracking-[0.16em] uppercase text-[#777]">For adults 21+ · Keep out of reach of children</p>
     </div>
@@ -646,7 +647,7 @@
   PRODUCTS.forEach(function(p,i){
     var badge = p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
     pgrid.appendChild(el(
-      '<a href="product.html?id='+p.id+'" class="pcard reveal group" data-mag>'
+      '<a href="/product?id='+p.id+'" class="pcard reveal group" data-mag>'
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
@@ -661,7 +662,7 @@
   MERCH.forEach(function(p){
     var badge = p.soldout ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">Sold Out</span>' : '';
     mgrid.appendChild(el(
-      '<a href="product.html?id='+p.id+'" class="pcard reveal group">'
+      '<a href="/product?id='+p.id+'" class="pcard reveal group">'
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
@@ -674,7 +675,7 @@
   var lgrid=document.querySelector('[data-locations]');
   LOCATIONS.forEach(function(group){
     var items = group.cities.length
-      ? group.cities.map(function(c){ return '<li><a href="locations.html?store='+c[1]+'" class="block py-[10px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c[0]+'</a></li>'; }).join('')
+      ? group.cities.map(function(c){ return '<li><a href="/locations?store='+c[1]+'" class="block py-[10px] font-oswald text-[13px] font-light tracking-[0.08em] uppercase text-[#cfcfcf] hover:text-white transition-colors">'+c[0]+'</a></li>'; }).join('')
       : '<li class="py-[7px] font-garamond text-[16px] italic text-[#8a8a8a]">Coming soon</li>';
     lgrid.appendChild(el(
       '<div class="border-t border-white/20 pt-[20px]">'

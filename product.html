@@ -23,8 +23,8 @@
 
 <main class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] pt-[40px]">
   <nav aria-label="Breadcrumb" class="oswald text-[11px] tracking-[0.08em] uppercase text-[#767676] mb-[28px]">
-    <a href="index.html" class="inline-block py-[12px] -my-[12px] hover:text-black">Home</a> <span class="mx-2">/</span>
-    <a href="products.html" class="inline-block py-[12px] -my-[12px] hover:text-black" data-crumb-cat>Products</a> <span class="mx-2">/</span>
+    <a href="/" class="inline-block py-[12px] -my-[12px] hover:text-black">Home</a> <span class="mx-2">/</span>
+    <a href="/products" class="inline-block py-[12px] -my-[12px] hover:text-black" data-crumb-cat>Products</a> <span class="mx-2">/</span>
     <span class="text-black" data-crumb-name>Product</span>
   </nav>
 
@@ -55,7 +55,7 @@
       <!-- Availability -->
       <div data-buy class="mt-[36px]"></div>
 
-      <a href="locations.html" class="oswald inline-block text-[12px] tracking-[0.08em] uppercase text-[#767676] mt-[8px] pt-[12px] pb-[2px] border-b border-[#ccc] hover:text-black hover:border-black transition-colors">Browse all dispensaries →</a>
+      <a href="/locations" class="oswald inline-block text-[12px] tracking-[0.08em] uppercase text-[#767676] mt-[8px] pt-[12px] pb-[2px] border-b border-[#ccc] hover:text-black hover:border-black transition-colors">Browse all dispensaries →</a>
     </div>
   </div>
 
@@ -78,10 +78,14 @@
   const p = M.PRODUCTS[id];
 
   document.title = "Melted — " + p.name;
+  // Canonical is per-product, so it's set here rather than statically in <head>
+  const canon = document.createElement("link");
+  canon.rel = "canonical"; canon.href = "https://lovemelted.com/product?id=" + encodeURIComponent(id);
+  document.head.appendChild(canon);
   document.querySelector("[data-crumb-name]").textContent = p.name;
   const cat = document.querySelector("[data-crumb-cat]");
-  if (p.kind === "merch") { cat.textContent = "Merch"; cat.href = "merch.html"; }
-  else { cat.textContent = "Products"; cat.href = "products.html"; }
+  if (p.kind === "merch") { cat.textContent = "Merch"; cat.href = "/merch"; }
+  else { cat.textContent = "Products"; cat.href = "/products"; }
 
   // Gallery (hide thumbnails when only one image)
   const main = document.querySelector("[data-gallery-main]");
@@ -317,7 +321,7 @@
     const q = M.PRODUCTS[k];
     // odd item count on the 2-col mobile grid: center the last card instead of leaving an orphan
     const center = (i === arr.length - 1 && arr.length % 2 === 1) ? " col-span-2 w-[calc(50%-15px)] justify-self-center md:col-span-1 md:w-auto" : "";
-    return `<a href="product.html?id=${k}" class="text-center group block${center}">
+    return `<a href="/product?id=${k}" class="text-center group block${center}">
       <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
       <p class="oswald text-[14px] font-medium uppercase tracking-[0.03em] mt-3 group-hover:opacity-60 transition-opacity">${q.name}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.1em] uppercase mt-1">${q.soldout ? "Sold Out" : q.spec}</p>

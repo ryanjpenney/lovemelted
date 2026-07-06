@@ -16,6 +16,7 @@
   .caslon { font-family: 'Libre Caslon Text', serif; }
   body { font-family: 'EB Garamond', serif; }
 </style>
+<link rel="canonical" href="https://lovemelted.com/faqs">
 </head>
 <body class="bg-white">
 
@@ -36,12 +37,12 @@
 <script>
 (function () {
   const faqs = [
-    ["Where can I buy Melted?", "Melted is available at many dispensaries across Arizona, a growing number in Maryland, and is coming soon to Ohio. Use our <a href='locations.html' class='underline'>store locator</a> to find the closest one to you."],
+    ["Where can I buy Melted?", "Melted is available at many dispensaries across Arizona, a growing number in Maryland, and is coming soon to Ohio. Use our <a href='/locations' class='underline'>store locator</a> to find the closest one to you."],
     ["Can you ship cannabis products to me?", "No — cannabis products are pickup-only at licensed dispensaries. Our merch is currently sold out and restocking soon via print-on-demand; direct-to-consumer shipping is on the way."],
     ["What makes your gummies different?", "Our Live Rosin Gummies are pressed from fresh-frozen flower — never distillate — for a rich, full-flavored experience that tastes like the plant it came from."],
     ["What is a Tiger Style Cartridge?", "A 510-thread cartridge designed to deliver a rich, flower-like experience on the go. It pairs with any standard 510 battery."],
     ["Do I need to be 21?", "Yes. All Melted products are for use only by adults twenty-one years of age and older. Valid ID is required at every dispensary."],
-    ["How do I become a partner or stock Melted?", "We’d love to hear from you — visit our <a href='about.html#join' class='underline'>Join Melted</a> page to get started."]
+    ["How do I become a partner or stock Melted?", "We’d love to hear from you — visit our <a href='/about#join' class='underline'>Join Melted</a> page to get started."]
   ];
   document.querySelector("[data-faq]").innerHTML = faqs.map(([q, a], i) => `
     <div class="border-t border-[#e6e6e6] ${i === faqs.length - 1 ? "border-b" : ""}">
