@@ -46,6 +46,7 @@
     background-image:var(--swirl);
     background-size:130% auto; background-position:0% 50%; background-repeat:repeat;
     -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+    transform:translateZ(0);                   /* own compositor layer — its repaints must not invalidate the hero */
     animation:meltedwave 3.6s ease forwards;   /* swirl waves ~3s, then settles to a plain white wordmark */
   }
   @keyframes meltedwave{
@@ -55,10 +56,13 @@
   }
 
   /* ---------- Full-bleed swirl backdrop drift + liquid wobble ---------- */
+  /* Drift is transform-only: animating background-position forced a full-screen
+     main-thread repaint every frame; translate+scale runs on the compositor. */
   .swirl-bed{ background-image:var(--swirl); background-size:140% auto; background-position:center;
-    animation:beddrift 40s ease-in-out infinite alternate; }
-  @keyframes beddrift{ 0%{ background-position:0% 40%; transform:scale(1.05); } 100%{ background-position:100% 60%; transform:scale(1.18); } }
-  html.motion .liquid{ filter:url(#liquid); }
+    will-change:transform; animation:beddrift 40s ease-in-out infinite alternate; }
+  @keyframes beddrift{ 0%{ transform:translate3d(-3.5%,-1%,0) scale(1.12); } 100%{ transform:translate3d(3.5%,1%,0) scale(1.22); } }
+  /* The animated turbulence filter is CPU-rasterized per frame — desktop pointers only */
+  @media (hover:hover) and (pointer:fine){ html.motion .liquid{ filter:url(#liquid); } }
 
   /* ---------- Liquid-metal colour wave ("everyday elevation") ----------
      A silver sheen travels left→right through the letterforms — the type is filled with a
@@ -69,6 +73,7 @@
     background-size:200% 100%;
     -webkit-background-clip:text; background-clip:text;
     color:transparent; -webkit-text-fill-color:transparent;
+    transform:translateZ(0);   /* own layer — infinite repaint stays contained to this line */
     animation:wavesweep 6s linear infinite;
   }
   @keyframes wavesweep{ from{ background-position-x:200%; } to{ background-position-x:0%; } }
@@ -213,7 +218,9 @@
 
 <!-- ===== First-visit tiger opener → "are you 21?" age gate ===== -->
 <div id="m-intro">
-  <video id="m-intro-vid" muted autoplay playsinline preload="auto" aria-hidden="true">
+  <!-- No autoplay attribute: playOpener() calls .play() explicitly, so the video no longer
+       plays hidden behind the age gate, and preload can be cancelled on repeat views. -->
+  <video id="m-intro-vid" muted playsinline preload="auto" aria-hidden="true">
     <source src="assets/melted/tiger-intro-2026.webm" type="video/webm">
     <source src="assets/melted/tiger-intro-2026.mp4" type="video/mp4">
   </video>
@@ -356,6 +363,9 @@
   var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
   if(seen){
     lock(false);                                    // already passed the gate + watched the opener this session → into the site
+    if(vid){                                        // opener can't replay this session — abort its ~2MB fetch so it doesn't compete with the homepage
+      try{ vid.preload='none'; while(vid.firstChild) vid.removeChild(vid.firstChild); vid.load(); }catch(e){}
+    }
   } else {
     showGate();                                     // fresh session → 21+ gate first; "I am 21 or older" then plays the opener
   }
@@ -541,7 +551,7 @@
 </section>
 
 <!-- ============================== SWIRL DIVIDER ============================== -->
-<div class="bg-black px-[28px] md:px-[45px] py-[0]">
+<div class="bg-black px-[28px] md:px-[45px] py-[0] overflow-hidden">
   <div class="swirl-bed liquid h-[120px] md:h-[150px] w-full" aria-hidden="true" role="presentation"></div>
 </div>
 
@@ -766,6 +776,7 @@
 <!-- Liquid-metal CTA upgrade (progressive enhancement — buttons work untouched if this fails) -->
 <script type="module">
 if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const boot = async () => {
   try {
     const { ShaderMount, liquidMetalFragmentShader } = await import("https://esm.sh/@paper-design/shaders@0.0.77");
     // Component's uniforms, minus the red/blue chromatic shift — Melted is monochrome.
@@ -788,12 +799,19 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
       btn.classList.add("btn-liquid");
 
       const speed = v => { try { mount && mount.setSpeed && mount.setSpeed(v); } catch (e) {} };
-      let hovered = false;
-      btn.addEventListener("mouseenter", () => { hovered = true; speed(1); });
-      btn.addEventListener("mouseleave", () => { hovered = false; speed(0.6); });
+      // setSpeed(0) cancels the shader's rAF loop, so an offscreen button costs nothing;
+      // the canvas keeps its last frame, and the loop resumes when scrolled back into view.
+      let hovered = false, visible = true;
+      const apply = () => speed(visible ? (hovered ? 1 : 0.6) : 0);
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(entries => { visible = entries[0].isIntersecting; apply(); },
+          { rootMargin: "120px" }).observe(btn);
+      }
+      btn.addEventListener("mouseenter", () => { hovered = true; apply(); });
+      btn.addEventListener("mouseleave", () => { hovered = false; apply(); });
       btn.addEventListener("click", e => {
         speed(2.4);
-        setTimeout(() => speed(hovered ? 1 : 0.6), 300);
+        setTimeout(apply, 300);
         const r = btn.getBoundingClientRect();
         const rip = document.createElement("span");
         rip.className = "lm-ripple";
@@ -804,6 +822,12 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
       });
     });
   } catch (e) { /* CDN or WebGL unavailable — keep the standard buttons */ }
+  };
+  // Boot after load + an idle beat: the module fetch and WebGL shader compile were
+  // landing mid-load, right when the hero animations run.
+  const whenIdle = window.requestIdleCallback ? window.requestIdleCallback.bind(window) : (fn => setTimeout(fn, 250));
+  if (document.readyState === "complete") whenIdle(boot);
+  else addEventListener("load", () => whenIdle(boot), { once: true });
 }
 </script>
 </body>
