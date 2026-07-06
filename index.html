@@ -556,9 +556,8 @@
 
 
 <!-- ============================== AUTHORIZED PARTNERS ==============================
-     Text logotypes render the wall as one monochrome system (no partner logo files in
-     the repo yet); drop real logo images into the tiles later with class
-     "grayscale hover:grayscale-0" to keep the uniform treatment. -->
+     Logos from the /Partners folder, staged in assets/melted/partners/ — rendered
+     grayscale so the wall reads as one monochrome system; hover restores full logo. -->
 <section class="bg-bone py-[88px] md:py-[110px]" aria-labelledby="partners-title">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
     <p class="font-oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555] text-center">Where you'll find us</p>
@@ -566,79 +565,89 @@
     <p class="font-garamond text-[18px] text-[#555] leading-[1.6] text-center max-w-[540px] mx-auto mt-[16px]">Carried by licensed dispensary partners across Arizona and Maryland.</p>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[52px]">
-      <!-- PARTNER-UNVERIFIED: confirm authorization before publishing — "Flow" is not on the authoritative Melted_Retail_Partners list (16 MD retailers) -->
-      <a href="/locations" class="col-span-2 border border-ink bg-white flex flex-col items-center justify-center text-center px-[20px] py-[34px] text-ink hover:bg-ink hover:text-white transition-colors">
-        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase opacity-60">Featured Partner</span>
-        <span class="font-caslon text-[40px] md:text-[46px] leading-none mt-[10px]">Flow</span>
+      <!-- ZERO: brand/creative partner (built the Melted brand system) — front and center per Paul/Ryan 2026-07-06 -->
+      <a href="/about" class="group col-span-2 border border-ink bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:shadow-[0_10px_28px_rgba(0,0,0,0.10)] transition-shadow">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Brand Partner</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/zero.jpg" alt="ZERO logo" class="max-h-[74px] max-w-[230px] w-auto object-contain grayscale group-hover:grayscale-0 transition"></span>
+      </a>
+      <!-- Flow: confirmed partner (Ryan, 2026-07-06) -->
+      <a href="/locations" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Featured Partner</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/flow.jpg" alt="Flow logo" class="max-h-[60px] max-w-[210px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
       </a>
       <!-- PARTNER-UNVERIFIED: confirm authorization before publishing — "Curaleaf" is not on the authoritative Melted_Retail_Partners list (16 MD retailers) -->
-      <a href="/locations" class="col-span-2 md:col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[20px] py-[34px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[30px] md:text-[34px] leading-none">Curaleaf</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[10px] text-[#555]">Arizona</span>
+      <a href="/locations" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
+        <span class="h-[52px] flex items-center"><img src="assets/melted/partners/curaleaf.jpg" alt="Curaleaf logo" loading="lazy" class="max-h-[52px] max-w-[180px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Arizona</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Columbia Care</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Chevy Chase · MD</span>
+      <!-- PARTNER-UNVERIFIED: Herbal Wellness Center is an active AZ retailer in MELTED.STORES (menus verified 2026-07) but not on the MD-only authoritative list — confirm for the partner wall -->
+      <a href="/locations" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
+        <span class="h-[52px] flex items-center"><img src="assets/melted/partners/herbal-wellness.jpg" alt="Herbal Wellness Center logo" loading="lazy" class="max-h-[52px] max-w-[180px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Arizona</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">gLeaf Wellness Solutions</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Rockville · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/columbia-care.png" alt="Columbia Care logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Columbia Care · Chevy Chase · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">gLeaf Wellness / Columbia Care</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Frederick · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness Solutions logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">gLeaf Wellness Solutions · Rockville · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Nirvana Center Maryland</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Rosedale · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness / Columbia Care logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">gLeaf Wellness / Columbia Care · Frederick · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Jenny's of Maryland</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Lanham · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/nirvana.jpg" alt="Nirvana Center Maryland logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Nirvana Center Maryland · Rosedale · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Summit Wellness</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Catonsville · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/jennys.jpg" alt="Jenny's of Maryland logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Jenny's of Maryland · Lanham · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Waave Cannabis</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Greenbelt · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/summit.jpg" alt="Summit Wellness logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Summit Wellness · Catonsville · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Elevated Dispo</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Salisbury · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/waave.jpg" alt="Waave Cannabis logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:grayscale(1)_contrast(1.6)] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Waave Cannabis · Greenbelt · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Kent Reserve</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Millington · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/elevated-dispo.png" alt="Elevated Dispo logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Elevated Dispo · Salisbury · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Chesapeake Apothecary</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">White Plains · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/kent-reserve.png" alt="Kent Reserve logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Kent Reserve · Millington · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Chesacanna</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Cockeysville · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/chesapeake-apothecary.png" alt="Chesapeake Apothecary logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Chesapeake Apothecary · White Plains · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Coastal Cure</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Delmar · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/chesacanna.png" alt="Chesacanna logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Chesacanna · Cockeysville · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Greenwave</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Solomons · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/coastal-cure.jpg" alt="Coastal Cure logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Coastal Cure · Delmar · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Bloom</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Germantown · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/greenwave.png" alt="Greenwave logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Greenwave · Solomons · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">Hi Tides</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Ocean City · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/bloom.jpg" alt="Bloom logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Bloom · Germantown · MD</span>
       </a>
-      <a href="/locations" class="border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center px-[14px] py-[26px] text-[#555] hover:text-ink hover:border-ink transition-colors">
-        <span class="font-caslon text-[18px] leading-[1.2]">ReLeaf Shop</span>
-        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase mt-[8px] text-[#555]">Baltimore · MD</span>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/hi-tide.png" alt="Hi Tides logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Hi Tides · Ocean City · MD</span>
+      </a>
+      <a href="/locations" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/releaf-shop.jpg" alt="ReLeaf Shop logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+        <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">ReLeaf Shop · Baltimore · MD</span>
       </a>
     </div>
   </div>

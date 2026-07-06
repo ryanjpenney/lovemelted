@@ -47,11 +47,12 @@
     <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#767676]">Customer Service</p>
     <h2 class="caslon text-[32px] md:text-[38px] leading-[1.12] text-black mt-[12px]">Questions, feedback,<br>or a batch to rave about.</h2>
     <p class="garamond text-[18px] text-[#555] leading-[1.7] mt-[18px]">Product questions, where to find something, or anything else on your mind — we read everything and answer fast.</p>
-    <!-- CONTACT-EMAILS: confirm final addresses with Ryan — placeholders route to hello@ / partnerships@ lovemelted.com -->
-    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:hello@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">hello@lovemelted.com</a></p>
+    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:info@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">info@lovemelted.com</a></p>
 
-    <!-- Static site: submitting composes a pre-filled email in the visitor's mail app (no backend). Swap action to a Formspree endpoint when one is provisioned. -->
-    <form data-contact-form data-mailto="hello@lovemelted.com" data-subject="Customer inquiry — lovemelted.com" class="mt-[28px] space-y-[18px]">
+    <!-- Formspree (endpoint provisioned 2026-07-06). AJAX submit below; plain POST is the no-JS fallback. -->
+    <form data-contact-form action="https://formspree.io/f/xeebdzrb" method="POST" class="mt-[28px] space-y-[18px]">
+      <input type="hidden" name="_subject" value="Customer inquiry — lovemelted.com">
+      <input type="hidden" name="lane" value="customer-service">
       <div>
         <label class="clabel" for="cs-name">Your name</label>
         <input class="cfield" id="cs-name" name="name" type="text" autocomplete="name" required>
@@ -65,7 +66,7 @@
         <textarea class="cfield" id="cs-msg" name="message" rows="5" required></textarea>
       </div>
       <button type="submit" class="oswald w-full bg-black text-white text-[12px] font-medium tracking-[0.1em] uppercase py-[15px] hover:bg-[#333] transition-colors">Send Message</button>
-      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]">Sending opens your email app with the message pre-filled.</p>
+      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]"></p>
     </form>
   </div>
 
@@ -74,9 +75,11 @@
     <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#767676]">Business &amp; B2B</p>
     <h2 class="caslon text-[32px] md:text-[38px] leading-[1.12] text-black mt-[12px]">Partnerships, wholesale,<br>and licensing.</h2>
     <p class="garamond text-[18px] text-[#555] leading-[1.7] mt-[18px]">Dispensary buyers, distributors, and operators interested in bringing Melted to your shelves or your state — this lane is yours.</p>
-    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:partnerships@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">partnerships@lovemelted.com</a></p>
+    <p class="garamond text-[17px] text-black mt-[16px]">Email us directly: <a href="mailto:info@lovemelted.com" class="underline underline-offset-4 hover:opacity-60">info@lovemelted.com</a></p>
 
-    <form data-contact-form data-mailto="partnerships@lovemelted.com" data-subject="Partnership / B2B inquiry — lovemelted.com" class="mt-[28px] space-y-[18px]">
+    <form data-contact-form action="https://formspree.io/f/xeebdzrb" method="POST" class="mt-[28px] space-y-[18px]">
+      <input type="hidden" name="_subject" value="Partnership / B2B inquiry — lovemelted.com">
+      <input type="hidden" name="lane" value="business-b2b">
       <div>
         <label class="clabel" for="bz-name">Your name</label>
         <input class="cfield" id="bz-name" name="name" type="text" autocomplete="name" required>
@@ -94,7 +97,7 @@
         <textarea class="cfield" id="bz-msg" name="message" rows="5" required></textarea>
       </div>
       <button type="submit" class="oswald w-full bg-black text-white text-[12px] font-medium tracking-[0.1em] uppercase py-[15px] hover:bg-[#333] transition-colors">Send Inquiry</button>
-      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]">Sending opens your email app with the message pre-filled.</p>
+      <p data-contact-note role="status" aria-live="polite" class="garamond text-[13px] text-[#767676] leading-[1.5] min-h-[18px]"></p>
     </form>
   </div>
 </section>
@@ -138,18 +141,36 @@
   };
   img.src = "assets/melted/paul-portrait.jpg";
 
-  // Mailto composer: static site — no backend. Visible note explains the behavior.
+  // Formspree AJAX submit (static site — Formspree is the backend). Falls back to a
+  // plain POST to the same endpoint when JS is unavailable.
   document.querySelectorAll("[data-contact-form]").forEach(function (form) {
+    var note = form.querySelector("[data-contact-note]");
+    var btn = form.querySelector("button[type=submit]");
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var d = new FormData(form);
-      var body = ["Name: " + (d.get("name") || "")];
-      if (d.get("company")) body.push("Company: " + d.get("company"));
-      body.push("Email: " + (d.get("email") || ""), "", d.get("message") || "");
-      location.href = "mailto:" + form.dataset.mailto +
-        "?subject=" + encodeURIComponent(form.dataset.subject) +
-        "&body=" + encodeURIComponent(body.join("\n"));
-      form.querySelector("[data-contact-note]").textContent = "Your email app should open with the message ready to send.";
+      btn.disabled = true; btn.classList.add("opacity-60");
+      note.style.color = ""; note.textContent = "Sending…";
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { "Accept": "application/json" }
+      }).then(function (r) {
+        if (r.ok) {
+          form.reset();
+          note.textContent = "Thanks — your message is on its way. We'll get back to you soon.";
+        } else {
+          return r.json().then(function (data) {
+            var msg = (data && data.errors && data.errors.length) ? data.errors.map(function (x) { return x.message; }).join(" ") : "";
+            throw new Error(msg);
+          });
+        }
+      }).catch(function (err) {
+        note.style.color = "#c0392b";
+        note.textContent = (err && err.message ? err.message + " — " : "Something went wrong — ") +
+          "please email us directly at info@lovemelted.com.";
+      }).finally(function () {
+        btn.disabled = false; btn.classList.remove("opacity-60");
+      });
     });
   });
 })();
