@@ -364,7 +364,7 @@
       ${link("merch.html", "Merch")}
       ${link("locations.html", "Locations")}
     </nav>
-    <div class="flex items-center gap-[12px] justify-self-end">
+    <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
       <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] md:h-[34px] px-[11px]">
         ${pin}
         <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[52px] md:w-[44px] text-[16px] md:text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#767676]">

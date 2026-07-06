@@ -395,7 +395,9 @@
       <a href="merch.html" data-nav class="nlink text-white">Merch</a>
       <a href="locations.html" data-nav class="nlink text-white">Locations</a>
     </nav>
-    <div class="flex items-center gap-[12px] justify-self-end">
+    <!-- col-start-3: on mobile the center nav is display:none, so without explicit
+         placement this group auto-flows into the middle column next to the logo -->
+    <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
       <form data-hzip-form data-nav-zip class="hidden sm:flex items-center gap-[7px] border border-current h-[40px] md:h-[34px] px-[11px] text-white transition-colors">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-[14px] h-[14px] opacity-70 shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
         <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="hzip-in font-oswald w-[52px] md:w-[44px] text-[16px] md:text-[12px] tracking-[0.08em] outline-none bg-transparent">
