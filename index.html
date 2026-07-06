@@ -73,6 +73,7 @@
     background-size:200% 100%;
     -webkit-background-clip:text; background-clip:text;
     color:transparent; -webkit-text-fill-color:transparent;
+    padding-bottom:.24em; margin-bottom:-.24em;   /* keep the y descenders inside the paint box — the promoted layer clips ink below the border box */
     transform:translateZ(0);   /* own layer — infinite repaint stays contained to this line */
     animation:wavesweep 6s linear infinite;
   }
