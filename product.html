@@ -177,14 +177,26 @@
     }).join("");
   }
 
-  // Rank this product's stockists by distance from a ZIP (falls back to list order without one).
+  // Saved location + radius preference (header "Set Location" control — melted-loc.js).
+  function getLocPref() {
+    try {
+      const p = JSON.parse(localStorage.getItem("melted_loc") || "null");
+      return (p && typeof p.lat === "number" && typeof p.lng === "number" && p.radius) ? p : null;
+    } catch (e) { return null; }
+  }
+  const rankAll = (lat, lng) => pickupPool
+    .map(s => Object.assign({ dist: M.haversine(lat, lng, s.lat, s.lng) }, s))
+    .sort((a, b) => a.dist - b.dist);
+
+  // Rank this product's stockists by distance. With a saved location preference the
+  // list is HARD-FILTERED to stores inside the chosen radius (out-of-range stores are
+  // hidden entirely); otherwise it falls back to the legacy ZIP ranking.
   function rankPartners(zip) {
+    const L = getLocPref();
+    if (L) return rankAll(L.lat, L.lng).filter(s => s.dist <= L.radius).slice(0, 8);
     const c = zip && M.validZip(zip) ? M.zipCoords(zip) : null;
     if (!c) return pickupPool.slice(0, 5);
-    return pickupPool
-      .map(s => Object.assign({ dist: M.haversine(c[0], c[1], s.lat, s.lng) }, s))
-      .sort((a, b) => a.dist - b.dist)
-      .slice(0, 5);
+    return rankAll(c[0], c[1]).slice(0, 5);
   }
 
   if (p.kind !== "merch" && p.pickup !== false && pickupPool.length) {
@@ -210,6 +222,20 @@
       partners = rankPartners(z);
       renderOrderRows();
       zipMsg.style.color = "#555";
+      const L = getLocPref();
+      if (L) {   // radius preference set: message reflects the hard filter
+        if (!partners.length) {
+          const nearest = rankAll(L.lat, L.lng)[0];
+          zipMsg.style.color = "#c0392b";
+          zipMsg.textContent = "No dispensaries within " + L.radius + " mi of " + L.label + " carry this product" +
+            (nearest ? " — the nearest is " + nearest.name + " (" + nearest.dist.toFixed(0) + " mi)" : "") +
+            ". Widen your radius in the location menu (top right).";
+        } else {
+          zipMsg.textContent = "Showing " + partners.length + (partners.length === 1 ? " dispensary" : " dispensaries") +
+            " within " + L.radius + " mi of " + L.label + ".";
+        }
+        return;
+      }
       if (!z) { zipMsg.textContent = ""; return; }
       if (!M.validZip(z)) { if (!quiet) { zipMsg.style.color = "#c0392b"; zipMsg.textContent = "Enter a valid 5-digit ZIP code."; } else zipMsg.textContent = ""; return; }
       if (!M.zipCoords(z)) { zipMsg.style.color = "#c0392b"; zipMsg.textContent = "We couldn't place that ZIP — showing our partner stores instead."; return; }
@@ -236,6 +262,8 @@
       const z = e.detail || "";
       if (zipInput.value !== z) { zipInput.value = z; applyZip(z, true); }
     });
+    // Re-filter when the location/radius preference changes (header control).
+    document.addEventListener("melted:loc", () => applyZip(zipInput.value.trim(), true));
 
     const savedOrderZip = M.getZip();
     if (savedOrderZip) zipInput.value = savedOrderZip;

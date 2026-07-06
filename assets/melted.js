@@ -365,18 +365,11 @@
       ${link("locations.html", "Locations")}
     </nav>
     <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
-      <form data-hzip-form class="hidden sm:flex items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[40px] md:h-[34px] px-[11px]">
-        ${pin}
-        <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP" aria-label="ZIP code" class="oswald w-[52px] md:w-[44px] text-[16px] md:text-[12px] tracking-[0.08em] outline-none bg-transparent text-black placeholder:text-[#767676]">
-      </form>
+      <div data-loc-slot class="text-black"></div>
       <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black py-[13px] px-[12px] -mr-[12px]" data-mobile-toggle aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
   <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
-    <form data-hzip-form class="flex sm:hidden items-center gap-[7px] border border-[#d4d4d4] focus-within:border-black transition-colors h-[48px] px-[12px] mb-[14px] max-w-[240px]">
-      ${pin}
-      <input data-hzip inputmode="numeric" maxlength="5" placeholder="ZIP code" aria-label="ZIP code" class="oswald flex-1 text-[16px] tracking-[0.06em] outline-none bg-transparent text-black placeholder:text-[#767676]">
-    </form>
     <nav aria-label="Mobile" class="oswald text-[15px] uppercase tracking-[0.16em]">
       <a href="products.html" class="block py-[12px]">Products</a>
       <a href="about.html" class="block py-[12px]">About Us</a>
@@ -971,6 +964,11 @@ a, button{ -webkit-tap-highlight-color:transparent; }
     wireHeader();
     setupAuth();
     initAgeGate();
+    if (!document.querySelector("script[data-melted-loc]")) {
+      const ls = document.createElement("script");
+      ls.src = "assets/melted-loc.js"; ls.setAttribute("data-melted-loc", "");
+      document.body.appendChild(ls);
+    }
   }
 
   // Expose for page scripts
