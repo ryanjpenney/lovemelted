@@ -36,13 +36,13 @@
 
 <!-- Products -->
 <section class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] mt-[64px]">
-  <div data-products-grid class="grid grid-cols-2 md:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px] max-w-[1000px] mx-auto"></div>
-  <!-- Empty state: nothing carried inside the chosen radius -->
-  <div data-loc-empty class="hidden max-w-[560px] mx-auto text-center py-[40px]">
+  <!-- Notice: nothing carried inside the chosen radius (grid stays visible below) -->
+  <div data-loc-empty class="hidden max-w-[560px] mx-auto text-center pb-[48px]">
     <p class="caslon text-[26px] leading-[1.25] text-black">No dispensaries in your radius carry Melted yet.</p>
     <p data-loc-empty-text class="garamond text-[17px] text-[#555] leading-[1.6] mt-[14px]"></p>
     <button type="button" data-loc-change class="oswald inline-block text-[12px] font-medium tracking-[0.1em] uppercase border border-black text-black px-[26px] py-[14px] mt-[26px] hover:bg-black hover:text-white transition-colors">Change location or radius</button>
   </div>
+  <div data-products-grid class="grid grid-cols-2 md:grid-cols-3 gap-x-[24px] md:gap-x-[30px] gap-y-[48px] max-w-[1000px] mx-auto"></div>
 </section>
 
 <!-- Cross-link to merch -->
@@ -59,16 +59,21 @@
 (function () {
   const P = window.MELTED.PRODUCTS;
   const ids = Object.keys(P).filter(k => P[k].kind === "product");
+  /* Badge precedence: Sold Out > Not Available Nearby (location filter) > catalog badge. */
+  function badgeHTML(p, unavail) {
+    return p.soldout
+      ? `<span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Sold Out</span>`
+      : unavail
+      ? `<span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Not Available Nearby</span>`
+      : p.badge
+      ? `<span class="garamond inline-block border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span>`
+      : ``;
+  }
   document.querySelector("[data-products-grid]").innerHTML = ids.map((id, i) => {
     const p = P[id];
     const center = (i === ids.length - 1 && ids.length % 3 === 1) ? " md:col-start-2" : "";
-    const badge = p.soldout
-      ? `<div class="h-[30px] text-center"><span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Sold Out</span></div>`
-      : p.badge
-      ? `<div class="h-[30px] text-center"><span class="garamond inline-block border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span></div>`
-      : `<div class="h-[30px]"></div>`;
     return `<a href="/product?id=${id}" data-pid="${id}" class="text-center group block${center}">
-      ${badge}
+      <div data-badge-slot class="h-[30px] text-center">${badgeHTML(p, false)}</div>
       <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-70" : ""}"></div>
       <p class="oswald text-[17px] font-medium leading-[1.5] mt-[16px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
       <p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] md:px-[20px]">${p.tagline}</p>
@@ -76,11 +81,13 @@
     </a>`;
   }).join("");
 
-  /* ---------- Location-radius filter ----------
+  /* ---------- Location-radius availability ----------
      When a location + radius preference is saved (header "Set Location" control),
-     hide any product that no in-radius dispensary carries. A product's carrying
-     pool = stores with an online menu, narrowed by PRODUCTS[].stockists when the
-     catalog lists them (same rule as product.html's order module). */
+     every product card stays visible — a product no in-radius dispensary carries
+     is marked "Not Available Nearby" instead of hidden (all six signature products
+     must always render). A product's carrying pool = stores with an online menu,
+     narrowed by PRODUCTS[].stockists when the catalog lists them (same rule as
+     product.html's order module). */
   const M = window.MELTED;
   function getLocPref() {
     try {
@@ -99,18 +106,15 @@
   function applyLocFilter() {
     const cards = document.querySelectorAll("[data-products-grid] [data-pid]");
     const L = getLocPref();
-    if (!L) {
-      cards.forEach(c => c.classList.remove("hidden"));
-      empty.classList.add("hidden");
-      return;
-    }
-    let shown = 0;
+    let available = 0;
     cards.forEach(c => {
-      const ok = availableWithin(P[c.dataset.pid], L);
-      c.classList.toggle("hidden", !ok);
-      if (ok) shown++;
+      const p = P[c.dataset.pid];
+      const ok = !L || availableWithin(p, L);
+      if (ok) available++;
+      c.querySelector("[data-badge-slot]").innerHTML = badgeHTML(p, !ok);
+      c.querySelector("img").classList.toggle("opacity-70", !!p.soldout || !ok);
     });
-    if (shown === 0) {
+    if (L && available === 0) {
       const nearest = M.STORES
         .filter(s => s.menu)
         .map(s => Object.assign({ dist: M.haversine(L.lat, L.lng, s.lat, s.lng) }, s))
