@@ -316,7 +316,8 @@
 
   setTimeout(() => {
     map.invalidateSize();
-    const wantIdx = wantStore ? M.STORES.findIndex(x => x.zip && x.zip === wantStore) : -1;
+    // Match by unique store id first (partner-wall deep links); ZIP kept for legacy links.
+    const wantIdx = wantStore ? M.STORES.findIndex(x => x.id === wantStore || (x.zip && x.zip === wantStore)) : -1;
     if (wantIdx >= 0) {
       region = M.STORES[wantIdx].state; sortZip = null; render();
       selectStore(wantIdx, { pan: true, flash: true });
