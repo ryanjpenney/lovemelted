@@ -365,7 +365,7 @@
         <a href="${href}" class="inline-block hover:opacity-60 transition-opacity" aria-haspopup="true" aria-expanded="false" aria-controls="${id}">${label}</a>
         <div id="${id}" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50">
           <div class="bg-white border-t border-[#ededed] border-b border-b-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]">
-            <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal">${inner}</div>
+            <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[38px] text-left normal-case whitespace-normal tracking-normal">${inner}</div>
           </div>
         </div>
       </div>`;
@@ -377,10 +377,16 @@
         ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
       </a>`;
     };
-    const sLink = (href, label, dim) =>
-      `<a href="${href}" class="block oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity ${dim ? "text-[#8a8a8a]" : "text-black hover:opacity-60"}">${label}</a>`;
-    const sTitle = (t) =>
-      `<p class="oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-[#0a0a0a] pb-[10px]">${t}</p>`;
+    /* Image card for the non-product strips: photo snapshot + title + one-line teaser.
+       Lifestyle imagery renders grayscale (the world stays B&W); product shots keep color. */
+    const card = (href, img, title, desc, opts) => {
+      opts = opts || {};
+      return `<a href="${href}" class="group/dd block${opts.dim ? " opacity-70" : ""}">
+        <span class="block aspect-[16/10] overflow-hidden bg-[#f6f6f4]"><img src="${img}" alt="" class="w-full h-full object-cover${opts.color ? "" : " grayscale"} group-hover/dd:scale-[1.05] transition-transform duration-500"></span>
+        <span class="block oswald text-[12px] font-medium tracking-[0.1em] uppercase text-black mt-[12px]">${title}</span>
+        <span class="block garamond text-[14px] text-[#555] leading-[1.5] mt-[4px] normal-case">${desc}</span>
+      </a>`;
+    };
     const sBlurb = (title, body) =>
       `<div class="hidden md:block md:col-span-2 border-l border-[#eeeeee] pl-[36px]">
         <p class="caslon text-[22px] leading-[1.35] text-black">${title}</p>
@@ -397,20 +403,22 @@
         <p class="garamond text-[15px] text-[#555]">Wear the swirl — hats, tanks, and the tiger.</p>
         <a href="/merch" class="oswald text-[11px] font-medium tracking-[0.12em] uppercase text-black border-b-2 border-black pb-[2px] hover:opacity-60">Shop All Merch</a>
       </div>`;
-    const aboutStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
-        <div>${sTitle("Company")}${sLink("/about", "Our Story")}${sLink("/about#join", "Become Part of the Collective")}</div>
-        <div>${sTitle("Happenings")}${sLink("/events", "Events &amp; Happenings")}${sLink("/faqs", "FAQs")}</div>
-        ${sBlurb("Premium cannabis, crafted for everyone.", "Built on quality, consistency, and care — now across Arizona and Maryland, with Ohio coming soon.")}
+    const aboutStrip = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-[22px]">
+        ${card("/about", "assets/melted/about_desert.jpg", "Our Story", "Born in Arizona — built on a refusal to cut corners.")}
+        ${card("/about#join", "assets/melted/about_collective.jpg", "Become Part of the Collective", "Brands, retailers, and artists — build with us.")}
+        ${card("/events", "assets/melted/gallery/model_3.jpg", "Events &amp; Happenings", "Pop-ups, drops, and where we\u2019ll be next.")}
+        ${card("/faqs", "assets/melted/gallery/live_resin.jpg", "FAQs", "Quick answers on products, potency, and where to buy.", { color: true })}
       </div>`;
-    const locStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
-        <div>${sTitle("States")}${sLink("/locations", "Arizona")}${sLink("/locations", "Maryland")}${sLink("/locations", "Ohio — Coming Soon", true)}</div>
-        <div>${sTitle("Locator")}${sLink("/locations", "All Locations")}</div>
-        ${sBlurb("Find Melted near you.", "Carried by licensed dispensary partners — open the locator to see every store, menu, and distance.")}
+    const locStrip = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-[22px]">
+        ${card("/locations", "assets/melted/desert-model-1-2026.jpg", "Arizona", "Where it all started — dispensaries statewide.")}
+        ${card("/locations", "assets/melted/lifestyle.jpg", "Maryland", "Sixteen retail partners and counting.")}
+        ${card("/locations", "assets/melted/swirl_strip.jpg", "Ohio — Coming Soon", "The swirl travels next. Hang tight.", { dim: true })}
+        ${card("/locations", "assets/melted/hero_group.jpg", "Open the Store Locator", "Every store, menu, and distance from you.")}
       </div>`;
-    const contactStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
-        <div>${sTitle("Get in Touch")}${sLink("/contact#support", "Customer Service")}${sLink("/contact#business", "Partnerships &amp; B2B")}</div>
-        <div>${sTitle("Direct")}${sLink("mailto:info@lovemelted.com", "info@lovemelted.com")}</div>
-        ${sBlurb("A real team, reachable by real humans.", "Questions about a product, or interested in carrying Melted? Two doors — pick yours.")}
+    const contactStrip = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-[22px] items-start">
+        ${card("/contact#support", "assets/melted/gummy_purple.png", "Customer Service", "Questions or feedback — real humans answer fast.", { color: true })}
+        ${card("/contact#business", "assets/melted/about_hero_2026.jpg", "Partnerships &amp; B2B", "Dispensary buyers and operators — bring Melted to your shelves.")}
+        ${sBlurb("A real team, reachable by real humans.", "Two doors — pick yours. Or email us directly: <a href=\"mailto:info@lovemelted.com\" class=\"underline underline-offset-4 text-black hover:opacity-60\">info@lovemelted.com</a>")}
       </div>`;
 
     /* ---- Mobile menu: accordion per nav item — the page link sits first inside
