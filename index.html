@@ -395,11 +395,50 @@
       <img data-logo src="assets/melted/logo_white.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav aria-label="Primary" class="hidden md:flex items-center gap-[28px] lg:gap-[34px] font-oswald text-[12px] font-medium tracking-[0.16em] uppercase justify-self-center whitespace-nowrap">
-      <a href="/products" data-nav class="nlink text-white">Products</a>
-      <a href="/about" data-nav class="nlink text-white">About Us</a>
-      <a href="/merch" data-nav class="nlink text-white">Merch</a>
-      <a href="/locations" data-nav class="nlink text-white">Locations</a>
-      <a href="/contact" data-nav class="nlink text-white">Contact</a>
+      <div data-dd>
+        <a href="/products" data-nav class="nlink text-white" aria-haspopup="true" aria-expanded="false" aria-controls="ddx-products">Products</a>
+        <div id="ddx-products" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50"><div class="bg-white border-t border-[#ededed] border-b border-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]"><div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal text-ink">
+          <div data-dd-fill="products" class="grid grid-cols-3 lg:grid-cols-6 gap-[20px]"></div>
+          <div class="flex flex-wrap justify-between items-center gap-[12px] mt-[22px] pt-[16px] border-t border-[#eeeeee]"><p class="font-garamond text-[15px] text-[#555]">The full Melted lineup — premium, consistent, crafted for everyone.</p><a href="/products" class="font-oswald text-[11px] font-medium tracking-[0.12em] uppercase text-ink border-b-2 border-ink pb-[2px] hover:opacity-60">View All Products</a></div>
+        </div></div></div>
+      </div>
+      <div data-dd>
+        <a href="/about" data-nav class="nlink text-white" aria-haspopup="true" aria-expanded="false" aria-controls="ddx-about">About Us</a>
+        <div id="ddx-about" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50"><div class="bg-white border-t border-[#ededed] border-b border-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]"><div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal text-ink">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">Company</p><a href="/about" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Our Story</a><a href="/about#join" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Become Part of the Collective</a></div>
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">Happenings</p><a href="/events" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Events &amp; Happenings</a><a href="/faqs" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">FAQs</a></div>
+            <div class="hidden md:block md:col-span-2 border-l border-[#eeeeee] pl-[36px]"><p class="font-caslon text-[22px] leading-[1.35] text-ink">Premium cannabis, crafted for everyone.</p><p class="font-garamond text-[15px] text-[#555] leading-[1.6] mt-[10px]">Built on quality, consistency, and care — now across Arizona and Maryland, with Ohio coming soon.</p></div>
+          </div>
+        </div></div></div>
+      </div>
+      <div data-dd>
+        <a href="/merch" data-nav class="nlink text-white" aria-haspopup="true" aria-expanded="false" aria-controls="ddx-merch">Merch</a>
+        <div id="ddx-merch" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50"><div class="bg-white border-t border-[#ededed] border-b border-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]"><div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal text-ink">
+          <div data-dd-fill="merch" class="grid grid-cols-3 lg:grid-cols-6 gap-[20px]"></div>
+          <div class="flex flex-wrap justify-between items-center gap-[12px] mt-[22px] pt-[16px] border-t border-[#eeeeee]"><p class="font-garamond text-[15px] text-[#555]">Wear the swirl — hats, tanks, and the tiger.</p><a href="/merch" class="font-oswald text-[11px] font-medium tracking-[0.12em] uppercase text-ink border-b-2 border-ink pb-[2px] hover:opacity-60">Shop All Merch</a></div>
+        </div></div></div>
+      </div>
+      <div data-dd>
+        <a href="/locations" data-nav class="nlink text-white" aria-haspopup="true" aria-expanded="false" aria-controls="ddx-locations">Locations</a>
+        <div id="ddx-locations" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50"><div class="bg-white border-t border-[#ededed] border-b border-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]"><div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal text-ink">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">States</p><a href="/locations" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Arizona</a><a href="/locations" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Maryland</a><a href="/locations" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-[#8a8a8a]">Ohio — Coming Soon</a></div>
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">Locator</p><a href="/locations" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">All Locations</a></div>
+            <div class="hidden md:block md:col-span-2 border-l border-[#eeeeee] pl-[36px]"><p class="font-caslon text-[22px] leading-[1.35] text-ink">Find Melted near you.</p><p class="font-garamond text-[15px] text-[#555] leading-[1.6] mt-[10px]">Carried by licensed dispensary partners — open the locator to see every store, menu, and distance.</p></div>
+          </div>
+        </div></div></div>
+      </div>
+      <div data-dd>
+        <a href="/contact" data-nav class="nlink text-white" aria-haspopup="true" aria-expanded="false" aria-controls="ddx-contact">Contact</a>
+        <div id="ddx-contact" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50"><div class="bg-white border-t border-[#ededed] border-b border-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]"><div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal text-ink">
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">Get in Touch</p><a href="/contact#support" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Customer Service</a><a href="/contact#business" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">Partnerships &amp; B2B</a></div>
+            <div><p class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-ink pb-[10px]">Direct</p><a href="mailto:info@lovemelted.com" class="block font-oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity text-ink hover:opacity-60">info@lovemelted.com</a></div>
+            <div class="hidden md:block md:col-span-2 border-l border-[#eeeeee] pl-[36px]"><p class="font-caslon text-[22px] leading-[1.35] text-ink">A real team, reachable by real humans.</p><p class="font-garamond text-[15px] text-[#555] leading-[1.6] mt-[10px]">Questions about a product, or interested in carrying Melted? Two doors — pick yours.</p></div>
+          </div>
+        </div></div></div>
+      </div>
     </nav>
     <!-- col-start-3: on mobile the center nav is display:none, so without explicit
          placement this group auto-flows into the middle column next to the logo -->
@@ -410,14 +449,54 @@
     </div>
   </div>
   <!-- mobile menu -->
-  <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10">
-    <div class="px-[28px] py-[16px] flex flex-col font-oswald text-[15px] tracking-[0.16em] uppercase text-white">
-      <nav aria-label="Mobile" class="contents">
-      <a href="/products" class="py-[12px]">Products</a>
-      <a href="/about" class="py-[12px]">About Us</a>
-      <a href="/merch" class="py-[12px]">Merch</a>
-      <a href="/locations" class="py-[12px]">Locations</a>
-      <a href="/contact" class="py-[12px]">Contact</a>
+  <div data-mobile class="md:hidden hidden bg-ink border-t border-white/10 max-h-[calc(100vh-72px)] overflow-y-auto">
+    <div class="px-[28px] pt-[4px] pb-[20px]">
+      <nav aria-label="Mobile">
+      <div class="border-b border-white/10">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] font-oswald text-[15px] uppercase tracking-[0.16em] text-white">
+          <span>Products</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+<a href="/products" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-medium tracking-[0.14em] uppercase text-white">All Products</a><div data-macc-fill="products"></div>
+        </div>
+      </div>
+      <div class="border-b border-white/10">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] font-oswald text-[15px] uppercase tracking-[0.16em] text-white">
+          <span>About Us</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+<a href="/about" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-medium tracking-[0.14em] uppercase text-white">Our Story</a><a href="/about#join" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Become Part of the Collective</a><a href="/events" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Events &amp; Happenings</a><a href="/faqs" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">FAQs</a>
+        </div>
+      </div>
+      <div class="border-b border-white/10">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] font-oswald text-[15px] uppercase tracking-[0.16em] text-white">
+          <span>Merch</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+<a href="/merch" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-medium tracking-[0.14em] uppercase text-white">Shop All Merch</a><div data-macc-fill="merch"></div>
+        </div>
+      </div>
+      <div class="border-b border-white/10">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] font-oswald text-[15px] uppercase tracking-[0.16em] text-white">
+          <span>Locations</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+<a href="/locations" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-medium tracking-[0.14em] uppercase text-white">All Locations</a><a href="/locations" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Arizona</a><a href="/locations" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Maryland</a><a href="/locations" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#8a8a8a]">Ohio — Coming Soon</a>
+        </div>
+      </div>
+      <div class="border-b border-white/10">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] font-oswald text-[15px] uppercase tracking-[0.16em] text-white">
+          <span>Contact</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+<a href="/contact" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-medium tracking-[0.14em] uppercase text-white">Contact Us</a><a href="/contact#support" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Customer Service</a><a href="/contact#business" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase text-[#bdbdbd]">Partnerships &amp; B2B</a>
+        </div>
+      </div>
       </nav>
     </div>
   </div>
@@ -791,6 +870,52 @@
       + '<ul>'+items+'</ul>'
       + '</div>'
     ));
+  });
+
+  /* ---------- Nav dropdown fills (desktop strips + mobile accordions) ---------- */
+  function ddCell(p){
+    return '<a href="/product?id='+p.id+'" class="group/dd block text-center">'
+      + '<span class="block bg-paper aspect-square overflow-hidden"><img src="'+p.img+'" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300'+(p.soldout?' opacity-60':'')+'"></span>'
+      + '<span class="block font-oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] '+(p.soldout?'text-[#555]':'text-ink')+'">'+p.name+'</span>'
+      + (p.soldout?'<span class="inline-block font-oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>':'')
+      + '</a>';
+  }
+  function mSubLink(p){
+    return '<a href="/product?id='+p.id+'" class="block py-[9px] pl-[16px] font-oswald text-[12px] font-light tracking-[0.14em] uppercase '+(p.soldout?'text-[#8a8a8a]':'text-[#bdbdbd]')+'">'+p.name+(p.soldout?' — Sold Out':'')+'</a>';
+  }
+  var fillP=document.querySelector('[data-dd-fill="products"]'); if(fillP) fillP.innerHTML=PRODUCTS.map(ddCell).join('');
+  var fillM=document.querySelector('[data-dd-fill="merch"]');    if(fillM) fillM.innerHTML=MERCH.map(ddCell).join('');
+  var mfP=document.querySelector('[data-macc-fill="products"]'); if(mfP) mfP.innerHTML=PRODUCTS.map(mSubLink).join('');
+  var mfM=document.querySelector('[data-macc-fill="merch"]');    if(mfM) mfM.innerHTML=MERCH.map(mSubLink).join('');
+
+  /* ---------- Desktop dropdowns: hover opens; keyboard focus too (WCAG). Escape closes. ---------- */
+  document.querySelectorAll('[data-dd]').forEach(function(ddEl){
+    var trig=ddEl.querySelector('[aria-haspopup]'), panel=ddEl.querySelector('[data-dd-panel]');
+    if(!trig||!panel) return;
+    var closeTimer=null, escaped=false;
+    function open(){ if(escaped) return; clearTimeout(closeTimer); panel.hidden=false; trig.setAttribute('aria-expanded','true'); }
+    function close(){ panel.hidden=true; trig.setAttribute('aria-expanded','false'); }
+    ddEl.addEventListener('mouseenter',function(){ escaped=false; open(); });
+    ddEl.addEventListener('mouseleave',function(){ closeTimer=setTimeout(close,150); });
+    ddEl.addEventListener('focusin',open);
+    ddEl.addEventListener('focusout',function(e){ if(!ddEl.contains(e.relatedTarget)){ escaped=false; close(); } });
+    ddEl.addEventListener('keydown',function(e){
+      var items=Array.prototype.slice.call(panel.querySelectorAll('a[href]'));
+      if(e.key==='Escape'){ escaped=true; close(); trig.focus(); return; }
+      if(e.key==='ArrowDown'){ e.preventDefault(); escaped=false; if(panel.hidden) open(); var i=items.indexOf(document.activeElement); (items[i+1]||items[0]).focus(); }
+      if(e.key==='ArrowUp'){ e.preventDefault(); var i=items.indexOf(document.activeElement); if(i<=0){ trig.focus(); } else { items[i-1].focus(); } }
+    });
+  });
+
+  /* ---------- Mobile accordions ---------- */
+  document.querySelectorAll('[data-macc]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var panel=btn.nextElementSibling, opening=panel.hidden;
+      panel.hidden=!opening;
+      btn.setAttribute('aria-expanded',String(opening));
+      var c=btn.querySelector('[data-macc-caret]');
+      if(c) c.style.transform=opening?'rotate(180deg)':'';
+    });
   });
 
   /* ---------- Nav: invert background on scroll past hero ---------- */

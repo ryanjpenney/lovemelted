@@ -356,38 +356,83 @@
 
   /* ---------- Markup: header ---------- */
   function headerHTML() {
-    const link = (href, label) => `<a href="${href}" class="hover:opacity-60 transition-opacity">${label}</a>`;
-    const pin = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="w-[14px] h-[14px] text-[#888] shrink-0"><path d="M12 21s-7-5.5-7-11a7 7 0 1 1 14 0c0 5.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`;
-
-    /* ---- Nav dropdowns (Stiiizy-style hover panels, keyboard operable) ----
-       Disclosure-nav pattern: trigger is a real link (navigates on click/Enter);
-       panel opens on hover AND on keyboard focus, Escape closes, arrows rove. */
-    const dd = (label, href, id, width, panel) =>
-      '<div class="relative" data-dd>'
-      + '<a href="' + href + '" class="inline-block hover:opacity-60 transition-opacity" aria-haspopup="true" aria-expanded="false" aria-controls="' + id + '">' + label + '</a>'
-      + '<div id="' + id + '" data-dd-panel hidden class="absolute top-full left-1/2 -translate-x-1/2 pt-[26px] z-50 ' + width + ' max-w-[calc(100vw-40px)]">'
-      + '<div class="bg-white border border-[#0a0a0a] shadow-[0_18px_40px_rgba(0,0,0,0.14)] p-[10px] text-left normal-case whitespace-normal">' + panel + '</div>'
-      + '</div></div>';
-    const ddThumb = (id) => {
-      const p = PRODUCTS[id];
-      return '<a href="/product?id=' + id + '" class="flex items-center gap-[12px] px-[10px] py-[8px] hover:bg-[#f6f6f4] transition-colors">'
-        + '<img src="' + p.gallery[0] + '" alt="" class="w-[44px] h-[44px] object-cover bg-[#f6f6f4] shrink-0' + (p.soldout ? ' opacity-60' : '') + '">'
-        + '<span class="oswald text-[11px] font-medium tracking-[0.1em] uppercase leading-[1.4] ' + (p.soldout ? 'text-[#555]' : 'text-black') + '">' + p.name + '</span>'
-        + (p.soldout ? '<span class="oswald ml-auto shrink-0 border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[3px]">Sold Out</span>' : '')
-        + '</a>';
+    /* ---- Desktop nav dropdowns: full-width strips under the sticky header
+       (Stiiizy-style mega panels). The trigger is a real link; strips open on
+       hover AND keyboard focus, Escape closes, arrows rove (wired in wireHeader).
+       Panels are absolute against the sticky <header>, so they span edge to edge. ---- */
+    const strip = (label, href, id, inner) =>
+      `<div data-dd>
+        <a href="${href}" class="inline-block hover:opacity-60 transition-opacity" aria-haspopup="true" aria-expanded="false" aria-controls="${id}">${label}</a>
+        <div id="${id}" data-dd-panel hidden class="absolute left-0 right-0 top-full z-50">
+          <div class="bg-white border-t border-[#ededed] border-b border-b-[#0a0a0a] shadow-[0_24px_48px_rgba(0,0,0,0.12)]">
+            <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] py-[30px] text-left normal-case whitespace-normal tracking-normal">${inner}</div>
+          </div>
+        </div>
+      </div>`;
+    const cell = (k) => {
+      const p = PRODUCTS[k];
+      return `<a href="/product?id=${k}" class="group/dd block text-center">
+        <span class="block bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}"></span>
+        <span class="block oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
+        ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
+      </a>`;
     };
-    const ddLink = (href, label, dim) =>
-      '<a href="' + href + '" class="block oswald text-[11px] font-medium tracking-[0.12em] uppercase px-[10px] py-[10px] hover:bg-[#f6f6f4] transition-colors ' + (dim ? 'text-[#8a8a8a]' : 'text-black') + '">' + label + '</a>';
-    const prodPanel = () =>
-      '<div class="grid grid-cols-2 gap-[2px]">'
-      + Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(ddThumb).join("")
-      + '</div><div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/products", "View All Products") + '</div>';
-    const merchPanel = () =>
-      Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "merch").map(ddThumb).join("")
-      + '<div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/merch", "Shop All Merch") + '</div>';
-    const aboutPanel = () => ddLink("/about", "Our Story") + ddLink("/about#join", "Join Melted") + ddLink("/events", "Events &amp; Happenings") + ddLink("/faqs", "FAQs");
-    const locPanel = () => ddLink("/locations", "Arizona") + ddLink("/locations", "Maryland") + ddLink("/locations", "Ohio — Coming Soon", true) + '<div class="border-t border-[#eeeeee] mt-[8px] pt-[6px]">' + ddLink("/locations", "All Locations") + '</div>';
-    const contactPanel = () => ddLink("/contact#support", "Customer Service") + ddLink("/contact#business", "Partnerships &amp; B2B");
+    const sLink = (href, label, dim) =>
+      `<a href="${href}" class="block oswald text-[12px] font-medium tracking-[0.12em] uppercase py-[10px] border-b border-[#eeeeee] transition-opacity ${dim ? "text-[#8a8a8a]" : "text-black hover:opacity-60"}">${label}</a>`;
+    const sTitle = (t) =>
+      `<p class="oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#767676] border-b border-[#0a0a0a] pb-[10px]">${t}</p>`;
+    const sBlurb = (title, body) =>
+      `<div class="hidden md:block md:col-span-2 border-l border-[#eeeeee] pl-[36px]">
+        <p class="caslon text-[22px] leading-[1.35] text-black">${title}</p>
+        <p class="garamond text-[15px] text-[#555] leading-[1.6] mt-[10px]">${body}</p>
+      </div>`;
+
+    const prodStrip = `<div class="grid grid-cols-3 lg:grid-cols-6 gap-[20px]">${Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product").map(cell).join("")}</div>
+      <div class="flex flex-wrap justify-between items-center gap-[12px] mt-[22px] pt-[16px] border-t border-[#eeeeee]">
+        <p class="garamond text-[15px] text-[#555]">The full Melted lineup — premium, consistent, crafted for everyone.</p>
+        <a href="/products" class="oswald text-[11px] font-medium tracking-[0.12em] uppercase text-black border-b-2 border-black pb-[2px] hover:opacity-60">View All Products</a>
+      </div>`;
+    const merchStrip = `<div class="grid grid-cols-3 lg:grid-cols-6 gap-[20px]">${Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "merch").map(cell).join("")}</div>
+      <div class="flex flex-wrap justify-between items-center gap-[12px] mt-[22px] pt-[16px] border-t border-[#eeeeee]">
+        <p class="garamond text-[15px] text-[#555]">Wear the swirl — hats, tanks, and the tiger.</p>
+        <a href="/merch" class="oswald text-[11px] font-medium tracking-[0.12em] uppercase text-black border-b-2 border-black pb-[2px] hover:opacity-60">Shop All Merch</a>
+      </div>`;
+    const aboutStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+        <div>${sTitle("Company")}${sLink("/about", "Our Story")}${sLink("/about#join", "Become Part of the Collective")}</div>
+        <div>${sTitle("Happenings")}${sLink("/events", "Events &amp; Happenings")}${sLink("/faqs", "FAQs")}</div>
+        ${sBlurb("Premium cannabis, crafted for everyone.", "Built on quality, consistency, and care — now across Arizona and Maryland, with Ohio coming soon.")}
+      </div>`;
+    const locStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+        <div>${sTitle("States")}${sLink("/locations", "Arizona")}${sLink("/locations", "Maryland")}${sLink("/locations", "Ohio — Coming Soon", true)}</div>
+        <div>${sTitle("Locator")}${sLink("/locations", "All Locations")}</div>
+        ${sBlurb("Find Melted near you.", "Carried by licensed dispensary partners — open the locator to see every store, menu, and distance.")}
+      </div>`;
+    const contactStrip = `<div class="grid grid-cols-2 md:grid-cols-4 gap-[36px]">
+        <div>${sTitle("Get in Touch")}${sLink("/contact#support", "Customer Service")}${sLink("/contact#business", "Partnerships &amp; B2B")}</div>
+        <div>${sTitle("Direct")}${sLink("mailto:info@lovemelted.com", "info@lovemelted.com")}</div>
+        ${sBlurb("A real team, reachable by real humans.", "Questions about a product, or interested in carrying Melted? Two doors — pick yours.")}
+      </div>`;
+
+    /* ---- Mobile menu: accordion per nav item — the page link sits first inside
+       each panel, followed by the same sub-links as the desktop strips. ---- */
+    const mSub = (href, label, dim) =>
+      `<a href="${href}" class="block py-[9px] pl-[16px] oswald text-[12px] font-light tracking-[0.14em] uppercase ${dim ? "text-[#8a8a8a]" : "text-[#444]"}">${label}</a>`;
+    const macc = (label, href, allLabel, subs) =>
+      `<div class="border-b border-[#eeeeee]">
+        <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] oswald text-[15px] uppercase tracking-[0.16em] text-black">
+          <span>${label}</span>
+          <svg data-macc-caret viewBox="0 0 10 6" width="11" height="7" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" class="transition-transform"><path d="M1 1l4 4 4-4"/></svg>
+        </button>
+        <div data-macc-panel hidden class="pb-[12px]">
+          <a href="${href}" class="block py-[9px] pl-[16px] oswald text-[12px] font-medium tracking-[0.14em] uppercase text-black">${allLabel}</a>
+          ${subs}
+        </div>
+      </div>`;
+    const mobProducts = Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product")
+      .map(k => mSub("/product?id=" + k, PRODUCTS[k].name + (PRODUCTS[k].soldout ? " — Sold Out" : ""), PRODUCTS[k].soldout)).join("");
+    const mobMerch = Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "merch")
+      .map(k => mSub("/product?id=" + k, PRODUCTS[k].name, false)).join("");
+
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">
   <div class="max-w-[1275px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center h-[72px] px-[28px] md:px-[45px] gap-[16px]">
@@ -395,36 +440,27 @@
       <img src="assets/melted/logo_black.png" alt="Melted" class="h-[32px] md:h-[35px] w-auto">
     </a>
     <nav aria-label="Primary" class="oswald hidden md:flex items-center gap-[28px] lg:gap-[34px] text-[12px] font-medium tracking-[0.16em] uppercase text-black justify-self-center whitespace-nowrap">
-      ${dd("Products", "/products", "dd-products", "w-[520px]", prodPanel())}
-      ${dd("About Us", "/about", "dd-about", "w-[230px]", aboutPanel())}
-      ${dd("Merch", "/merch", "dd-merch", "w-[320px]", merchPanel())}
-      ${dd("Locations", "/locations", "dd-locations", "w-[230px]", locPanel())}
-      ${dd("Contact", "/contact", "dd-contact", "w-[260px]", contactPanel())}
+      ${strip("Products", "/products", "dd-products", prodStrip)}
+      ${strip("About Us", "/about", "dd-about", aboutStrip)}
+      ${strip("Merch", "/merch", "dd-merch", merchStrip)}
+      ${strip("Locations", "/locations", "dd-locations", locStrip)}
+      ${strip("Contact", "/contact", "dd-contact", contactStrip)}
     </nav>
     <div class="col-start-3 flex items-center gap-[12px] justify-self-end">
       <div data-loc-slot class="text-black"></div>
       <button class="md:hidden oswald text-[12px] tracking-[0.16em] uppercase text-black py-[13px] px-[12px] -mr-[12px]" data-mobile-toggle aria-expanded="false" aria-label="Menu">Menu</button>
     </div>
   </div>
-  <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] py-[22px] text-black" data-mobile-menu>
-    <nav aria-label="Mobile" class="oswald text-[15px] uppercase tracking-[0.16em]">
-      <a href="/products" class="block py-[12px]">Products</a>
-      <a href="/about" class="block py-[12px]">About Us</a>
-      <a href="/merch" class="block py-[12px]">Merch</a>
-      <a href="/locations" class="block py-[12px]">Locations</a>
-      <a href="/contact" class="block py-[12px]">Contact</a>
+  <div class="md:hidden hidden bg-white border-t border-[#ededed] px-[28px] pt-[4px] pb-[18px] text-black max-h-[calc(100vh-72px)] overflow-y-auto" data-mobile-menu>
+    <nav aria-label="Mobile">
+      ${macc("Products", "/products", "All Products", mobProducts)}
+      ${macc("About Us", "/about", "Our Story", mSub("/about#join", "Become Part of the Collective") + mSub("/events", "Events &amp; Happenings") + mSub("/faqs", "FAQs"))}
+      ${macc("Merch", "/merch", "Shop All Merch", mobMerch)}
+      ${macc("Locations", "/locations", "All Locations", mSub("/locations", "Arizona") + mSub("/locations", "Maryland") + mSub("/locations", "Ohio — Coming Soon", true))}
+      ${macc("Contact", "/contact", "Contact Us", mSub("/contact#support", "Customer Service") + mSub("/contact#business", "Partnerships &amp; B2B"))}
     </nav>
   </div>
 </header>`;
-  }
-
-  function productMenuCard(id) {
-    const p = PRODUCTS[id];
-    return `<a href="/product?id=${id}" class="group/card block">
-      <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-300"></div>
-      <p class="oswald text-[12px] font-medium tracking-[0.03em] uppercase text-black mt-2 normal-case">${p.name}</p>
-      <p class="garamond text-[13px] text-[#767676] normal-case tracking-normal">${p.spec}</p>
-    </a>`;
   }
 
   /* ---------- Markup: footer ---------- */
@@ -507,6 +543,18 @@
         if (e.key === "Escape") { escaped = true; close(); trig.focus(); return; }
         if (e.key === "ArrowDown") { e.preventDefault(); escaped = false; if (panel.hidden) open(); const i = items.indexOf(document.activeElement); (items[i + 1] || items[0]).focus(); }
         if (e.key === "ArrowUp") { e.preventDefault(); const i = items.indexOf(document.activeElement); if (i <= 0) { trig.focus(); } else { items[i - 1].focus(); } }
+      });
+    });
+
+    // Mobile accordion sections inside the menu
+    document.querySelectorAll("[data-macc]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const panel = btn.nextElementSibling;
+        const opening = panel.hidden;
+        panel.hidden = !opening;
+        btn.setAttribute("aria-expanded", String(opening));
+        const c = btn.querySelector("[data-macc-caret]");
+        if (c) c.style.transform = opening ? "rotate(180deg)" : "";
       });
     });
 
