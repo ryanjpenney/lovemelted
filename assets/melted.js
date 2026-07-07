@@ -382,7 +382,7 @@
     const card = (href, img, title, desc, opts) => {
       opts = opts || {};
       return `<a href="${href}" class="group/dd block${opts.dim ? " opacity-70" : ""}">
-        <span class="block aspect-[16/10] overflow-hidden bg-[#f6f6f4]"><img src="${img}" alt="" class="w-full h-full object-cover${opts.color ? "" : " grayscale"} group-hover/dd:scale-[1.05] transition-transform duration-500"></span>
+        <span class="block aspect-[16/10] overflow-hidden bg-[#f6f6f4]${opts.contain ? " flex items-center justify-center p-[26px]" : ""}"><img src="${img}" alt="" class="${opts.contain ? "max-w-full max-h-full w-auto h-auto object-contain" : "w-full h-full object-cover"}${opts.color ? "" : opts.contain ? "" : " grayscale"} group-hover/dd:scale-[1.05] transition-transform duration-500"></span>
         <span class="block oswald text-[12px] font-medium tracking-[0.1em] uppercase text-black mt-[12px]">${title}</span>
         <span class="block garamond text-[14px] text-[#555] leading-[1.5] mt-[4px] normal-case">${desc}</span>
       </a>`;
@@ -407,16 +407,16 @@
         ${card("/about", "assets/melted/about_desert.jpg", "Our Story", "Born in Arizona — built on a refusal to cut corners.")}
         ${card("/about#join", "assets/melted/about_collective.jpg", "Become Part of the Collective", "Brands, retailers, and artists — build with us.")}
         ${card("/events", "assets/melted/gallery/model_3.jpg", "Events &amp; Happenings", "Pop-ups, drops, and where we\u2019ll be next.")}
-        ${card("/faqs", "assets/melted/gallery/live_resin.jpg", "FAQs", "Quick answers on products, potency, and where to buy.", { color: true })}
+        ${card("/faqs", "assets/melted/nav-faq.jpg", "FAQs", "Quick answers on products, potency, and where to buy.", { color: true })}
       </div>`;
     const locStrip = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-[22px]">
-        ${card("/locations", "assets/melted/desert-model-1-2026.jpg", "Arizona", "Where it all started — dispensaries statewide.")}
-        ${card("/locations", "assets/melted/lifestyle.jpg", "Maryland", "Sixteen retail partners and counting.")}
-        ${card("/locations", "assets/melted/swirl_strip.jpg", "Ohio — Coming Soon", "The swirl travels next. Hang tight.", { dim: true })}
-        ${card("/locations", "assets/melted/hero_group.jpg", "Open the Store Locator", "Every store, menu, and distance from you.")}
+        ${card("/locations", "assets/melted/nav-arizona.jpg", "Arizona", "Where it all started — dispensaries statewide.")}
+        ${card("/locations", "assets/melted/nav-maryland.jpg", "Maryland", "Sixteen retail partners and counting.")}
+        ${card("/locations", "assets/melted/nav-ohio.jpg", "Ohio — Coming Soon", "The swirl travels next. Hang tight.", { dim: true })}
+        ${card("/locations", "assets/melted/nav-curaleaf.jpg", "Open the Store Locator", "Every store, menu, and distance from you.")}
       </div>`;
     const contactStrip = `<div class="grid grid-cols-2 lg:grid-cols-4 gap-[22px] items-start">
-        ${card("/contact#support", "assets/melted/gummy_purple.png", "Customer Service", "Questions or feedback — real humans answer fast.", { color: true })}
+        ${card("/contact#support", "assets/melted/logo_black.png", "Customer Service", "Questions or feedback — real humans answer fast.", { contain: true })}
         ${card("/contact#business", "assets/melted/about_hero_2026.jpg", "Partnerships &amp; B2B", "Dispensary buyers and operators — bring Melted to your shelves.")}
         ${sBlurb("A real team, reachable by real humans.", "Two doors — pick yours. Or email us directly: <a href=\"mailto:info@lovemelted.com\" class=\"underline underline-offset-4 text-black hover:opacity-60\">info@lovemelted.com</a>")}
       </div>`;
