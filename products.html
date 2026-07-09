@@ -74,7 +74,7 @@
     const center = (i === ids.length - 1 && ids.length % 3 === 1) ? " md:col-start-2" : "";
     return `<a href="/product?id=${id}" data-pid="${id}" class="text-center group block${center}">
       <div data-badge-slot class="h-[30px] text-center">${badgeHTML(p, false)}</div>
-      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-70" : ""}"></div>
+      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-70" : ""}${p.crisp ? " img-crisp" : ""}"></div>
       <p class="oswald text-[17px] font-medium leading-[1.5] mt-[16px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
       <p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] md:px-[20px]">${p.tagline}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.12em] uppercase mt-[12px]">${p.spec}</p>

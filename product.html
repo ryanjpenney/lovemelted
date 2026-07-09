@@ -93,11 +93,12 @@
   // Gallery (hide thumbnails when only one image)
   const main = document.querySelector("[data-gallery-main]");
   main.src = p.gallery[0]; main.alt = p.name;
+  if (p.crisp) main.classList.add("img-crisp");   // deepen dull-gray blacks (rule injected by melted.js)
   const thumbs = document.querySelector("[data-gallery-thumbs]");
   if (p.gallery.length > 1) {
     thumbs.innerHTML = p.gallery.map((src, i) =>
       `<button class="thumb aspect-square bg-[#f6f6f4] overflow-hidden border-2 ${i === 0 ? "border-black" : "border-transparent"}" data-i="${i}" aria-label="View image ${i + 1} of ${p.gallery.length}" aria-pressed="${i === 0}">
-         <img src="${src}" alt="${p.name} view ${i + 1}" class="w-full h-full object-cover"></button>`).join("");
+         <img src="${src}" alt="${p.name} view ${i + 1}" class="w-full h-full object-cover${p.crisp ? " img-crisp" : ""}"></button>`).join("");
     thumbs.querySelectorAll(".thumb").forEach(btn => btn.addEventListener("click", () => {
       main.src = p.gallery[+btn.dataset.i];
       thumbs.querySelectorAll(".thumb").forEach(b => { b.classList.replace("border-black", "border-transparent"); b.setAttribute("aria-pressed", "false"); });
@@ -122,39 +123,15 @@
   document.querySelector("[data-p-facts]").innerHTML = p.facts.map(f =>
     `<li class="flex gap-2"><span class="text-black">—</span><span>${f}</span></li>`).join("");
 
-  // Variants (flavors/strains): selecting one swaps the hero image and re-points each
-  // store's Order Online link (exact variant URL when known, store menu otherwise,
-  // "Not available at this store" when the variant is confirmed out of range there).
-  const variants = p.variants || [];
-  let selected = null;   // no default selection — product-level view until a flavor is tapped
-  const flavorWrap = document.querySelector("[data-p-flavors]");
-  const flavorList = document.querySelector("[data-flavor-list]");
-
-  function applyVariantImage() {
-    main.src = (selected && selected.img) || p.gallery[0];
-    main.alt = p.name + (selected ? " — " + selected.label : "");
-  }
-  function renderChips() {
-    flavorList.innerHTML = variants.map(v => {
-      const on = !!(selected && v.key === selected.key);
-      return `<button type="button" data-variant="${v.key}" aria-pressed="${on}"
-        class="garamond text-[15px] px-[14px] py-[9px] border transition-colors ${on ? "bg-black text-white border-black" : "text-[#333] border-[#ddd] hover:border-black"}">${v.label}</button>`;
-    }).join("");
-    flavorList.querySelectorAll("[data-variant]").forEach(b => b.addEventListener("click", () => {
-      const v = variants.find(x => x.key === b.dataset.variant);
-      selected = (selected && selected.key === v.key) ? null : v;   // tap again to deselect
-      applyVariantImage();
-      renderChips();
-      renderOrderRows();
-    }));
-  }
-  if (variants.length) {
-    flavorWrap.classList.remove("hidden");
-    renderChips();
-  } else if (p.flavors && p.flavors.length) {
-    // static chips for products without variant data yet
-    flavorWrap.classList.remove("hidden");
-    flavorList.innerHTML = p.flavors.map(f =>
+  // Flavors: a static, read-only tag list. These used to be selectable variant chips,
+  // but with no per-flavor imagery or confirmed store links behind most flavors the
+  // buttons read as broken navigation — so the list is purely informational now
+  // (site audit 2026-07). Variant img/links data stays in melted.js for a future
+  // re-activation.
+  const flavorNames = (p.variants && p.variants.length) ? p.variants.map(v => v.label) : (p.flavors || []);
+  if (flavorNames.length) {
+    document.querySelector("[data-p-flavors]").classList.remove("hidden");
+    document.querySelector("[data-flavor-list]").innerHTML = flavorNames.map(f =>
       `<span class="garamond text-[15px] text-[#333] border border-[#ddd] px-[14px] py-[6px]">${f}</span>`).join("");
   }
 
@@ -163,19 +140,14 @@
   // lists stockists. Hidden entirely while a product is out of production (pickup:false).
   const buy = document.querySelector("[data-buy]");
   let partners = [];
-  let orderList = null;   // <ul> inside the order module; re-rendered when the variant or ZIP changes
+  let orderList = null;   // <ul> inside the order module; re-rendered when the ZIP changes
   const city = s => s.addr.split(", ").slice(-2)[0] + ", " + s.state;
   const pickupPool = M.STORES.filter(s => s.menu && (!p.stockists || p.stockists.indexOf(s.id) !== -1));
 
-  function rowHref(s) {
-    const l = selected && selected.links ? selected.links[s.id] : undefined;
-    if (l === null) return null;      // partner confirmed this variant is not stocked there
-    return l || M.menuUrl(s, p);      // exact variant URL when known, else the store menu searching this product's listed name
-  }
   function renderOrderRows() {
     if (!orderList) return;
     orderList.innerHTML = partners.map((s, i) => {
-      const href = rowHref(s);
+      const href = M.menuUrl(s, p);   // store menu searching this product's listed name
       const action = href
         ? `<a href="${href}" target="_blank" rel="noopener" class="hit oswald shrink-0 text-[12px] font-medium tracking-[0.08em] uppercase text-black pt-[10px] pb-[3px] border-b-2 border-black hover:opacity-60 transition-opacity">${M.menuDeepLinks(href) ? "Order Online" : "View Dispensary Menu"}</a>`
         : `<span class="oswald shrink-0 text-[12px] font-light tracking-[0.08em] uppercase text-[#8a8a8a] pt-[10px] pb-[3px] text-right">Not available at this store</span>`;
@@ -346,15 +318,18 @@
     });
   }
 
-  // Related
-  const rel = Object.keys(M.PRODUCTS).filter(k => k !== id && M.PRODUCTS[k].kind === p.kind);
-  const pool = rel.length >= 3 ? rel : Object.keys(M.PRODUCTS).filter(k => k !== id);
+  // Related ("You may also like") — the product being viewed is never recommended:
+  // `others` drops the current id up front, so both the same-kind pool and the
+  // everything-else fallback are built from catalog entries that exclude it.
+  const others = Object.keys(M.PRODUCTS).filter(k => k !== id);
+  const sameKind = others.filter(k => M.PRODUCTS[k].kind === p.kind);
+  const pool = sameKind.length >= 3 ? sameKind : others;
   document.querySelector("[data-related]").innerHTML = pool.slice(0, 3).map((k, i, arr) => {
     const q = M.PRODUCTS[k];
     // odd item count on the 2-col mobile grid: center the last card instead of leaving an orphan
     const center = (i === arr.length - 1 && arr.length % 2 === 1) ? " col-span-2 w-[calc(50%-15px)] justify-self-center md:col-span-1 md:w-auto" : "";
     return `<a href="/product?id=${k}" class="text-center group block${center}">
-      <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300"></div>
+      <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${q.crisp ? " img-crisp" : ""}"></div>
       <p class="oswald text-[14px] font-medium uppercase tracking-[0.03em] mt-3 group-hover:opacity-60 transition-opacity">${q.name}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.1em] uppercase mt-1">${q.soldout ? "Sold Out" : q.spec}</p>
     </a>`;

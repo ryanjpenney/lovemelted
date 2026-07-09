@@ -147,6 +147,9 @@
   .pcard:hover .frame .swirlhover{ opacity:.10; }
   .pcard .frame img{ width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.16,.84,.3,1); }
   .pcard:hover .frame img{ transform:scale(1.05); }
+  /* Tiger Style pre-roll / THCa diamonds photos read dull gray — deepen the blacks
+     in CSS until re-shoots land (keep in sync with the same rule in assets/melted.js) */
+  .img-crisp{ filter:contrast(1.18) brightness(.95) saturate(1.04); }
   .pcard .num{ position:absolute; top:10px; left:12px; font-family:'Oswald',sans-serif; font-weight:600; font-size:12px; letter-spacing:.15em; color:#0a0a0a; mix-blend-mode:difference; z-index:2; }
 
   .hairline{ border-color:#e3e3e3; }
@@ -315,7 +318,7 @@
     if(wm){ wm.style.animation='none'; void wm.offsetWidth; wm.style.animation=''; }
   }
 
-  // ---- opener playback (plays once per session, AFTER the age gate) ----
+  // ---- opener playback (plays once, right after the first-visit age gate) ----
   var playing = false, currentEnd = null;
   function playOpener(){
     if(playing) return; playing = true;
@@ -364,15 +367,18 @@
   var skipBtn = document.getElementById('m-intro-skip');
   if(skipBtn) skipBtn.addEventListener('click', function(){ if(currentEnd) currentEnd(); });
 
-  // ---- boot: 21+ gate ALWAYS first, opener video second (every fresh session) ----
+  // ---- boot: gate + opener are a FIRST-VISIT experience only. A returning visitor
+  // (melted_age_ok persisted in localStorage) skips both and lands straight on the
+  // homepage; the sessionStorage flag still covers reloads mid-session in case the
+  // localStorage write was blocked. ----
   var seen = false; try{ seen = sessionStorage.getItem('melted_intro_seen') === '1'; }catch(e){}
-  if(seen){
-    lock(false);                                    // already passed the gate + watched the opener this session → into the site
-    if(vid){                                        // opener can't replay this session — abort its ~2MB fetch so it doesn't compete with the homepage
+  if(verified() || seen){
+    lock(false);                                    // returning visitor → straight into the site
+    if(vid){                                        // opener won't play — abort its ~2MB fetch so it doesn't compete with the homepage
       try{ vid.preload='none'; while(vid.firstChild) vid.removeChild(vid.firstChild); vid.load(); }catch(e){}
     }
   } else {
-    showGate();                                     // fresh session → 21+ gate first; "I am 21 or older" then plays the opener
+    showGate();                                     // first visit → 21+ gate first; "I am 21 or older" then plays the opener
   }
 })();
 </script>
@@ -678,7 +684,11 @@
 
 <!-- ============================== AUTHORIZED PARTNERS ==============================
      Logos from the /Partners folder, staged in assets/melted/partners/ — rendered
-     grayscale so the wall reads as one monochrome system; hover restores full logo. -->
+     grayscale so the wall reads as one monochrome system; hover restores full logo.
+     Per Paul (site audit, 2026-07): every logo links out to the partner's own site
+     (SEO backlinks). URLs come from the verified STORES menu data in assets/melted.js
+     or were confirmed by web search 2026-07-08 — never guessed. External links open
+     a new tab with rel="noopener noreferrer". -->
 <section class="bg-bone py-[88px] md:py-[110px]" aria-labelledby="partners-title">
   <div class="max-w-[1275px] mx-auto px-[28px] md:px-[45px]">
     <p class="font-oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555] text-center">Where you'll find us</p>
@@ -686,87 +696,110 @@
     <p class="font-garamond text-[18px] text-[#555] leading-[1.6] text-center max-w-[540px] mx-auto mt-[16px]">Carried by licensed dispensary partners across Arizona and Maryland.</p>
 
     <div class="grid grid-cols-2 md:grid-cols-4 gap-[14px] mt-[52px]">
-      <!-- ZERO: brand/creative partner (built the Melted brand system) — front and center per Paul/Ryan 2026-07-06 -->
-      <a href="https://www.zero.nyc/" target="_blank" rel="noopener" class="group col-span-2 border border-ink bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:shadow-[0_10px_28px_rgba(0,0,0,0.10)] transition-shadow">
+      <!-- Bold Carts: top left, next to ZERO (Ryan, 2026-07-08) — boldcarts.com confirmed 2026-07-08 -->
+      <a href="https://www.boldcarts.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Bold Carts</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/bold.webp" alt="Bold Carts logo" class="max-h-[48px] max-w-[230px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+      </a>
+      <!-- ZERO: brand/creative partner (built the Melted brand system) — moved to top right per Ryan 2026-07-08 -->
+      <a href="https://www.zero.nyc/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-ink bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:shadow-[0_10px_28px_rgba(0,0,0,0.10)] transition-shadow">
         <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Brand Partner</span>
         <span class="h-[74px] flex items-center"><img src="assets/melted/partners/zero.jpg" alt="ZERO logo" class="max-h-[74px] max-w-[230px] w-auto object-contain grayscale group-hover:grayscale-0 transition"></span>
       </a>
-      <!-- Flow: confirmed partner (Ryan, 2026-07-06) -->
-      <a href="https://flowdistribution.com/" target="_blank" rel="noopener" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+      <!-- Element MD: row 2 left, next to Flow (Ryan, 2026-07-08) — element-md.com confirmed 2026-07-08 (Princess Anne MD processor, license PA-23-00020 matches the footer) -->
+      <a href="https://element-md.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Element · MD</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/element.jpg" alt="Element logo" loading="lazy" class="max-h-[74px] max-w-[230px] w-auto object-contain grayscale group-hover:grayscale-0 transition"></span>
+      </a>
+      <!-- Flow: confirmed partner (Ryan, 2026-07-06) — row 2 right per Ryan 2026-07-08 -->
+      <a href="https://flowdistribution.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
         <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Featured Partner</span>
         <span class="h-[74px] flex items-center"><img src="assets/melted/partners/flow.jpg" alt="Flow logo" class="max-h-[60px] max-w-[210px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
       </a>
+      <!-- Rimon Law: row 3 left, next to Cannascend (Ryan, 2026-07-08) — rimonlaw.com confirmed 2026-07-08 -->
+      <a href="https://www.rimonlaw.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Rimon Law</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/rimon.webp" alt="Rimon Law logo" loading="lazy" class="max-h-[74px] max-w-[210px] w-auto object-contain [filter:grayscale(1)_brightness(0.65)_contrast(3.5)] group-hover:[filter:none] transition"></span>
+      </a>
+      <!-- Cannascend: Ohio processing partner — row 3 right (Ryan, 2026-07-08).
+           TODO: no live website to link — cannascendohio.com 404s (checked 2026-07-08;
+           company was acquired by Columbia Care in 2021). Tile stays unlinked until
+           Cannascend provides a working URL. -->
+      <div class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[30px] hover:border-ink transition-colors">
+        <span class="font-oswald text-[10px] font-medium tracking-[0.24em] uppercase text-[#555]">Cannascend · Ohio Processing</span>
+        <span class="h-[74px] flex items-center"><img src="assets/melted/partners/cannascend-ohio.jpg" alt="Cannascend Ohio logo" loading="lazy" class="max-h-[74px] max-w-[230px] w-auto object-contain [filter:grayscale(1)_brightness(0.65)_contrast(3.5)] group-hover:[filter:none] transition"></span>
+      </div>
       <!-- PARTNER-UNVERIFIED: confirm authorization before publishing — "Curaleaf" is not on the authoritative Melted_Retail_Partners list (16 MD retailers) -->
-      <a href="/locations?store=curaleaf-youngtown" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
+      <a href="https://curaleaf.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
         <span class="h-[52px] flex items-center"><img src="assets/melted/partners/curaleaf.jpg" alt="Curaleaf logo" loading="lazy" class="max-h-[52px] max-w-[180px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Arizona</span>
       </a>
       <!-- PARTNER-UNVERIFIED: Herbal Wellness Center is an active AZ retailer in MELTED.STORES (menus verified 2026-07) but not on the MD-only authoritative list — confirm for the partner wall -->
-      <a href="/locations?store=herbal-wellness-center-north" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
+      <a href="https://herbalwellnesscenter.com/" target="_blank" rel="noopener noreferrer" class="group col-span-2 border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[20px] py-[26px] hover:border-ink transition-colors">
         <span class="h-[52px] flex items-center"><img src="assets/melted/partners/herbal-wellness.jpg" alt="Herbal Wellness Center logo" loading="lazy" class="max-h-[52px] max-w-[180px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Arizona</span>
       </a>
-      <a href="/locations?store=columbia-care" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://www.columbia.care/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/columbia-care.png" alt="Columbia Care logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Columbia Care · Chevy Chase · MD</span>
       </a>
-      <a href="/locations?store=gleaf-wellness" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
-        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness Solutions logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
+      <a href="https://www.gleaf.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness Solutions logo" loading="lazy" class="max-h-[28px] max-w-[110px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">gLeaf Wellness Solutions · Rockville · MD</span>
       </a>
-      <a href="/locations?store=gleaf-frederick" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
-        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness / Columbia Care logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
+      <a href="https://www.gleaf.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/gleaf.webp" alt="gLeaf Wellness / Columbia Care logo" loading="lazy" class="max-h-[28px] max-w-[110px] w-auto object-contain [filter:brightness(0)] opacity-75 group-hover:[filter:none] group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">gLeaf Wellness / Columbia Care · Frederick · MD</span>
       </a>
-      <a href="/locations?store=nirvana-center" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://rosedale.nirvanacenter.com/stores/the-nirvana-center/products?search=Melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/nirvana.jpg" alt="Nirvana Center Maryland logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Nirvana Center Maryland · Rosedale · MD</span>
       </a>
-      <a href="/locations?store=jenny-s-of-maryland" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://dutchie.com/dispensary/jennys-of-maryland/products?search=melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/jennys.jpg" alt="Jenny's of Maryland logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Jenny's of Maryland · Lanham · MD</span>
       </a>
-      <a href="/locations?store=summit-wellness" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://summitdispensary.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/summit.jpg" alt="Summit Wellness logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Summit Wellness · Catonsville · MD</span>
       </a>
-      <a href="/locations?store=waave-cannabis" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
-        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/waave.jpg" alt="Waave Cannabis logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:grayscale(1)_contrast(1.6)] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+      <a href="https://dutchie.com/dispensary/waave/products?search=melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/waave.jpg" alt="Waave Cannabis logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:grayscale(1)_brightness(0.65)_contrast(3.5)] group-hover:[filter:none] transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Waave Cannabis · Greenbelt · MD</span>
       </a>
-      <a href="/locations?store=elevated-dispo" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://dutchie.com/dispensary/elevated-dispo/products?search=melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/elevated-dispo.png" alt="Elevated Dispo logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Elevated Dispo · Salisbury · MD</span>
       </a>
-      <a href="/locations?store=kent-reserve" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://kentreserve.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/kent-reserve.png" alt="Kent Reserve logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Kent Reserve · Millington · MD</span>
       </a>
-      <a href="/locations?store=chesapeake-apothecary" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://dutchie.com/dispensary/chesapeake-apothecary/products?search=melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/chesapeake-apothecary.png" alt="Chesapeake Apothecary logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Chesapeake Apothecary · White Plains · MD</span>
       </a>
-      <a href="/locations?store=chesacanna" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
-        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/chesacanna.png" alt="Chesacanna logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
+      <a href="https://menu.chesacanna.com/stores/chesacanna1/products?search=Melted" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+        <span class="h-[46px] flex items-center"><img src="assets/melted/partners/chesacanna.png" alt="Chesacanna logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain [filter:grayscale(1)_brightness(0.65)_contrast(3.5)] group-hover:[filter:none] transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Chesacanna · Cockeysville · MD</span>
       </a>
-      <a href="/locations?store=coastal-cure" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://coastalcurecannabis.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/coastal-cure.jpg" alt="Coastal Cure logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Coastal Cure · Delmar · MD</span>
       </a>
-      <a href="/locations?store=greenwave" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://greenwavemd.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/greenwave.png" alt="Greenwave logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Greenwave · Solomons · MD</span>
       </a>
-      <a href="/locations?store=bloom" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://bloommarijuana.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/bloom.jpg" alt="Bloom logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Bloom · Germantown · MD</span>
       </a>
-      <a href="/locations?store=hi-tide" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://ochitide.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/hi-tide.png" alt="Hi Tides logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">Hi Tides · Ocean City · MD</span>
       </a>
-      <a href="/locations?store=releaf-shop" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
+      <a href="https://www.releaf-shop.com/" target="_blank" rel="noopener noreferrer" class="group border border-[#d8d6cd] bg-white flex flex-col items-center justify-center text-center gap-[14px] px-[14px] py-[22px] hover:border-ink transition-colors">
         <span class="h-[46px] flex items-center"><img src="assets/melted/partners/releaf-shop.jpg" alt="ReLeaf Shop logo" loading="lazy" class="max-h-[46px] max-w-[150px] w-auto object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition"></span>
         <span class="font-oswald text-[10px] font-light tracking-[0.18em] uppercase text-[#555]">ReLeaf Shop · Baltimore · MD</span>
       </a>
@@ -842,11 +875,11 @@
   /* ---------- Data (mirrors window.MELTED catalog; ids match product.html) ---------- */
   var PRODUCTS=[
     {id:'live-resin-gummies', name:'Live Resin Gummies',        price:'$28.00', spec:'Live Resin · 4 Flavors',     tag:'Bold, fruit-forward live resin gummies.',        badge:'Fan Favorite',img:'assets/melted/gallery/live_resin.jpg'},
-    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5-Pack',           tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_3.jpg'},
+    {id:'mini-melt-pre-rolls',name:'Mini Melt Infused Pre-Rolls',price:'$45.00', spec:'Infused · 5 × ½g (0.5g)',    tag:'Five mini infused pre-rolls, ready when you are.',badge:'',            img:'assets/melted/gallery/pr_3.jpg'},  // keep spec in sync with melted.js PRODUCTS
     {id:'live-rosin-gummies', name:'Live Rosin Gummies',        price:'$28.00', spec:'Live Rosin · 4 Flavors',     tag:'Rich, full-flavored live rosin gummies.',          badge:'',            img:'assets/melted/gallery/live-rosin-gummy.jpg'},
     {id:'tigerstyle-cartridge',name:'Tiger Style Cartridge',    price:'$40.00', spec:'510 Thread · 1g',            tag:'A rich, flower-like experience, on the go.',     badge:'',            img:'assets/melted/gallery/ct_1.jpg'},
-    {id:'tiger-style-pre-roll',name:'Tiger Style Pre-Roll',     price:'',       spec:'Infused · 1.5g',             tag:'An infused pre-roll of uncommon proportion.',    badge:'New', soldout:true, img:'assets/melted/gallery/tsp_1.jpg'},  // keep soldout in sync with melted.js PRODUCTS
-    {id:'tiger-style-thca-diamonds',name:'Tiger Style THCa Diamonds',price:'',  spec:'Concentrate · 1g',           tag:'Crystalline THCa, refined to its purest form.', badge:'New', soldout:true, img:'assets/melted/gallery/tsd_1.jpg'}   // keep soldout in sync with melted.js PRODUCTS
+    {id:'tiger-style-pre-roll',name:'Tiger Style Pre-Roll',     price:'',       spec:'Infused · 1.5g',             tag:'An infused pre-roll of uncommon proportion.',    badge:'New', soldout:true, crisp:true, img:'assets/melted/gallery/tsp_1.jpg'},  // keep soldout/crisp in sync with melted.js PRODUCTS
+    {id:'tiger-style-thca-diamonds',name:'Tiger Style THCa Diamonds',price:'',  spec:'Concentrate · 1g',           tag:'Crystalline THCa, refined to its purest form.', badge:'New', soldout:true, crisp:true, img:'assets/melted/gallery/tsd_1.jpg'}   // keep soldout/crisp in sync with melted.js PRODUCTS
   ];
   var MERCH=[
     {id:'bill-hat',  name:'So Melted Branded Bill Hat', price:'$39.99', soldout:true, img:'assets/melted/gallery/hat_front.jpg'},
@@ -863,13 +896,22 @@
 
   /* ---------- Render products ---------- */
   var pgrid=document.querySelector('[data-products]');
+  /* "Tiger Style" explainer — one line defining the sub-line for first-time visitors,
+     rendered full-width in the grid directly above the first Tiger Style card (the
+     first place the name appears on the homepage). */
+  var tigerNoted=false;
+  var tigerNote='<div class="reveal col-span-2 lg:col-span-3 border-t border-[#e3e3e3] pt-[24px] mt-[8px]">'
+    + '<p class="font-oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555]">Tiger Style</p>'
+    + '<p class="font-garamond text-[18px] text-[#555] leading-[1.6] mt-[6px] max-w-[640px]">Tiger Style is our boldest line — the most potent, most refined products we make, crafted for everyone.</p>'
+    + '</div>';
   PRODUCTS.forEach(function(p,i){
+    if(!tigerNoted && /^Tiger Style/.test(p.name)){ pgrid.appendChild(el(tigerNote)); tigerNoted=true; }
     var badge = p.soldout
       ? '<span class="font-oswald inline-block border border-[#cfcfcf] text-[#555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[20px] px-[10px] py-[1px]">Sold Out</span>'
       : p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
     pgrid.appendChild(el(
       '<a href="/product?id='+p.id+'" class="pcard reveal group" data-mag>'
-      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-70':'')+'"><div class="swirlhover"></div></div>'
+      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-70':'')+(p.crisp?' img-crisp':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
       + '<p class="font-garamond text-[17px] text-[#666] leading-[1.5] mt-[6px]">'+p.tag+'</p>'

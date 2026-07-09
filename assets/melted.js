@@ -148,12 +148,11 @@
       facts: ["10 pieces · 10mg each", "Live resin", "Consistent piece to piece", "Four fruit flavors"],
       flavors: ["Blood Orange", "Green Apple", "Guava", "Wildberry"],
       gallery: ["assets/melted/gallery/live_resin.jpg"],
-      /* variants: selectable flavors/strains on the product page.
-         - img (optional): swaps the hero image while that variant is selected.
+      /* variants: per-flavor records. The product page renders the labels as a STATIC,
+         non-clickable list (the selectable chips confused shoppers — site audit 2026-07);
+         img/links are kept for a future re-activation:
+         - img (optional): a confirmed photo of that flavor.
          - links: store id → exact product URL on that store's menu.
-             url string → "Order Online" deep-links straight to the variant
-             null       → confirmed NOT stocked there → "Not available at this store"
-             absent     → unknown → falls back to the store's general menu
          Platform product URLs rot fast (Dutchie 403s bots; Curaleaf /brands/melted pages
          404 whenever a store's Melted inventory hits zero — verified 2026-07-04), so fill
          links ONLY from partner-confirmed URLs and expect to re-verify them. */
@@ -166,10 +165,10 @@
     },
     "mini-melt-pre-rolls": {
       name: "Mini Melt Infused Pre-Rolls", price: "$45.00", kind: "product",
-      badge: "", spec: "Infused · 5-Pack",
+      badge: "", spec: "Infused · 5 × ½g (0.5g)",
       tagline: "Five mini infused pre-rolls, ready when you are.",
-      detail: "Five perfectly portioned pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
-      facts: ["5 mini pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
+      detail: "Five perfectly portioned ½ gram (0.5g) pre-rolls, each infused for a slow, even, flower-forward burn. Packed in our signature tin so they travel as well as they smoke.",
+      facts: ["Five ½ gram (0.5g) pre-rolls", "Infused with live rosin", "Even, flower-forward burn", "Resealable travel tin"],
       gallery: ["assets/melted/gallery/pr_3.jpg","assets/melted/gallery/pr_1.jpg","assets/melted/gallery/pr_2.jpg"]
     },
     "live-rosin-gummies": {
@@ -216,6 +215,7 @@
       detail: "Tiger Style is our most considered pre-roll — 1.5 grams of top-tier flower, infused with premium concentrate and finished in a tobacco-free organic hemp wrap. Rolled to burn slow and even, and presented in a glass tube inside the signature tiger canister.",
       facts: ["1.5g top-tier flower", "Infused with premium concentrate", "Tobacco-free organic hemp wrap", "Glass tube in the tiger canister"],
       gallery: ["assets/melted/gallery/tsp_1.jpg","assets/melted/gallery/tsp_2.jpg","assets/melted/gallery/tsp_3.jpg"],
+      crisp: true, // photos read dull gray — .img-crisp deepens the blacks until re-shoots land (keep in sync with index.html PRODUCTS)
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "tiger-style-thca-diamonds": {
@@ -225,6 +225,7 @@
       detail: "Our most potent expression of the plant. Each batch of Tiger Style THCa Diamonds is grown slowly from premium extract into clear, faceted crystals — exceptional purity, remarkable strength, and a clean, true finish. Presented in glass inside the tiger keepsake box.",
       facts: ["1g crystalline THCa", "Exceptional purity and potency", "Grown slowly from premium extract", "Glass jar in the tiger keepsake box"],
       gallery: ["assets/melted/gallery/tsd_1.jpg","assets/melted/gallery/tsd_2.jpg"],
+      crisp: true, // photos read dull gray — .img-crisp deepens the blacks until re-shoots land (keep in sync with index.html PRODUCTS)
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "bill-hat": {
@@ -372,7 +373,7 @@
     const cell = (k) => {
       const p = PRODUCTS[k];
       return `<a href="/product?id=${k}" class="group/dd block text-center">
-        <span class="block bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}"></span>
+        <span class="block bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}${p.crisp ? " img-crisp" : ""}"></span>
         <span class="block oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
         ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
       </a>`;
@@ -631,7 +632,10 @@ html{ scroll-padding-top:84px; }                  /* anchor jumps clear the stic
 a, button{ -webkit-tap-highlight-color:transparent; }
 /* invisible tap-area expansion for small text links/buttons — visual size unchanged */
 .hit{ position:relative; }
-.hit::before{ content:""; position:absolute; inset:-10px; }`;
+.hit::before{ content:""; position:absolute; inset:-10px; }
+/* Crisp-black fix for product shots whose blacks read dull gray (PRODUCTS[].crisp) —
+   keep in sync with the same rule in index.html */
+.img-crisp{ filter:contrast(1.18) brightness(.95) saturate(1.04); }`;
 
   function lockScroll(on) { document.documentElement.style.overflow = on ? "hidden" : ""; }
 
