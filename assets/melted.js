@@ -228,67 +228,6 @@
       crisp: true, // photos read dull gray — .img-crisp deepens the blacks until re-shoots land (keep in sync with index.html PRODUCTS)
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
-    "bill-hat": {
-      name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
-      badge: "", spec: "One size · Adjustable",
-      tagline: "Structured cap with the branded Melted bill.",
-      detail: "A clean, structured cap with the Melted mark across the bill and an adjustable closure. One size fits most.",
-      facts: ["Structured fit", "Branded bill", "Embroidered Melted mark", "Adjustable closure"],
-      gallery: ["assets/melted/gallery/hat_front.jpg","assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
-    },
-    "logo-tank": {
-      name: "Logo Tank", price: "$25.99", kind: "merch", soldout: true,
-      badge: "", spec: "Unisex · S–XXL",
-      tagline: "Soft cropped tank with the dripping Melted logo.",
-      detail: "A soft, relaxed cropped tank carrying the dripping Melted logo. Pre-shrunk cotton blend, unisex sizing.",
-      facts: ["Cropped fit", "Pre-shrunk cotton blend", "Screen-printed logo", "Sizes S–XXL"],
-      gallery: ["assets/melted/gallery/tank_1.jpg","assets/melted/gallery/tank_2.jpg","assets/melted/gallery/tank_3.jpg","assets/melted/gallery/tank_4.jpg"]
-    },
-    "bandana": {
-      name: "Tiger Bandana", price: "$18.00", kind: "merch", soldout: true,
-      badge: "", spec: "One size · 22\" square",
-      tagline: "Black-and-white tiger bandana.",
-      detail: "A soft cotton bandana in signature Melted black-and-white — the folk-tiger and dripping mark on repeat. Wear it, tie it, fly it.",
-      facts: ["100% cotton", "22\" x 22\"", "Screen-printed B&W print", "Tiger & monogram repeat"],
-      gallery: ["assets/melted/gallery/band_1.jpg"]
-    },
-    "tiger-sweatpants-unisex-black": {
-      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$45.00", kind: "merch", soldout: true,
-      badge: "", spec: "Unisex · S–2XL",
-      tagline: "Midweight tiger joggers with the embroidered mark.",
-      detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
-      facts: ["60% cotton / 40% polyester fleece", "Midweight — 7.2 oz", "Tapered unisex fit", "Embroidered tiger + wordmark", "Sizes S–2XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black
-      gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
-    },
-    "womens-tiger-sweatpants": {
-      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$44.99", kind: "merch", soldout: true,
-      badge: "", spec: "Women's · S–2XL",
-      tagline: "Women's tiger joggers in a premium midweight fleece.",
-      detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
-      facts: ["80% cotton / 20% polyester fleece", "Midweight — 8.5 oz", "Ring-spun, brushed interior", "Elastic waist + drawcord", "Sizes S–2XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants
-      gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
-    },
-    "womens-athletic-tank": {
-      name: "Melted Women's Athletic Tank Top", price: "$29.99", kind: "merch", soldout: true,
-      badge: "", spec: "Women's · XS–XL",
-      tagline: "Fitted athletic tank with the melted wordmark.",
-      detail: "A form-fitting, all-over-print athletic tank built for training or an easy day out. Stretchy, breathable, cut close.",
-      facts: ["82% polyester / 18% spandex", "Heavyweight — 6.78 oz", "Fitted cut", "All-over print", "Sizes XS–XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top
-      // NOTE: these 2 source photos are low-res (~563px). Fine for a card; flag to Ryan for re-shoots.
-      gallery: ["assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp","assets/melted/gallery/fourthwall/womens-athletic-tank-top_2.webp"]
-    },
-    "tiger-golf-shirt": {
-      name: "Melted Tiger Style Golf Shirt — Black", price: "$45.00", kind: "merch", soldout: true,
-      badge: "", spec: "Unisex · S–5XL",
-      tagline: "Embroidered pique polo with the tiger mark.",
-      detail: "A premium pique polo with the embroidered Melted tiger. Flat-knit collar and cuffs, side vents, a relaxed length that runs a touch large.",
-      facts: ["65% polyester / 35% cotton pique", "Midweight — 5.0 oz", "Relaxed fit (runs large)", "Embroidered tiger", "Sizes S–5XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt
-      gallery: ["assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg","assets/melted/gallery/fourthwall/tiger-golf-shirt-black_2.jpg"]
-    },
     "classic-tee": {
       name: "Melted Classic T-Shirt — Black", price: "$24.99", kind: "merch", soldout: true,
       badge: "", spec: "Unisex · S–5XL",
@@ -306,6 +245,67 @@
       facts: ["60% cotton / 40% polyester fleece", "Heavyweight — 10 oz", "Oversized, boxy fit", "Drop shoulders", "Sizes S–3XL"],
       // storefront: https://melted-shop.fourthwall.com/products/tiger-style-hoodie
       gallery: ["assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg","assets/melted/gallery/fourthwall/tiger-hoodie-black_2.jpg"]
+    },
+    "tiger-sweatpants-unisex-black": {
+      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$45.00", kind: "merch", soldout: true,
+      badge: "", spec: "Unisex · S–2XL",
+      tagline: "Midweight tiger joggers with the embroidered mark.",
+      detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
+      facts: ["60% cotton / 40% polyester fleece", "Midweight — 7.2 oz", "Tapered unisex fit", "Embroidered tiger + wordmark", "Sizes S–2XL"],
+      // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black
+      gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
+    },
+    "tiger-golf-shirt": {
+      name: "Melted Tiger Style Golf Shirt — Black", price: "$45.00", kind: "merch", soldout: true,
+      badge: "", spec: "Unisex · S–5XL",
+      tagline: "Embroidered pique polo with the tiger mark.",
+      detail: "A premium pique polo with the embroidered Melted tiger. Flat-knit collar and cuffs, side vents, a relaxed length that runs a touch large.",
+      facts: ["65% polyester / 35% cotton pique", "Midweight — 5.0 oz", "Relaxed fit (runs large)", "Embroidered tiger", "Sizes S–5XL"],
+      // storefront: https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt
+      gallery: ["assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg","assets/melted/gallery/fourthwall/tiger-golf-shirt-black_2.jpg"]
+    },
+    "womens-tiger-sweatpants": {
+      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$44.99", kind: "merch", soldout: true,
+      badge: "", spec: "Women's · S–2XL",
+      tagline: "Women's tiger joggers in a premium midweight fleece.",
+      detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
+      facts: ["80% cotton / 20% polyester fleece", "Midweight — 8.5 oz", "Ring-spun, brushed interior", "Elastic waist + drawcord", "Sizes S–2XL"],
+      // storefront: https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants
+      gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
+    },
+    "bill-hat": {
+      name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
+      badge: "", spec: "One size · Adjustable",
+      tagline: "Structured cap with the branded Melted bill.",
+      detail: "A clean, structured cap with the Melted mark across the bill and an adjustable closure. One size fits most.",
+      facts: ["Structured fit", "Branded bill", "Embroidered Melted mark", "Adjustable closure"],
+      gallery: ["assets/melted/gallery/hat_front.jpg","assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
+    },
+    "bandana": {
+      name: "Tiger Bandana", price: "$18.00", kind: "merch", soldout: true,
+      badge: "", spec: "One size · 22\" square",
+      tagline: "Black-and-white tiger bandana.",
+      detail: "A soft cotton bandana in signature Melted black-and-white — the folk-tiger and dripping mark on repeat. Wear it, tie it, fly it.",
+      facts: ["100% cotton", "22\" x 22\"", "Screen-printed B&W print", "Tiger & monogram repeat"],
+      gallery: ["assets/melted/gallery/band_1.jpg"]
+    },
+    "womens-athletic-tank": {
+      name: "Melted Women's Athletic Tank Top", price: "$29.99", kind: "merch", soldout: true,
+      badge: "", spec: "Women's · XS–XL",
+      tagline: "Fitted athletic tank with the melted wordmark.",
+      detail: "A form-fitting, all-over-print athletic tank built for training or an easy day out. Stretchy, breathable, cut close.",
+      facts: ["82% polyester / 18% spandex", "Heavyweight — 6.78 oz", "Fitted cut", "All-over print", "Sizes XS–XL"],
+      // storefront: https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top
+      // NOTE: these 2 source photos are low-res (~563px). Fine for a card; flag to Ryan for re-shoots.
+      gallery: ["assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp","assets/melted/gallery/fourthwall/womens-athletic-tank-top_2.webp"]
+    },
+    "logo-tank": {
+      name: "Logo Tank", price: "$25.99", kind: "merch", soldout: true,
+      badge: "", spec: "Unisex · S–XXL",
+      tagline: "Soft cropped tank with the dripping Melted logo.",
+      detail: "A soft, relaxed cropped tank carrying the dripping Melted logo. Pre-shrunk cotton blend, unisex sizing.",
+      facts: ["Cropped fit", "Pre-shrunk cotton blend", "Screen-printed logo", "Sizes S–XXL"],
+      gallery: ["assets/melted/gallery/tank_1.jpg","assets/melted/gallery/tank_2.jpg","assets/melted/gallery/tank_3.jpg","assets/melted/gallery/tank_4.jpg"]
     }
   };
 
