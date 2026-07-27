@@ -253,6 +253,7 @@
       detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
       facts: ["60% cotton / 40% polyester fleece", "Midweight — 7.2 oz", "Tapered unisex fit", "Embroidered tiger + wordmark", "Sizes S–2XL"],
       // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black
+      contain: true, // full-length 3:4 shot on white — letterbox in square tiles instead of cropping waistband/cuffs (keep in sync with index.html MERCH)
       gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
     },
     "tiger-golf-shirt": {
@@ -271,6 +272,7 @@
       detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
       facts: ["80% cotton / 20% polyester fleece", "Midweight — 8.5 oz", "Ring-spun, brushed interior", "Elastic waist + drawcord", "Sizes S–2XL"],
       // storefront: https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants
+      contain: true,
       gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
     },
     "bill-hat": {
@@ -428,7 +430,7 @@
     const cell = (k) => {
       const p = PRODUCTS[k];
       return `<a href="/product?id=${k}" class="group/dd block text-center">
-        <span class="block bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}${p.crisp ? " img-crisp" : ""}"></span>
+        <span class="block ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full ${p.contain ? "object-contain" : "object-cover"} group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}${p.crisp ? " img-crisp" : ""}"></span>
         <span class="block oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
         ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
       </a>`;

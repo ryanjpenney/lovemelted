@@ -147,6 +147,9 @@
   .pcard:hover .frame .swirlhover{ opacity:.10; }
   .pcard .frame img{ width:100%; height:100%; object-fit:cover; transition:transform .7s cubic-bezier(.16,.84,.3,1); }
   .pcard:hover .frame img{ transform:scale(1.05); }
+  /* .fit — full-garment 3:4 shots on white: letterbox instead of cropping (contain:true in melted.js) */
+  .pcard .frame.fit{ background:#fff; }
+  .pcard .frame.fit img{ object-fit:contain; padding:4%; }
   /* Tiger Style pre-roll / THCa diamonds photos read dull gray — deepen the blacks
      in CSS until re-shoots land (keep in sync with the same rule in assets/melted.js) */
   .img-crisp{ filter:contrast(1.18) brightness(.95) saturate(1.04); }
@@ -881,9 +884,9 @@
   var MERCH=[
     {id:'classic-tee',                   name:'Melted Classic T-Shirt — Black',              price:'$24.99', soldout:true, img:'assets/melted/gallery/fourthwall/classic-tee-black_1.jpg'},  // keep order + fields in sync with melted.js PRODUCTS
     {id:'tiger-hoodie',                  name:'Melted Tiger Style Hoodie — Black',           price:'$54.99', soldout:true, img:'assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg'},
-    {id:'tiger-sweatpants-unisex-black', name:'Melted Tiger Sweatpants (Unisex) — Black',    price:'$45.00', soldout:true, img:'assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg'},
+    {id:'tiger-sweatpants-unisex-black', name:'Melted Tiger Sweatpants (Unisex) — Black',    price:'$45.00', soldout:true, contain:true, img:'assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg'},
     {id:'tiger-golf-shirt',              name:'Melted Tiger Style Golf Shirt — Black',       price:'$45.00', soldout:true, img:'assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg'},
-    {id:'womens-tiger-sweatpants',       name:'Melted Tiger Sweatpants (Women\'s) — Black/Navy', price:'$44.99', soldout:true, img:'assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg'},
+    {id:'womens-tiger-sweatpants',       name:'Melted Tiger Sweatpants (Women\'s) — Black/Navy', price:'$44.99', soldout:true, contain:true, img:'assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg'},
     {id:'bill-hat',                      name:'So Melted Branded Bill Hat',                  price:'$39.99', soldout:true, img:'assets/melted/gallery/hat_front.jpg'},
     {id:'bandana',                       name:'Tiger Bandana',                               price:'$18.00', soldout:true, img:'assets/melted/gallery/band_1.jpg'},
     {id:'womens-athletic-tank',          name:'Melted Women\'s Athletic Tank Top',           price:'$29.99', soldout:true, img:'assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp'},
@@ -929,7 +932,7 @@
     var badge = p.soldout ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">Sold Out</span>' : '';
     mgrid.appendChild(el(
       '<a href="/product?id='+p.id+'" class="pcard reveal group">'
-      + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
+      + '<div class="frame'+(p.contain?' fit':'')+'"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
       + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#555]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
@@ -954,7 +957,7 @@
   /* ---------- Nav dropdown fills (desktop strips + mobile accordions) ---------- */
   function ddCell(p){
     return '<a href="/product?id='+p.id+'" class="group/dd block text-center">'
-      + '<span class="block bg-paper aspect-square overflow-hidden"><img src="'+p.img+'" alt="" class="w-full h-full object-cover group-hover/dd:scale-[1.04] transition-transform duration-300'+(p.soldout?' opacity-60':'')+'"></span>'
+      + '<span class="block '+(p.contain?'bg-white':'bg-paper')+' aspect-square overflow-hidden"><img src="'+p.img+'" alt="" class="w-full h-full '+(p.contain?'object-contain':'object-cover')+' group-hover/dd:scale-[1.04] transition-transform duration-300'+(p.soldout?' opacity-60':'')+'"></span>'
       + '<span class="block font-oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] '+(p.soldout?'text-[#555]':'text-ink')+'">'+p.name+'</span>'
       + (p.soldout?'<span class="inline-block font-oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>':'')
       + '</a>';

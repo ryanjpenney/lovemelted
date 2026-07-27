@@ -78,7 +78,7 @@
       : `<div class="h-[30px]"></div>`;
     return `<a href="/product?id=${id}" class="text-center group block">
       ${badge}
-      <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}"></div>
+      <div class="overflow-hidden ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full ${p.contain ? "object-contain p-[4%]" : "object-cover"} group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}"></div>
       <p class="oswald text-[16px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
       <p class="garamond text-[20px] mt-[6px] ${p.soldout ? "text-[#767676]" : "text-black"}">${p.soldout ? "Sold Out" : p.price}</p>
     </a>`;

@@ -94,11 +94,16 @@
   const main = document.querySelector("[data-gallery-main]");
   main.src = p.gallery[0]; main.alt = p.name;
   if (p.crisp) main.classList.add("img-crisp");   // deepen dull-gray blacks (rule injected by melted.js)
+  if (p.contain) {                                // fit the whole garment in the square frame — no crop
+    main.classList.replace("object-cover", "object-contain");
+    main.classList.add("p-[4%]");
+    main.parentElement.classList.replace("bg-[#f6f6f4]", "bg-white");
+  }
   const thumbs = document.querySelector("[data-gallery-thumbs]");
   if (p.gallery.length > 1) {
     thumbs.innerHTML = p.gallery.map((src, i) =>
-      `<button class="thumb aspect-square bg-[#f6f6f4] overflow-hidden border-2 ${i === 0 ? "border-black" : "border-transparent"}" data-i="${i}" aria-label="View image ${i + 1} of ${p.gallery.length}" aria-pressed="${i === 0}">
-         <img src="${src}" alt="${p.name} view ${i + 1}" class="w-full h-full object-cover${p.crisp ? " img-crisp" : ""}"></button>`).join("");
+      `<button class="thumb aspect-square ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} overflow-hidden border-2 ${i === 0 ? "border-black" : "border-transparent"}" data-i="${i}" aria-label="View image ${i + 1} of ${p.gallery.length}" aria-pressed="${i === 0}">
+         <img src="${src}" alt="${p.name} view ${i + 1}" class="w-full h-full ${p.contain ? "object-contain" : "object-cover"}${p.crisp ? " img-crisp" : ""}"></button>`).join("");
     thumbs.querySelectorAll(".thumb").forEach(btn => btn.addEventListener("click", () => {
       main.src = p.gallery[+btn.dataset.i];
       thumbs.querySelectorAll(".thumb").forEach(b => { b.classList.replace("border-black", "border-transparent"); b.setAttribute("aria-pressed", "false"); });
@@ -329,7 +334,7 @@
     // odd item count on the 2-col mobile grid: center the last card instead of leaving an orphan
     const center = (i === arr.length - 1 && arr.length % 2 === 1) ? " col-span-2 w-[calc(50%-15px)] justify-self-center md:col-span-1 md:w-auto" : "";
     return `<a href="/product?id=${k}" class="text-center group block${center}">
-      <div class="bg-[#f6f6f4] aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${q.crisp ? " img-crisp" : ""}"></div>
+      <div class="${q.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full ${q.contain ? "object-contain p-[4%]" : "object-cover"} group-hover:scale-[1.04] transition-transform duration-300${q.crisp ? " img-crisp" : ""}"></div>
       <p class="oswald text-[14px] font-medium uppercase tracking-[0.03em] mt-3 group-hover:opacity-60 transition-opacity">${q.name}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.1em] uppercase mt-1">${q.soldout ? "Sold Out" : q.spec}</p>
     </a>`;
