@@ -275,13 +275,15 @@
       contain: true,
       gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
     },
-    "bill-hat": {
-      name: "So Melted Branded Bill Hat", price: "$39.99", kind: "merch", soldout: true,
+    "tiger-classic-hat": {
+      name: "Melted Tiger Classic Hat", price: "$32.99", kind: "merch", soldout: true,
       badge: "", spec: "One size · Adjustable",
-      tagline: "Structured cap with the branded Melted bill.",
-      detail: "A clean, structured cap with the Melted mark across the bill and an adjustable closure. One size fits most.",
-      facts: ["Structured fit", "Branded bill", "Embroidered Melted mark", "Adjustable closure"],
-      gallery: ["assets/melted/gallery/hat_front.jpg","assets/melted/gallery/rope_1.jpg","assets/melted/gallery/snap_1.jpg","assets/melted/gallery/rope_2.jpg"]
+      tagline: "Rope-brim cap with the embroidered tiger.",
+      detail: "A classic rope cap carrying the embroidered Melted tiger, with braided rope detailing across the curved bill and a Get Melted script at the side. Moisture-wicking Stay-Dri sweatband and an adjustable snapback — one size fits most.",
+      facts: ["100% polyester", "Stay-Dri moisture-wicking sweatband", "Curved bill with braided rope detail", "Embroidered tiger + Get Melted script", "Adjustable snapback — one size (7\"–7¾\")"],
+      // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-classic-hat
+      contain: true, // mixed square product + 3:4 model shots — letterbox on white so neither the crown nor the model's head gets cropped (keep in sync with index.html MERCH)
+      gallery: ["assets/melted/gallery/fourthwall/tiger-classic-hat_1.png","assets/melted/gallery/fourthwall/tiger-classic-hat_2.png","assets/melted/gallery/fourthwall/tiger-classic-hat_3.avif","assets/melted/gallery/fourthwall/tiger-classic-hat_4.avif"]
     },
     "bandana": {
       name: "Tiger Bandana", price: "$18.00", kind: "merch", soldout: true,
