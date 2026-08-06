@@ -229,7 +229,7 @@
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "classic-tee": {
-      name: "Melted Classic T-Shirt — Black", price: "$24.99", kind: "merch",
+      name: "Melted Classic T-Shirt — Black", price: "$20.00", kind: "merch",
       badge: "", spec: "Unisex · S–5XL",
       tagline: "Heavyweight cotton tee with the melted mark.",
       detail: "Our everyday heavyweight tee — pre-shrunk cotton jersey with a slightly relaxed cut. The streetwear staple.",
@@ -239,7 +239,7 @@
       gallery: ["assets/melted/gallery/fourthwall/classic-tee-black_1.jpg","assets/melted/gallery/fourthwall/classic-tee-black_2.jpg"]
     },
     "tiger-hoodie": {
-      name: "Melted Tiger Style Hoodie — Black", price: "$54.99", kind: "merch",
+      name: "Melted Tiger Style Hoodie — Black", price: "$48.00", kind: "merch",
       badge: "", spec: "Unisex · S–3XL",
       tagline: "Heavyweight boxy hoodie, built for streetwear.",
       detail: "A heavyweight, boxy hoodie in tightly woven 3-end fleece. Drop shoulders, overlapped neckline, double-layered hood.",
@@ -248,7 +248,7 @@
       gallery: ["assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg","assets/melted/gallery/fourthwall/tiger-hoodie-black_2.jpg"]
     },
     "tiger-sweatpants-unisex-black": {
-      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$45.00", kind: "merch",
+      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$30.00", kind: "merch",
       badge: "", spec: "Unisex · S–2XL",
       tagline: "Midweight tiger joggers with the embroidered mark.",
       detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
@@ -258,7 +258,7 @@
       gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
     },
     "tiger-golf-shirt": {
-      name: "Melted Tiger Style Golf Shirt — Black", price: "$45.00", kind: "merch",
+      name: "Melted Tiger Style Golf Shirt — Black", price: "$30.00", kind: "merch",
       badge: "", spec: "Unisex · S–5XL",
       tagline: "Embroidered pique polo with the tiger mark.",
       detail: "A premium pique polo with the embroidered Melted tiger. Flat-knit collar and cuffs, side vents, a relaxed length that runs a touch large.",
@@ -267,7 +267,7 @@
       gallery: ["assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg","assets/melted/gallery/fourthwall/tiger-golf-shirt-black_2.jpg"]
     },
     "womens-tiger-sweatpants": {
-      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$44.99", kind: "merch",
+      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$42.00", kind: "merch",
       badge: "", spec: "Women's · S–2XL",
       tagline: "Women's tiger joggers in a premium midweight fleece.",
       detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
@@ -277,7 +277,7 @@
       gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
     },
     "tiger-classic-hat": {
-      name: "Melted Tiger Classic Hat", price: "$32.99", kind: "merch",
+      name: "Melted Tiger Classic Hat", price: "$26.00", kind: "merch",
       badge: "", spec: "One size · Adjustable",
       tagline: "Rope-brim cap with the embroidered tiger.",
       detail: "A classic rope cap carrying the embroidered Melted tiger, with braided rope detailing across the curved bill and a Get Melted script at the side. Moisture-wicking Stay-Dri sweatband and an adjustable snapback — one size fits most.",
@@ -296,7 +296,7 @@
       gallery: ["assets/melted/gallery/band_1.jpg"]
     },
     "womens-athletic-tank": {
-      name: "Melted Women's Athletic Tank Top", price: "$29.99", kind: "merch",
+      name: "Melted Women's Athletic Tank Top", price: "$26.00", kind: "merch",
       badge: "", spec: "Women's · XS–XL",
       tagline: "Fitted athletic tank with the melted wordmark.",
       detail: "A form-fitting, all-over-print athletic tank built for training or an easy day out. Stretchy, breathable, cut close.",
