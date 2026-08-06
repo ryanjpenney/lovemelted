@@ -48,9 +48,9 @@
 
 <main>
 <section class="text-center pt-[56px] px-6">
-  <p class="oswald inline-block text-[12px] font-medium tracking-[0.22em] uppercase text-black border border-black px-[16px] py-[9px]"><span class="shimmer-text">Coming this fall</span></p>
+  <p class="oswald inline-block text-[12px] font-medium tracking-[0.22em] uppercase text-black border border-black px-[16px] py-[9px]"><span class="shimmer-text">The Collection</span></p>
   <h1 class="caslon text-[44px] md:text-[56px] text-black leading-[1.05] mt-[20px]">Melted Merch</h1>
-  <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Caps and tees from the collective. Restocking with print-on-demand — sign up below to be notified.</p>
+  <p class="garamond text-[19px] text-[#666] mt-[14px] max-w-[560px] mx-auto">Caps, tees, and the tiger — from the collective. Pick your size and check out; shipped anywhere in the U.S.</p>
 </section>
 
 <section class="max-w-[1275px] mx-auto px-[28px] md:px-[45px] mt-[52px]">
@@ -76,7 +76,10 @@
     const badge = label
       ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[10px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${label}</span></div>`
       : `<div class="h-[30px]"></div>`;
-    return `<a href="/product?id=${id}" class="text-center group block">
+    // Available merch links straight to its Fourth Wall page (new tab) for size + checkout;
+    // anything without a shop link falls back to the on-site product page.
+    const attr = p.buy ? `href="${p.buy}" target="_blank" rel="noopener"` : `href="/product?id=${id}"`;
+    return `<a ${attr} class="text-center group block">
       ${badge}
       <div class="overflow-hidden ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full ${p.contain ? "object-contain p-[4%]" : "object-cover"} group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}"></div>
       <p class="oswald text-[16px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>

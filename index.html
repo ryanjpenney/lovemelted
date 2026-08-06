@@ -882,15 +882,15 @@
     {id:'tiger-style-thca-diamonds',name:'Tiger Style THCa Diamonds',price:'',  spec:'Concentrate · 1g',           tag:'Crystalline THCa, refined to its purest form.', badge:'New', soldout:true, crisp:true, img:'assets/melted/gallery/tsd_1.jpg'}   // keep soldout/crisp in sync with melted.js PRODUCTS
   ];
   var MERCH=[
-    {id:'classic-tee',                   name:'Melted Classic T-Shirt — Black',              price:'$24.99', soldout:true, img:'assets/melted/gallery/fourthwall/classic-tee-black_1.jpg'},  // keep order + fields in sync with melted.js PRODUCTS
-    {id:'tiger-hoodie',                  name:'Melted Tiger Style Hoodie — Black',           price:'$54.99', soldout:true, img:'assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg'},
-    {id:'tiger-sweatpants-unisex-black', name:'Melted Tiger Sweatpants (Unisex) — Black',    price:'$45.00', soldout:true, contain:true, img:'assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg'},
-    {id:'tiger-golf-shirt',              name:'Melted Tiger Style Golf Shirt — Black',       price:'$45.00', soldout:true, img:'assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg'},
-    {id:'womens-tiger-sweatpants',       name:'Melted Tiger Sweatpants (Women\'s) — Black/Navy', price:'$44.99', soldout:true, contain:true, img:'assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg'},
-    {id:'tiger-classic-hat',             name:'Melted Tiger Classic Hat',                    price:'$32.99', soldout:true, contain:true, img:'assets/melted/gallery/fourthwall/tiger-classic-hat_1.png'},
-    {id:'bandana',                       name:'Tiger Bandana',                               price:'$18.00', soldout:true, img:'assets/melted/gallery/band_1.jpg'},
-    {id:'womens-athletic-tank',          name:'Melted Women\'s Athletic Tank Top',           price:'$29.99', soldout:true, img:'assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp'},
-    {id:'logo-tank',                     name:'Logo Tank',                                   price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'}
+    {id:'classic-tee',                   name:'Melted Classic T-Shirt — Black',              price:'$24.99', buy:'https://melted-shop.fourthwall.com/products/classic-melted-t-shirt', img:'assets/melted/gallery/fourthwall/classic-tee-black_1.jpg'},  // keep order + fields (buy/soldout) in sync with melted.js PRODUCTS
+    {id:'tiger-hoodie',                  name:'Melted Tiger Style Hoodie — Black',           price:'$54.99', buy:'https://melted-shop.fourthwall.com/products/tiger-style-hoodie', img:'assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg'},
+    {id:'tiger-sweatpants-unisex-black', name:'Melted Tiger Sweatpants (Unisex) — Black',    price:'$45.00', buy:'https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black', contain:true, img:'assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg'},
+    {id:'tiger-golf-shirt',              name:'Melted Tiger Style Golf Shirt — Black',       price:'$45.00', buy:'https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt', img:'assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg'},
+    {id:'womens-tiger-sweatpants',       name:'Melted Tiger Sweatpants (Women\'s) — Black/Navy', price:'$44.99', buy:'https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants', contain:true, img:'assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg'},
+    {id:'tiger-classic-hat',             name:'Melted Tiger Classic Hat',                    price:'$32.99', buy:'https://melted-shop.fourthwall.com/products/melted-tiger-classic-hat', contain:true, img:'assets/melted/gallery/fourthwall/tiger-classic-hat_1.png'},
+    {id:'bandana',                       name:'Tiger Bandana',                               price:'$18.00', soldout:true, img:'assets/melted/gallery/band_1.jpg'},  // not sold on Fourth Wall — intentionally kept sold-out
+    {id:'womens-athletic-tank',          name:'Melted Women\'s Athletic Tank Top',           price:'$29.99', buy:'https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top', img:'assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp'},
+    {id:'logo-tank',                     name:'Logo Tank',                                   price:'$25.99', soldout:true, img:'assets/melted/gallery/tank_1.jpg'}  // not sold on Fourth Wall — intentionally kept sold-out
   ];
   var LOCATIONS=[
     {state:'Arizona', cities:[['Gilbert','85233'],['Glendale','85301'],['Midtown','85012'],['Peoria','85345'],['Phoenix','85023'],['Queen Creek','85142'],['Scottsdale','85251'],['Sedona','86336'],['Tucson','85705'],['Youngtown','85363']]},
@@ -930,8 +930,10 @@
   var mgrid=document.querySelector('[data-merch]');
   MERCH.forEach(function(p){
     var badge = p.soldout ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">Sold Out</span>' : '';
+    // Available merch links straight to Fourth Wall (new tab); sold-out items stay on-site.
+    var mAttr = p.buy ? 'href="'+p.buy+'" target="_blank" rel="noopener"' : 'href="/product?id='+p.id+'"';
     mgrid.appendChild(el(
-      '<a href="/product?id='+p.id+'" class="pcard reveal group">'
+      '<a '+mAttr+' class="pcard reveal group">'
       + '<div class="frame'+(p.contain?' fit':'')+'"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
       + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'

@@ -229,59 +229,60 @@
       pickup: false // temporarily out of production (2026-07) — hides "Order for pickup at a dispensary"; delete this line when production resumes
     },
     "classic-tee": {
-      name: "Melted Classic T-Shirt — Black", price: "$24.99", kind: "merch", soldout: true,
+      name: "Melted Classic T-Shirt — Black", price: "$24.99", kind: "merch",
       badge: "", spec: "Unisex · S–5XL",
       tagline: "Heavyweight cotton tee with the melted mark.",
       detail: "Our everyday heavyweight tee — pre-shrunk cotton jersey with a slightly relaxed cut. The streetwear staple.",
       facts: ["100% cotton (heather blends vary)", "Heavyweight — 5 oz", "Pre-shrunk jersey", "Regular fit", "Sizes S–5XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/classic-melted-t-shirt
+      // buy: Fourth Wall storefront — cards/product page link straight here (opens in new tab)
+      buy: "https://melted-shop.fourthwall.com/products/classic-melted-t-shirt",
       gallery: ["assets/melted/gallery/fourthwall/classic-tee-black_1.jpg","assets/melted/gallery/fourthwall/classic-tee-black_2.jpg"]
     },
     "tiger-hoodie": {
-      name: "Melted Tiger Style Hoodie — Black", price: "$54.99", kind: "merch", soldout: true,
+      name: "Melted Tiger Style Hoodie — Black", price: "$54.99", kind: "merch",
       badge: "", spec: "Unisex · S–3XL",
       tagline: "Heavyweight boxy hoodie, built for streetwear.",
       detail: "A heavyweight, boxy hoodie in tightly woven 3-end fleece. Drop shoulders, overlapped neckline, double-layered hood.",
       facts: ["60% cotton / 40% polyester fleece", "Heavyweight — 10 oz", "Oversized, boxy fit", "Drop shoulders", "Sizes S–3XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/tiger-style-hoodie
+      buy: "https://melted-shop.fourthwall.com/products/tiger-style-hoodie",
       gallery: ["assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg","assets/melted/gallery/fourthwall/tiger-hoodie-black_2.jpg"]
     },
     "tiger-sweatpants-unisex-black": {
-      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$45.00", kind: "merch", soldout: true,
+      name: "Melted Tiger Sweatpants (Unisex) — Black", price: "$45.00", kind: "merch",
       badge: "", spec: "Unisex · S–2XL",
       tagline: "Midweight tiger joggers with the embroidered mark.",
       detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
       facts: ["60% cotton / 40% polyester fleece", "Midweight — 7.2 oz", "Tapered unisex fit", "Embroidered tiger + wordmark", "Sizes S–2XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black
+      buy: "https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black",
       contain: true, // full-length 3:4 shot on white — letterbox in square tiles instead of cropping waistband/cuffs (keep in sync with index.html MERCH)
       gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
     },
     "tiger-golf-shirt": {
-      name: "Melted Tiger Style Golf Shirt — Black", price: "$45.00", kind: "merch", soldout: true,
+      name: "Melted Tiger Style Golf Shirt — Black", price: "$45.00", kind: "merch",
       badge: "", spec: "Unisex · S–5XL",
       tagline: "Embroidered pique polo with the tiger mark.",
       detail: "A premium pique polo with the embroidered Melted tiger. Flat-knit collar and cuffs, side vents, a relaxed length that runs a touch large.",
       facts: ["65% polyester / 35% cotton pique", "Midweight — 5.0 oz", "Relaxed fit (runs large)", "Embroidered tiger", "Sizes S–5XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt
+      buy: "https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt",
       gallery: ["assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg","assets/melted/gallery/fourthwall/tiger-golf-shirt-black_2.jpg"]
     },
     "womens-tiger-sweatpants": {
-      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$44.99", kind: "merch", soldout: true,
+      name: "Melted Tiger Sweatpants (Women's) — Black/Navy", price: "$44.99", kind: "merch",
       badge: "", spec: "Women's · S–2XL",
       tagline: "Women's tiger joggers in a premium midweight fleece.",
       detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
       facts: ["80% cotton / 20% polyester fleece", "Midweight — 8.5 oz", "Ring-spun, brushed interior", "Elastic waist + drawcord", "Sizes S–2XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants
+      buy: "https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants",
       contain: true,
       gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
     },
     "tiger-classic-hat": {
-      name: "Melted Tiger Classic Hat", price: "$32.99", kind: "merch", soldout: true,
+      name: "Melted Tiger Classic Hat", price: "$32.99", kind: "merch",
       badge: "", spec: "One size · Adjustable",
       tagline: "Rope-brim cap with the embroidered tiger.",
       detail: "A classic rope cap carrying the embroidered Melted tiger, with braided rope detailing across the curved bill and a Get Melted script at the side. Moisture-wicking Stay-Dri sweatband and an adjustable snapback — one size fits most.",
       facts: ["100% polyester", "Stay-Dri moisture-wicking sweatband", "Curved bill with braided rope detail", "Embroidered tiger + Get Melted script", "Adjustable snapback — one size (7\"–7¾\")"],
-      // storefront: https://melted-shop.fourthwall.com/products/melted-tiger-classic-hat
+      buy: "https://melted-shop.fourthwall.com/products/melted-tiger-classic-hat",
       contain: true, // mixed square product + 3:4 model shots — letterbox on white so neither the crown nor the model's head gets cropped (keep in sync with index.html MERCH)
       gallery: ["assets/melted/gallery/fourthwall/tiger-classic-hat_1.png","assets/melted/gallery/fourthwall/tiger-classic-hat_2.png","assets/melted/gallery/fourthwall/tiger-classic-hat_3.avif","assets/melted/gallery/fourthwall/tiger-classic-hat_4.avif"]
     },
@@ -291,15 +292,16 @@
       tagline: "Black-and-white tiger bandana.",
       detail: "A soft cotton bandana in signature Melted black-and-white — the folk-tiger and dripping mark on repeat. Wear it, tie it, fly it.",
       facts: ["100% cotton", "22\" x 22\"", "Screen-printed B&W print", "Tiger & monogram repeat"],
+      // Not sold on Fourth Wall — intentionally kept sold-out (Ryan, Aug 2026).
       gallery: ["assets/melted/gallery/band_1.jpg"]
     },
     "womens-athletic-tank": {
-      name: "Melted Women's Athletic Tank Top", price: "$29.99", kind: "merch", soldout: true,
+      name: "Melted Women's Athletic Tank Top", price: "$29.99", kind: "merch",
       badge: "", spec: "Women's · XS–XL",
       tagline: "Fitted athletic tank with the melted wordmark.",
       detail: "A form-fitting, all-over-print athletic tank built for training or an easy day out. Stretchy, breathable, cut close.",
       facts: ["82% polyester / 18% spandex", "Heavyweight — 6.78 oz", "Fitted cut", "All-over print", "Sizes XS–XL"],
-      // storefront: https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top
+      buy: "https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top",
       // NOTE: these 2 source photos are low-res (~563px). Fine for a card; flag to Ryan for re-shoots.
       gallery: ["assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp","assets/melted/gallery/fourthwall/womens-athletic-tank-top_2.webp"]
     },
@@ -309,6 +311,7 @@
       tagline: "Soft cropped tank with the dripping Melted logo.",
       detail: "A soft, relaxed cropped tank carrying the dripping Melted logo. Pre-shrunk cotton blend, unisex sizing.",
       facts: ["Cropped fit", "Pre-shrunk cotton blend", "Screen-printed logo", "Sizes S–XXL"],
+      // Not sold on Fourth Wall — intentionally kept sold-out (Ryan, Aug 2026).
       gallery: ["assets/melted/gallery/tank_1.jpg","assets/melted/gallery/tank_2.jpg","assets/melted/gallery/tank_3.jpg","assets/melted/gallery/tank_4.jpg"]
     }
   };
@@ -431,7 +434,10 @@
       </div>`;
     const cell = (k) => {
       const p = PRODUCTS[k];
-      return `<a href="/product?id=${k}" class="group/dd block text-center">
+      // Merch with a Fourth Wall link goes straight to the shop (new tab); everything
+      // else opens the on-site product page.
+      const ext = p.buy ? ` href="${p.buy}" target="_blank" rel="noopener"` : ` href="/product?id=${k}"`;
+      return `<a${ext} class="group/dd block text-center">
         <span class="block ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full ${p.contain ? "object-contain" : "object-cover"} group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}${p.crisp ? " img-crisp" : ""}"></span>
         <span class="block oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
         ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
@@ -483,8 +489,8 @@
 
     /* ---- Mobile menu: accordion per nav item — the page link sits first inside
        each panel, followed by the same sub-links as the desktop strips. ---- */
-    const mSub = (href, label, dim) =>
-      `<a href="${href}" class="block py-[9px] pl-[16px] oswald text-[12px] font-light tracking-[0.14em] uppercase ${dim ? "text-[#8a8a8a]" : "text-[#444]"}">${label}</a>`;
+    const mSub = (href, label, dim, ext) =>
+      `<a href="${href}"${ext ? ' target="_blank" rel="noopener"' : ''} class="block py-[9px] pl-[16px] oswald text-[12px] font-light tracking-[0.14em] uppercase ${dim ? "text-[#8a8a8a]" : "text-[#444]"}">${label}</a>`;
     const macc = (label, href, allLabel, subs) =>
       `<div class="border-b border-[#eeeeee]">
         <button type="button" data-macc aria-expanded="false" class="w-full flex items-center justify-between py-[14px] oswald text-[15px] uppercase tracking-[0.16em] text-black">
@@ -499,7 +505,9 @@
     const mobProducts = Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "product")
       .map(k => mSub("/product?id=" + k, PRODUCTS[k].name + (PRODUCTS[k].soldout ? " — Sold Out" : ""), PRODUCTS[k].soldout)).join("");
     const mobMerch = Object.keys(PRODUCTS).filter(k => PRODUCTS[k].kind === "merch")
-      .map(k => mSub("/product?id=" + k, PRODUCTS[k].name, false)).join("");
+      .map(k => { const p = PRODUCTS[k]; return p.buy
+        ? mSub(p.buy, p.name, false, true)
+        : mSub("/product?id=" + k, p.name + (p.soldout ? " — Sold Out" : ""), p.soldout); }).join("");
 
     return `
 <header class="bg-white sticky top-0 z-50 border-b border-[#ededed]">

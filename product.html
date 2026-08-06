@@ -45,7 +45,7 @@
       <p data-p-badge class="oswald text-[11px] tracking-[0.14em] uppercase text-[#767676] mb-[10px] hidden"></p>
       <h1 data-p-name class="caslon text-[42px] md:text-[48px] leading-[1.08] text-black"></h1>
       <p data-p-spec class="oswald text-[12px] tracking-[0.1em] uppercase text-[#767676] mt-[12px]"></p>
-      <p class="garamond text-[16px] text-[#767676] mt-[16px]">Pricing varies by dispensary.</p>
+      <p data-p-pricing class="garamond text-[16px] text-[#767676] mt-[16px]">Pricing varies by dispensary.</p>
       <p data-p-detail class="garamond text-[19px] text-[#555] leading-[1.7] mt-[20px]"></p>
 
       <div data-p-flavors class="mt-[26px] hidden">
@@ -127,6 +127,16 @@
   document.querySelector("[data-p-detail]").textContent = p.detail;
   document.querySelector("[data-p-facts]").innerHTML = p.facts.map(f =>
     `<li class="flex gap-2"><span class="text-black">—</span><span>${f}</span></li>`).join("");
+
+  // Merch is sold at a fixed price (via the Fourth Wall shop), not through dispensaries —
+  // swap the "Pricing varies by dispensary" line for the actual price.
+  if (p.kind === "merch") {
+    const pricing = document.querySelector("[data-p-pricing]");
+    pricing.classList.remove("text-[16px]", "text-[#767676]");
+    pricing.classList.add("text-[22px]", "text-black");
+    pricing.textContent = p.price || "";
+    if (!p.price) pricing.classList.add("hidden");
+  }
 
   // Flavors: a static, read-only tag list. These used to be selectable variant chips,
   // but with no per-flavor imagery or confirmed store links behind most flavors the
@@ -283,10 +293,17 @@
     applyZip(savedOrderZip, true);
   }
   if (p.kind === "merch") {
-    buy.innerHTML = `<div class="border border-[#e3e3e3] p-[24px]">
-      <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#767676]">Sold Out</p>
-      <p class="garamond text-[17px] text-[#555] leading-[1.6] mt-2">Our merch is being restocked with print-on-demand — check back soon.</p>
-    </div>`;
+    // Merch checks out on the Fourth Wall shop, where sizes + cart live. If a product
+    // has no Fourth Wall link on file yet, it stays sold-out rather than dead-ending.
+    if (p.buy) {
+      buy.innerHTML = `<a href="${p.buy}" target="_blank" rel="noopener" class="oswald block w-full text-center bg-black text-white text-[13px] font-medium tracking-[0.1em] uppercase py-[18px] px-[24px] hover:bg-[#333] transition-colors">Pick Your Size &amp; Buy →</a>
+        <p class="garamond text-[14px] text-[#767676] leading-[1.6] mt-[12px]">Sizes and secure checkout on our shop. Ships anywhere in the U.S.</p>`;
+    } else {
+      buy.innerHTML = `<div class="border border-[#e3e3e3] p-[24px]">
+        <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#767676]">Sold Out</p>
+        <p class="garamond text-[17px] text-[#555] leading-[1.6] mt-2">This one's between runs — check back soon.</p>
+      </div>`;
+    }
   } else if (!p.soldout) {
     buy.innerHTML = `<div class="border border-[#e3e3e3]">
       <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center border-b border-[#e3e3e3] bg-[#fafafa]">Find it at a dispensary</div>
@@ -333,7 +350,9 @@
     const q = M.PRODUCTS[k];
     // odd item count on the 2-col mobile grid: center the last card instead of leaving an orphan
     const center = (i === arr.length - 1 && arr.length % 2 === 1) ? " col-span-2 w-[calc(50%-15px)] justify-self-center md:col-span-1 md:w-auto" : "";
-    return `<a href="/product?id=${k}" class="text-center group block${center}">
+    // Merch with a Fourth Wall link goes straight to the shop; everything else stays on-site.
+    const rAttr = q.buy ? `href="${q.buy}" target="_blank" rel="noopener"` : `href="/product?id=${k}"`;
+    return `<a ${rAttr} class="text-center group block${center}">
       <div class="${q.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square overflow-hidden"><img src="${q.gallery[0]}" alt="${q.name}" class="w-full h-full ${q.contain ? "object-contain p-[4%]" : "object-cover"} group-hover:scale-[1.04] transition-transform duration-300${q.crisp ? " img-crisp" : ""}"></div>
       <p class="oswald text-[14px] font-medium uppercase tracking-[0.03em] mt-3 group-hover:opacity-60 transition-opacity">${q.name}</p>
       <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.1em] uppercase mt-1">${q.soldout ? "Sold Out" : q.spec}</p>
