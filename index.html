@@ -41,19 +41,36 @@
   ::selection{ background:#0a0a0a; color:#fff; }
 
 
-  /* ---------- The living wordmark: type filled with the panning swirl ---------- */
-  .swirl-text{
+  /* ---------- The living wordmark: the REAL Melted logo filled with the panning swirl ----------
+     The logo is a mask (not type), so the swirl waves through the true letterforms — the melting
+     cuts and sliced counters — instead of a stand-in font. Width tracks the old type scale:
+     the wordmark measured 3.66 x the font-size of clamp(72px,19vw,300px). */
+  .swirl-logo{
+    position:relative;
+    width:clamp(264px,69.5vw,1098px); aspect-ratio:1294/351;
     background-image:var(--swirl);
     background-size:130% auto; background-position:0% 50%; background-repeat:repeat;
-    -webkit-background-clip:text; background-clip:text; color:transparent; -webkit-text-fill-color:transparent;
+    -webkit-mask-image:url(assets/melted/wordmark_white.png); mask-image:url(assets/melted/wordmark_white.png);
+    -webkit-mask-size:contain;    mask-size:contain;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    -webkit-mask-position:left center; mask-position:left center;
     transform:translateZ(0);                   /* own compositor layer — its repaints must not invalidate the hero */
     animation:meltedwave 3.6s ease forwards;   /* swirl waves ~3s, then settles to a plain white wordmark */
   }
-  @keyframes meltedwave{
-    0%   { background-position:0% 50%;   color:transparent; -webkit-text-fill-color:transparent; }
-    83%  { background-position:200% 50%; color:transparent; -webkit-text-fill-color:transparent; }
-    100% { background-position:200% 50%; color:#fff;        -webkit-text-fill-color:#fff; }
+  /* the settle: a solid-white copy of the logo fades up once the swirl has passed through */
+  .swirl-logo::after{
+    content:""; position:absolute; inset:0; background:#fff;
+    -webkit-mask-image:url(assets/melted/wordmark_white.png); mask-image:url(assets/melted/wordmark_white.png);
+    -webkit-mask-size:contain;    mask-size:contain;
+    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+    -webkit-mask-position:left center; mask-position:left center;
+    opacity:0; animation:meltedsettle 3.6s ease forwards;
   }
+  @keyframes meltedwave{
+    0%        { background-position:0% 50%; }
+    83%, 100% { background-position:200% 50%; }
+  }
+  @keyframes meltedsettle{ 0%, 83%{ opacity:0; } 100%{ opacity:1; } }
 
   /* ---------- Full-bleed swirl backdrop drift + liquid wobble ---------- */
   /* Drift is transform-only: animating background-position forced a full-screen
@@ -175,7 +192,8 @@
 
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
-    .swirl-text{ animation:none; color:#fff; -webkit-text-fill-color:#fff; }
+    .swirl-logo{ animation:none; background-image:none; background-color:#fff; }
+    .swirl-logo::after{ animation:none; opacity:1; }
     .swirl-bed{ animation:none; transform:scale(1.1); }
   }
 </style>
@@ -317,8 +335,10 @@
     window.scrollTo(0,0);
     var h1 = document.querySelector('main h1') || document.querySelector('h1');
     if(h1){ h1.setAttribute('tabindex','-1'); try{ h1.focus({preventScroll:true}); }catch(e){} }
-    var wm = document.querySelector('.swirl-text'); // restart the 3s wordmark wave as the hero is revealed
-    if(wm){ wm.style.animation='none'; void wm.offsetWidth; wm.style.animation=''; }
+    var wm = document.querySelector('.swirl-logo'); // restart the 3s wordmark wave as the hero is revealed
+    // Toggling the class (rather than an inline style) also restarts the ::after settle animation.
+    // Both happen in one task, so the reflow forces a restart without an intermediate paint.
+    if(wm){ wm.classList.remove('swirl-logo'); void wm.offsetWidth; wm.classList.add('swirl-logo'); }
   }
 
   // ---- opener playback (plays once, right after the first-visit age gate) ----
@@ -566,7 +586,7 @@
   <div class="max-w-[1275px] mx-auto w-full px-[28px] md:px-[45px] pt-[110px] pb-[120px]">
     <h1 class="leading-[0.86]">
       <span class="sr-only">Melted</span>
-      <span aria-hidden="true" class="swirl-text font-heavy block text-[clamp(72px,19vw,300px)] tracking-[-0.02em] lowercase">melted</span>
+      <span aria-hidden="true" class="swirl-logo block"></span>
     </h1>
 
     <div class="mt-[28px] md:mt-[34px] max-w-[760px]">
