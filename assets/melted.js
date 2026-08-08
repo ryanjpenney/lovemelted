@@ -235,7 +235,7 @@
       detail: "Our everyday heavyweight tee — pre-shrunk cotton jersey with a slightly relaxed cut. The streetwear staple.",
       facts: ["100% cotton (heather blends vary)", "Heavyweight — 5 oz", "Pre-shrunk jersey", "Regular fit", "Sizes S–5XL"],
       // buy: Fourth Wall storefront — cards/product page link straight here (opens in new tab)
-      buy: "https://melted-shop.fourthwall.com/products/classic-melted-t-shirt",
+      buy: "https://lovemelted.shop/products/classic-melted-t-shirt",
       gallery: ["assets/melted/gallery/fourthwall/classic-tee-black_1.jpg","assets/melted/gallery/fourthwall/classic-tee-black_2.jpg"]
     },
     "tiger-hoodie": {
@@ -244,7 +244,7 @@
       tagline: "Heavyweight boxy hoodie, built for streetwear.",
       detail: "A heavyweight, boxy hoodie in tightly woven 3-end fleece. Drop shoulders, overlapped neckline, double-layered hood.",
       facts: ["60% cotton / 40% polyester fleece", "Heavyweight — 10 oz", "Oversized, boxy fit", "Drop shoulders", "Sizes S–3XL"],
-      buy: "https://melted-shop.fourthwall.com/products/tiger-style-hoodie",
+      buy: "https://lovemelted.shop/products/tiger-style-hoodie",
       gallery: ["assets/melted/gallery/fourthwall/tiger-hoodie-black_1.jpg","assets/melted/gallery/fourthwall/tiger-hoodie-black_2.jpg"]
     },
     "tiger-sweatpants-unisex-black": {
@@ -253,7 +253,7 @@
       tagline: "Midweight tiger joggers with the embroidered mark.",
       detail: "Relaxed unisex joggers in midweight fleece, finished with the embroidered Melted tiger and wordmark. Tapered leg, ribbed cuffs, pilling-resistant surface.",
       facts: ["60% cotton / 40% polyester fleece", "Midweight — 7.2 oz", "Tapered unisex fit", "Embroidered tiger + wordmark", "Sizes S–2XL"],
-      buy: "https://melted-shop.fourthwall.com/products/melted-tiger-sweatpants-unisex-black",
+      buy: "https://lovemelted.shop/products/melted-tiger-sweatpants-unisex-black",
       contain: true, // full-length 3:4 shot on white — letterbox in square tiles instead of cropping waistband/cuffs (keep in sync with index.html MERCH)
       gallery: ["assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_1.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_2.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_3.jpg","assets/melted/gallery/fourthwall/tiger-sweatpants-unisex-black_4.jpg"]
     },
@@ -263,7 +263,7 @@
       tagline: "Embroidered pique polo with the tiger mark.",
       detail: "A premium pique polo with the embroidered Melted tiger. Flat-knit collar and cuffs, side vents, a relaxed length that runs a touch large.",
       facts: ["65% polyester / 35% cotton pique", "Midweight — 5.0 oz", "Relaxed fit (runs large)", "Embroidered tiger", "Sizes S–5XL"],
-      buy: "https://melted-shop.fourthwall.com/products/tiger-style-golf-shirt",
+      buy: "https://lovemelted.shop/products/tiger-style-golf-shirt",
       gallery: ["assets/melted/gallery/fourthwall/tiger-golf-shirt-black_1.jpg","assets/melted/gallery/fourthwall/tiger-golf-shirt-black_2.jpg"]
     },
     "womens-tiger-sweatpants": {
@@ -272,7 +272,7 @@
       tagline: "Women's tiger joggers in a premium midweight fleece.",
       detail: "A relaxed women's jogger in ring-spun midweight fleece carrying the Melted tiger. Elastic waist with drawcord, jersey-lined pockets, ribbed cuffs.",
       facts: ["80% cotton / 20% polyester fleece", "Midweight — 8.5 oz", "Ring-spun, brushed interior", "Elastic waist + drawcord", "Sizes S–2XL"],
-      buy: "https://melted-shop.fourthwall.com/products/copy-of-midnight-blue-womens-tiger-sweatpants",
+      buy: "https://lovemelted.shop/products/copy-of-midnight-blue-womens-tiger-sweatpants",
       contain: true,
       gallery: ["assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_1.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_2.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_3.jpg","assets/melted/gallery/fourthwall/womens-tiger-sweatpants-black-navy_4.jpg"]
     },
@@ -282,7 +282,7 @@
       tagline: "Rope-brim cap with the embroidered tiger.",
       detail: "A classic rope cap carrying the embroidered Melted tiger, with braided rope detailing across the curved bill and a Get Melted script at the side. Moisture-wicking Stay-Dri sweatband and an adjustable snapback — one size fits most.",
       facts: ["100% polyester", "Stay-Dri moisture-wicking sweatband", "Curved bill with braided rope detail", "Embroidered tiger + Get Melted script", "Adjustable snapback — one size (7\"–7¾\")"],
-      buy: "https://melted-shop.fourthwall.com/products/melted-tiger-classic-hat",
+      buy: "https://lovemelted.shop/products/melted-tiger-classic-hat",
       contain: true, // mixed square product + 3:4 model shots — letterbox on white so neither the crown nor the model's head gets cropped (keep in sync with index.html MERCH)
       gallery: ["assets/melted/gallery/fourthwall/tiger-classic-hat_1.png","assets/melted/gallery/fourthwall/tiger-classic-hat_2.png","assets/melted/gallery/fourthwall/tiger-classic-hat_3.avif","assets/melted/gallery/fourthwall/tiger-classic-hat_4.avif"]
     },
@@ -301,7 +301,7 @@
       tagline: "Fitted athletic tank with the melted wordmark.",
       detail: "A form-fitting, all-over-print athletic tank built for training or an easy day out. Stretchy, breathable, cut close.",
       facts: ["82% polyester / 18% spandex", "Heavyweight — 6.78 oz", "Fitted cut", "All-over print", "Sizes XS–XL"],
-      buy: "https://melted-shop.fourthwall.com/products/melted-womens-athletic-tank-top",
+      buy: "https://lovemelted.shop/products/melted-womens-athletic-tank-top",
       // NOTE: these 2 source photos are low-res (~563px). Fine for a card; flag to Ryan for re-shoots.
       gallery: ["assets/melted/gallery/fourthwall/womens-athletic-tank-top_1.webp","assets/melted/gallery/fourthwall/womens-athletic-tank-top_2.webp"]
     },
