@@ -918,6 +918,7 @@
     {state:'Ohio',    cities:[]}
   ];
 
+  var SC='[font-variant-caps:all-small-caps]';   // Editorial small caps for spec lines + sold-out badges
   function el(html){ var t=document.createElement('template'); t.innerHTML=html.trim(); return t.content.firstChild; }
 
   /* ---------- Render products ---------- */
@@ -933,15 +934,15 @@
   PRODUCTS.forEach(function(p,i){
     if(!tigerNoted && /^Tiger Style/.test(p.name)){ pgrid.appendChild(el(tigerNote)); tigerNoted=true; }
     var badge = p.soldout
-      ? '<span class="font-oswald inline-block border border-[#cfcfcf] text-[#555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[20px] px-[10px] py-[1px]">Sold Out</span>'
-      : p.badge ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">'+p.badge+'</span>' : '';
+      ? '<span class="font-garamond inline-block text-[17px] leading-[24px] '+SC+' tracking-[0.12em] text-[#555]">Sold Out</span>'
+      : p.badge ? '<span class="font-garamond inline-block text-[15px] leading-[24px] italic text-[#555]">— '+p.badge+'</span>' : '';
     pgrid.appendChild(el(
       '<a href="/product?id='+p.id+'" class="pcard reveal group" data-mag>'
       + '<div class="frame"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-70':'')+(p.crisp?' img-crisp':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
-      + '<h3 class="font-oswald text-[16px] md:text-[17px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
-      + '<p class="font-garamond text-[17px] text-[#666] leading-[1.5] mt-[6px]">'+p.tag+'</p>'
-      + '<p class="font-oswald text-[11px] text-[#767676] font-light tracking-[0.12em] uppercase mt-[10px]">'+p.spec+'</p>'
+      + '<h3 class="font-caslon text-[19px] md:text-[23px] tracking-[-0.005em] text-ink leading-[1.2] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
+      + '<p class="font-garamond italic text-[17px] md:text-[19px] text-[#555] leading-[1.4] mt-[6px]">'+p.tag+'</p>'
+      + '<p class="font-garamond text-[15px] md:text-[17px] leading-[1.35] '+SC+' tracking-[0.08em] md:tracking-[0.1em] text-[#767676] mt-[12px] pt-[10px] border-t border-[#e3e3e3]">'+p.spec+'</p>'
       + '</a>'
     ));
   });
@@ -949,14 +950,14 @@
   /* ---------- Render merch ---------- */
   var mgrid=document.querySelector('[data-merch]');
   MERCH.forEach(function(p){
-    var badge = p.soldout ? '<span class="font-garamond inline-block border border-[#cfcfcf] text-[#555] text-[14px] leading-[20px] px-[10px] py-[1px]">Sold Out</span>' : '';
+    var badge = p.soldout ? '<span class="font-garamond inline-block text-[17px] leading-[24px] '+SC+' tracking-[0.12em] text-[#555]">Sold Out</span>' : '';
     // Available merch links straight to Fourth Wall (new tab); sold-out items stay on-site.
     var mAttr = p.buy ? 'href="'+p.buy+'" target="_blank" rel="noopener"' : 'href="/product?id='+p.id+'"';
     mgrid.appendChild(el(
       '<a '+mAttr+' class="pcard reveal group">'
       + '<div class="frame'+(p.contain?' fit':'')+'"><img src="'+p.img+'" alt="'+p.name+'" class="'+(p.soldout?'opacity-80':'')+'"><div class="swirlhover"></div></div>'
       + '<div class="h-[26px] mt-[14px]">'+badge+'</div>'
-      + '<h3 class="font-oswald text-[15px] font-medium tracking-[0.03em] uppercase text-ink leading-[1.4] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
+      + '<h3 class="font-caslon text-[18px] md:text-[20px] tracking-[-0.005em] text-ink leading-[1.25] group-hover:opacity-60 transition-opacity">'+p.name+'</h3>'
       + '<p class="font-garamond text-[18px] '+(p.soldout?'text-[#555]':'text-ink')+' mt-[6px]">'+(p.soldout?'Sold Out':p.price)+'</p>'
       + '</a>'
     ));
@@ -980,8 +981,8 @@
   function ddCell(p){
     return '<a href="/product?id='+p.id+'" class="group/dd block text-center">'
       + '<span class="block '+(p.contain?'bg-white':'bg-paper')+' aspect-square overflow-hidden"><img src="'+p.img+'" alt="" class="w-full h-full '+(p.contain?'object-contain':'object-cover')+' group-hover/dd:scale-[1.04] transition-transform duration-300'+(p.soldout?' opacity-60':'')+'"></span>'
-      + '<span class="block font-oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] '+(p.soldout?'text-[#555]':'text-ink')+'">'+p.name+'</span>'
-      + (p.soldout?'<span class="inline-block font-oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>':'')
+      + '<span class="block font-caslon text-[15px] leading-[1.3] mt-[10px] '+(p.soldout?'text-[#555]':'text-ink')+'">'+p.name+'</span>'
+      + (p.soldout?'<span class="inline-block font-garamond text-[15px] '+SC+' tracking-[0.12em] text-[#767676] mt-[2px]">Sold Out</span>':'')
       + '</a>';
   }
   function mSubLink(p){

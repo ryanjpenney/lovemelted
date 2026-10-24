@@ -74,7 +74,7 @@
     const p = P[id];
     const label = p.soldout ? "Sold Out" : p.badge;
     const badge = label
-      ? `<div class="h-[30px] text-left"><span class="garamond inline-block ml-[10px] border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${label}</span></div>`
+      ? `<div class="h-[30px] text-left"><span class="garamond inline-block text-[17px] leading-[26px] ${p.soldout ? "[font-variant-caps:all-small-caps] tracking-[0.12em]" : "italic"} text-[#555]">${p.soldout ? label : "— " + label}</span></div>`
       : `<div class="h-[30px]"></div>`;
     // Available merch links straight to its Fourth Wall page (new tab) for size + checkout;
     // anything without a shop link falls back to the on-site product page.
@@ -82,7 +82,7 @@
     return `<a ${attr} class="text-center group block">
       ${badge}
       <div class="overflow-hidden ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full ${p.contain ? "object-contain p-[4%]" : "object-cover"} group-hover:scale-[1.04] transition-transform duration-300 ${p.soldout ? "opacity-70" : ""}"></div>
-      <p class="oswald text-[16px] font-medium leading-[1.5] mt-[14px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
+      <p class="caslon text-[18px] md:text-[20px] leading-[1.25] tracking-[-0.005em] mt-[14px] text-black group-hover:opacity-60 transition-opacity">${p.name}</p>
       <p class="garamond text-[20px] mt-[6px] ${p.soldout ? "text-[#767676]" : "text-black"}">${p.soldout ? "Sold Out" : p.price}</p>
     </a>`;
   }).join("");

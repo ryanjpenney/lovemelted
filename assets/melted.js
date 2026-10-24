@@ -439,8 +439,8 @@
       const ext = p.buy ? ` href="${p.buy}" target="_blank" rel="noopener"` : ` href="/product?id=${k}"`;
       return `<a${ext} class="group/dd block text-center">
         <span class="block ${p.contain ? "bg-white" : "bg-[#f6f6f4]"} aspect-square overflow-hidden"><img src="${p.gallery[0]}" alt="" class="w-full h-full ${p.contain ? "object-contain" : "object-cover"} group-hover/dd:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-60" : ""}${p.crisp ? " img-crisp" : ""}"></span>
-        <span class="block oswald text-[11px] font-medium tracking-[0.08em] uppercase leading-[1.4] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
-        ${p.soldout ? '<span class="inline-block oswald border border-[#bbbbbb] text-[#555] text-[9px] font-medium tracking-[0.14em] uppercase px-[7px] py-[2px] mt-[6px]">Sold Out</span>' : ""}
+        <span class="block caslon text-[15px] normal-case tracking-normal leading-[1.3] mt-[10px] ${p.soldout ? "text-[#555]" : "text-black"}">${p.name}</span>
+        ${p.soldout ? '<span class="inline-block garamond text-[15px] normal-case [font-variant-caps:all-small-caps] tracking-[0.12em] text-[#767676] mt-[2px]">Sold Out</span>' : ""}
       </a>`;
     };
     /* Image card for the non-product strips: photo snapshot + title + one-line teaser.

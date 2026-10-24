@@ -62,11 +62,11 @@
   /* Badge precedence: Sold Out > Not Available Nearby (location filter) > catalog badge. */
   function badgeHTML(p, unavail) {
     return p.soldout
-      ? `<span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Sold Out</span>`
+      ? `<span class="garamond inline-block text-[17px] leading-[26px] [font-variant-caps:all-small-caps] tracking-[0.12em] text-[#555]">Sold Out</span>`
       : unavail
-      ? `<span class="oswald inline-block border border-[#bbbbbb] text-[#555555] text-[11px] font-medium tracking-[0.14em] uppercase leading-[22px] px-[10px] py-[1px]">Not Available Nearby</span>`
+      ? `<span class="garamond inline-block text-[17px] leading-[26px] [font-variant-caps:all-small-caps] tracking-[0.12em] text-[#555]">Not Available Nearby</span>`
       : p.badge
-      ? `<span class="garamond inline-block border border-[#bbbbbb] text-[#555555] text-[16px] leading-[22px] px-[10px] py-[1px]">${p.badge}</span>`
+      ? `<span class="garamond inline-block text-[16px] leading-[26px] italic text-[#555]">— ${p.badge}</span>`
       : ``;
   }
   document.querySelector("[data-products-grid]").innerHTML = ids.map((id, i) => {
@@ -75,9 +75,9 @@
     return `<a href="/product?id=${id}" data-pid="${id}" class="text-center group block${center}">
       <div data-badge-slot class="h-[30px] text-center">${badgeHTML(p, false)}</div>
       <div class="overflow-hidden bg-[#f6f6f4] aspect-square"><img src="${p.gallery[0]}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-300${p.soldout ? " opacity-70" : ""}${p.crisp ? " img-crisp" : ""}"></div>
-      <p class="oswald text-[17px] font-medium leading-[1.5] mt-[16px] text-black uppercase tracking-[0.03em] group-hover:opacity-60 transition-opacity">${p.name}</p>
-      <p class="garamond text-[17px] text-[#666] leading-[1.5] mt-[8px] md:px-[20px]">${p.tagline}</p>
-      <p class="oswald text-[11px] text-[#767676] font-light tracking-[0.12em] uppercase mt-[12px]">${p.spec}</p>
+      <p class="caslon text-[19px] md:text-[23px] leading-[1.2] tracking-[-0.005em] mt-[16px] text-black group-hover:opacity-60 transition-opacity">${p.name}</p>
+      <p class="garamond italic text-[17px] md:text-[19px] text-[#555] leading-[1.4] mt-[8px] md:px-[20px]">${p.tagline}</p>
+      <p class="garamond text-[15px] md:text-[17px] leading-[1.35] [font-variant-caps:all-small-caps] tracking-[0.08em] md:tracking-[0.1em] text-[#767676] mt-[12px] pt-[10px] border-t border-[#e3e3e3] md:mx-[20px]">${p.spec}</p>
     </a>`;
   }).join("");
 
