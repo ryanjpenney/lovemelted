@@ -870,7 +870,7 @@ a, button{ -webkit-tap-highlight-color:transparent; }
 
   /* ---- Modal markup ---- */
   function authModalHTML() {
-    const consentNote = `<p class="garamond text-[12px] text-[#767676] leading-[1.45] mt-4">By continuing you agree to our <a href="#" class="underline">Terms</a> &amp; <a href="#" class="underline">Privacy Policy</a>. You must be 21+.</p>`;
+    const consentNote = `<p class="garamond text-[12px] text-[#767676] leading-[1.45] mt-4">By continuing you agree to our <a href="/terms" class="underline">Terms</a> &amp; <a href="/privacy" class="underline">Privacy Policy</a>. You must be 21+.</p>`;
     return `
 <div data-auth-overlay class="fixed inset-0 z-[100000] hidden items-center justify-center bg-black/60 px-4">
   <div data-auth-card class="bg-white w-full max-w-[420px] max-h-[94vh] overflow-y-auto relative" role="dialog" aria-modal="true" aria-label="Sign in">

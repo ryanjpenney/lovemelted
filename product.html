@@ -207,9 +207,9 @@
       <div class="oswald text-[12px] font-medium tracking-[0.08em] uppercase py-[16px] text-center bg-black text-white">Sold Out — For Now</div>
       <div class="px-[24px] py-[20px]">
         <p class="garamond text-[16px] text-[#555] leading-[1.6]">This batch is gone. Leave your email and we\u2019ll let you know the moment it\u2019s back.</p>
-        <!-- NOTIFY-ME: placeholder capture — wire to Klaviyo back-in-stock list when the account is connected (see INTEGRATION.md) -->
-        <form data-notify-form class="flex gap-2 mt-[14px]">
-          <input type="email" required placeholder="Your email" aria-label="Email address — notify me when this product is back in stock" class="garamond flex-1 min-w-0 border border-[#d4d4d4] focus:border-black outline-none px-4 py-[10px] text-[16px]">
+        <!-- NOTIFY-ME: sends to the same Formspree inbox as the contact form; move to a Klaviyo back-in-stock list once that account is connected -->
+        <form data-notify-form action="https://formspree.io/f/xeebdzrb" method="POST" class="flex gap-2 mt-[14px]">
+          <input type="email" name="email" required placeholder="Your email" aria-label="Email address — notify me when this product is back in stock" class="garamond flex-1 min-w-0 border border-[#d4d4d4] focus:border-black outline-none px-4 py-[10px] text-[16px]">
           <button type="submit" class="oswald bg-black text-white text-[12px] font-medium tracking-[0.08em] uppercase px-5 hover:bg-[#333] transition-colors">Notify Me</button>
         </form>
         <p data-notify-msg role="status" aria-live="polite" class="garamond text-[13px] text-[#555] leading-[1.5] mt-[8px] min-h-[18px]"></p>
@@ -217,8 +217,22 @@
     buy.parentNode.insertBefore(notify, buy);
     notify.querySelector("[data-notify-form]").addEventListener("submit", e => {
       e.preventDefault();
-      notify.querySelector("[data-notify-msg]").textContent = "You\u2019re on the list — we\u2019ll email you when it\u2019s back.";
-      e.target.reset();
+      const form = e.target, note = notify.querySelector("[data-notify-msg]"), btn = form.querySelector("button");
+      const data = new FormData(form);
+      data.append("product", p.name);
+      data.append("_subject", "Back-in-stock request: " + p.name);
+      btn.disabled = true; note.style.color = ""; note.textContent = "Sending\u2026";
+      fetch(form.action, { method: "POST", body: data, headers: { "Accept": "application/json" } })
+        .then(r => {
+          if (!r.ok) throw new Error("notify " + r.status);
+          form.reset();
+          note.textContent = "You\u2019re on the list — we\u2019ll email you when it\u2019s back.";
+        })
+        .catch(() => {
+          note.style.color = "#c0392b";
+          note.textContent = "Something went wrong — please try again, or email info@lovemelted.com.";
+        })
+        .finally(() => { btn.disabled = false; });
     });
   }
 

@@ -13,15 +13,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <style>
   .oswald { font-family: 'Oswald', sans-serif; }
   .garamond { font-family: 'EB Garamond', serif; }
   .caslon { font-family: 'Libre Caslon Text', serif; }
   body { font-family: 'EB Garamond', serif; }
 
-  /* Map — softened desaturation for legibility; markers carry the contrast */
+  /* Map — tiles fully desaturated to keep the monochrome look; markers carry the contrast */
   #map { background: #e9e9e6; }
-  .leaflet-tile { filter: grayscale(65%) contrast(1.06) brightness(1.02); }
+  .leaflet-tile { filter: grayscale(100%) contrast(.92) brightness(1.08); }
+  .m-hint { position:absolute; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center;
+    background:rgba(10,10,10,.45); color:#fff; font-family:'Oswald',sans-serif; font-size:14px; letter-spacing:.08em;
+    text-transform:uppercase; pointer-events:none; opacity:0; transition:opacity .25s ease; }
+  .m-hint.on { opacity:1; }
   .leaflet-container { font-family: 'Oswald', sans-serif; }
   .leaflet-popup-content-wrapper { border-radius: 0; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
   .leaflet-popup-content { margin: 14px 16px; }
@@ -33,6 +39,11 @@
   .m-marker:hover span { transform:scale(1.15); }
   .m-marker.sel span { transform:scale(1.4);
     box-shadow:0 0 0 5px rgba(10,10,10,.30), 0 1px 6px rgba(0,0,0,.5); }
+  /* Clusters — ink square with the store count; splits apart as you zoom in */
+  .m-cluster span { display:flex; align-items:center; justify-content:center; width:34px; height:34px;
+    background:#0A0A0A; color:#fff; border:2px solid #fff; box-shadow:0 1px 6px rgba(0,0,0,.45);
+    font-family:'Oswald',sans-serif; font-size:14px; font-weight:500; transition:transform .18s ease; }
+  .m-cluster:hover span { transform:scale(1.1); }
   .m-pin span { display:block; width:14px; height:14px; background:transparent;
     border:3px solid #0A0A0A; box-shadow:0 0 0 4px rgba(10,10,10,.18); }
   .m-soon span { display:block; width:18px; height:18px; background:transparent;
@@ -114,17 +125,43 @@
   let activeSid = null;       // currently highlighted store
 
   /* ---- Map ---- */
-  // On phones, one-finger drag scrolls the page (not the map) — pinch with two fingers still zooms/pans.
-  const map = L.map("map", { scrollWheelZoom: false, zoomControl: true, dragging: !L.Browser.mobile }).setView([34.4, -111.7], 6);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: "abcd", maxZoom: 19
+  // On phones, one-finger drag scrolls the page (not the map) — pinch with two fingers zooms/pans.
+  // On desktop, the wheel zooms only after the map is clicked, so scrolling the page never gets trapped.
+  const map = L.map("map", { scrollWheelZoom: false, wheelPxPerZoomLevel: 120, zoomControl: true, dragging: !L.Browser.mobile, minZoom: 3 }).setView([34.4, -111.7], 6);
+  // Standard OpenStreetMap tiles — keyless. (CARTO's basemaps now watermark every tile
+  // "API KEY REQUIRED" unless a key is passed, which is what broke this map.)
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  const mapEl = map.getContainer();
+  const hint = L.DomUtil.create("div", "m-hint", mapEl);
+  let hintTimer = null;
+  function showHint(text) {
+    hint.textContent = text; hint.classList.add("on");
+    clearTimeout(hintTimer); hintTimer = setTimeout(() => hint.classList.remove("on"), 1400);
+  }
+  if (L.Browser.mobile) {
+    mapEl.addEventListener("touchmove", e => { if (e.touches.length === 1) showHint("Use two fingers to move the map"); }, { passive: true });
+  } else {
+    map.on("click focus", () => map.scrollWheelZoom.enable());
+    mapEl.addEventListener("mouseleave", () => map.scrollWheelZoom.disable());
+    mapEl.addEventListener("wheel", () => { if (!map.scrollWheelZoom.enabled()) showHint("Click the map to zoom with scroll"); }, { passive: true });
+  }
+
+  // Nearby stores (e.g. ~20 across metro Phoenix) group into numbered clusters; click one to zoom in.
+  const cluster = L.markerClusterGroup({
+    showCoverageOnHover: false, maxClusterRadius: 44, spiderfyOnMaxZoom: true,
+    iconCreateFunction: c => L.divIcon({ className: "m-cluster", html: `<span>${c.getChildCount()}</span>`, iconSize: [34, 34], iconAnchor: [17, 17] })
   }).addTo(map);
 
   const markers = {};
   M.STORES.forEach(s => {
     const m = L.marker([s.lat, s.lng], { icon: icon(false), title: s.name });
-    m.bindPopup(`<strong style="font-weight:600;letter-spacing:.04em;text-transform:uppercase">${s.name}</strong><br><span style="font-family:'EB Garamond',serif;font-size:14px;color:#555">${s.addr}</span>`);
+    m.bindPopup(`<strong style="font-weight:600;letter-spacing:.04em;text-transform:uppercase">${s.name}</strong><br><span style="font-family:'EB Garamond',serif;font-size:14px;color:#555">${s.addr}</span>`
+      + `<br><a href="https://maps.google.com/?q=${encodeURIComponent(s.name + ", " + s.addr)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0a0a0a;border-bottom:1px solid #0a0a0a">Directions</a>`
+      + (s.menu ? ` <a href="${s.menu}" target="_blank" rel="noopener" style="display:inline-block;margin:8px 0 0 12px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0a0a0a;border-bottom:1px solid #0a0a0a">Menu</a>` : ""));
     m.on("click", () => selectStore(s.sid, { pan: false, flash: false }));
     markers[s.sid] = m;
   });
@@ -139,7 +176,7 @@
   });
   function showSoon(on) { soonMarkers.forEach(m => { if (on) { if (!map.hasLayer(m)) m.addTo(map); } else if (map.hasLayer(m)) map.removeLayer(m); }); }
 
-  function icon(sel) { return L.divIcon({ className: "m-marker" + (sel ? " sel" : ""), html: "<span></span>", iconSize: [18, 18], iconAnchor: [9, 9] }); }
+  function icon(sel) { return L.divIcon({ className: "m-marker" + (sel ? " sel" : ""), html: "<span></span>", iconSize: [18, 18], iconAnchor: [9, 9], popupAnchor: [0, -12] }); }
 
   /* ---- Region chips ---- */
   function renderChips() {
@@ -173,7 +210,7 @@
         <p class="oswald text-[12px] tracking-[0.1em] uppercase text-[#767676]">Coming soon to ${M.STATE_NAMES[region]}</p>
         <p class="garamond text-[18px] text-[#444] leading-[1.65] mt-2">We're expanding into ${M.STATE_NAMES[region]} — ${cities.map(c => c.name).join(", ")} and more on the way. Check back soon.</p>
       </div>`;
-      M.STORES.forEach(s => { if (map.hasLayer(markers[s.sid])) map.removeLayer(markers[s.sid]); });
+      cluster.clearLayers();
       showSoon(true);
       const pts = cities.map(c => [c.lat, c.lng]);
       if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.5));
@@ -189,12 +226,8 @@
     results.innerHTML = list.map((s, i) => row(s, ranked, i === 0 && ranked)).join("");
 
     // markers: show only visible set
-    const showSids = new Set(list.map(s => s.sid));
-    M.STORES.forEach(s => {
-      const m = markers[s.sid];
-      if (showSids.has(s.sid)) { if (!map.hasLayer(m)) m.addTo(map); }
-      else if (map.hasLayer(m)) map.removeLayer(m);
-    });
+    cluster.clearLayers();
+    cluster.addLayers(list.map(s => markers[s.sid]));
     showSoon(ranked || region === "all");   // surface upcoming markets in broad views
     if (ranked) selectStore(list[0].sid, { pan: false, flash: false, scroll: false });
     wireRows();
@@ -231,7 +264,8 @@
       });
       const setBtn = rowEl.querySelector("[data-set]");
       if (setBtn) setBtn.addEventListener("click", () => {
-        M.setZip(zip); input.value = zip;
+        const zip = setBtn.dataset.set;
+        input.value = zip; M.setZip(zip);                  // input first, so the melted:zip listener doesn't re-run the search
         msg.textContent = "Saved as your store."; msg.className = "garamond text-[15px] mt-[10px] min-h-[20px] text-black";
       });
     });
@@ -243,7 +277,6 @@
     sid = String(sid);                                    // callers pass numbers (store.sid) or strings (dataset)
     activeSid = sid;
     Object.keys(markers).forEach(k => markers[k].setIcon(icon(k === sid)));
-    if (markers[sid] && map.hasLayer(markers[sid]) && opts.pan) map.setView(markers[sid].getLatLng(), Math.max(map.getZoom(), 11), { animate: true });
     document.querySelectorAll(".store-row").forEach(r => r.classList.remove("active"));
     const rowEl = results.querySelector(`.store-row[data-sid="${sid}"]`);
     if (rowEl) {
@@ -251,7 +284,13 @@
       if (opts.flash) { rowEl.classList.remove("flash"); void rowEl.offsetWidth; rowEl.classList.add("flash"); }
       if (opts.scroll !== false) rowEl.scrollIntoView({ behavior: "smooth", block: "center" });
     }
-    if (markers[sid] && map.hasLayer(markers[sid]) && opts.pan) markers[sid].openPopup();
+    const m = markers[sid];
+    if (m && opts.pan && cluster.hasLayer(m)) {
+      // Zoom to street level, then expand whatever cluster still hides this store and open its popup.
+      const reveal = () => cluster.zoomToShowLayer(m, () => m.openPopup());
+      if (map.getZoom() < 11) { map.once("moveend", reveal); map.setView(m.getLatLng(), 11, { animate: true }); }
+      else reveal();
+    }
   }
 
   /* ---- Fit map to visible markers ---- */
