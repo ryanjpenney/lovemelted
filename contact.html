@@ -104,17 +104,7 @@
 
 <!-- The people behind Melted -->
 <section class="bg-[#f1f0ea] mt-[88px] py-[80px]">
-  <div class="max-w-[1180px] mx-auto px-[28px] md:px-[45px] grid grid-cols-1 md:grid-cols-2 gap-[40px] md:gap-[64px] items-center">
-    <!-- ASSET-NEEDED: drop Paul's high-res headshot at assets/melted/paul-portrait.jpg (monochrome or to-be-treated;
-         portrait crop, min ~1200px wide). Placeholder tile renders until the file exists — per brand rules we do NOT
-         substitute a lifestyle/model photo for a real portrait. -->
-    <figure class="m-0">
-      <div data-paul-slot class="border border-[#0a0a0a] bg-white aspect-[4/5] max-w-[440px] flex flex-col items-center justify-center text-center px-[28px]">
-        <span class="caslon text-[84px] leading-none text-[#e3e3e3]" aria-hidden="true">P</span>
-        <span class="oswald text-[11px] font-medium tracking-[0.2em] uppercase text-[#555] mt-[18px]">Portrait forthcoming</span>
-      </div>
-      <figcaption class="oswald text-[12px] font-medium tracking-[0.18em] uppercase text-[#555] mt-[14px]">Paul — Melted</figcaption>
-    </figure>
+  <div class="max-w-[760px] mx-auto px-[28px] md:px-[45px] text-center">
     <div>
       <p class="oswald text-[12px] font-medium tracking-[0.22em] uppercase text-[#555]">The people behind Melted</p>
       <h2 class="caslon text-[34px] md:text-[42px] leading-[1.12] text-black mt-[14px]">A real team, reachable<br>by real humans.</h2>
@@ -129,18 +119,6 @@
 <script src="assets/melted.js"></script>
 <script>
 (function () {
-  // If the portrait file exists, swap it into the placeholder slot automatically.
-  var slot = document.querySelector("[data-paul-slot]");
-  var img = new Image();
-  img.onload = function () {
-    slot.innerHTML = "";
-    img.alt = "Portrait of Paul of Melted";
-    img.className = "w-full h-full object-cover";
-    slot.appendChild(img);
-    slot.classList.remove("bg-white");
-  };
-  img.src = "assets/melted/paul-portrait.jpg";
-
   // Formspree AJAX submit (static site — Formspree is the backend). Falls back to a
   // plain POST to the same endpoint when JS is unavailable.
   document.querySelectorAll("[data-contact-form]").forEach(function (form) {
